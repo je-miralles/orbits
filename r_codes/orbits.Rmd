@@ -1,0 +1,99 @@
+---
+title: "Orbits!"
+author: "Emilio Miralles"
+date: "2023-07-24"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Reference frames
+
+In analyzing motion a very good place to start is choosing a reference frame and coordinate system.
+
+We often try to find one that is not accelerating. In these so called *inertial* frames Newton's [laws of motion](https://en.wikipedia.org/wiki/Newton's_laws_of_motion) apply:
+
+1. A body remains at rest, or in motion at a constant speed in a straight line, unless acted upon by a force.
+2. When a body is acted upon by a force, the time rate of change of its momentum equals the force.
+3. If two bodies exert forces on each other, these forces have the same magnitude but opposite directions.
+
+In this way we avoid having to think of [fictitious forces](https://en.wikipedia.org/wiki/Fictitious_force) such as the centrifugal or Coriolis. In orbital mechanics the frame is usually chosen with respect to the **fixed stars**.
+
+## A system of two bodies
+
+We first look at the mutual gravitation of two masses, $m_1$ and $m_2$ with positions ${\bf r}_1$ and ${\bf r}_2$:
+
+$$
+{\bf r}_1 = x_1 {\bf \hat{i}} + y_1 {\bf \hat{j}} + z_1 {\bf \hat{k}} \\
+{\bf r}_2 = x_2 {\bf \hat{i}} + y_2 {\bf \hat{j}} + z_2 {\bf \hat{k}} 
+$$
+
+The relative position, ${\bf r}$ and its unit vector, $\hat{\bf u}_r$:
+
+$$
+{\bf r} = {\bf r}_2 - {\bf r}_1 = (x_2 - x_1) {\bf \hat{i}} + (y_2 - y_1) {\bf \hat{j}} + (z_2 - z_1) {\bf \hat{k}} \\
+\hat{\bf u}_r = \frac{\bf r}{r}
+$$
+
+There are no other forces acting so, by Newtons' third law, ${\bf F}_{12} = -{\bf F}_{21}$, and using the law of gravitation ($F = G \frac{m_1 m_2}{r^2}$):
+
+$$
+{\bf F}_{12} = \frac{G m_1 m_2}{r^2} \hat{\bf u}_r \\
+{\bf F}_{21} = - \frac{G m_1 m_2}{r^2} \hat{\bf u}_r
+$$
+Now applying Newton's second law ($F = m {\bf \ddot{r}}$) and the definition of $\hat{\bf u}_r$ we get the accelerations of the two masses:
+
+$$
+\ddot{\bf r}_1 = G m_2 \frac{\bf r}{r^3} \\
+\ddot{\bf r}_2 = - G m_1 \frac{\bf r}{r^3}
+$$
+
+## Equations of motion
+
+We can integrate the accelerations to get equations for the velocities and positions of mass $i$. Keeping in mind that in general the positions, velocities, and accelerations depend on time:
+
+$$
+\dot{\bf r}(t)_i =  \dot{\bf r}(0)_i + \int_{0}^{t} \ddot{\bf r}(t)_i \mathrm{d}t \\
+{\bf r}(t)_i = {\bf r}(0)_i + \int_{0}^{t} \dot{\bf r}(t)_i \mathrm{d}t
+$$
+
+We see that we will need the initial positions, ${\bf r}_{i,0}$, and velocities, $\dot{\bf r}_{i,0}$, to solve the motion, where the velocities, $\dot{\bf r}_i$, and accelerations, $\ddot{\bf r}_i$, depend on time.
+
+## Stepwise in R
+
+```{r}
+G <- 6.67430e-20
+m_1 <- 1.0e26
+m_2 <- m_1
+
+# initial positions
+R0_1 <- c(0, 0, 0)
+R0_2 <- c(3000, 0, 0)
+# initial velocities
+dotR0_1 <- c(10, 20, 30)
+dotR0_2 <- c(0, 40, 0)
+# initial distance
+R0 <- sqrt(sum((R0_2 - R0_1)^2))
+# initial accelerations
+ddotR0_1 <- m_2 * G * (R0_2 - R0_1) / (R0^3)
+ddotR0_2 <- m_1 * G * (R0_1 - R0_2) / (R0^3)
+```
+
+We can advance by an arbitrary time step $\Delta t$ if we assume the velocities and accelerations are constant over that time slice:
+
+$$
+\dot{\bf r}(\Delta t)_{i} = \dot{\bf r}(0)_i + \ddot{\bf r}(0)_i \Delta t \\
+{\bf r}(\Delta t)_{i} =  {\bf r}(0)_i + \dot{\bf r}(0)_i \Delta t.
+$$
+
+```{r}
+Delta_t <- 1
+dotR1_1 <- dotR0_1 + ddotR0_1 * Delta_t
+dotR1_2 <- dotR0_2 + ddotR0_2 * Delta_t
+R1_1 <- R0_1 + dotR0_1 * Delta_t
+R1_2 <- R0_2 + dotR0_2 * Delta_t
+```
+
+
