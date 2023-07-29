@@ -1,0 +1,73 @@
+---
+title: "The principle of least action"
+author: "Emilio Miralles"
+date: "2023-07-24"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In a closed system of masses, the [Lagrangian](https://en.wikipedia.org/wiki/Lagrangian_mechanics), $L$, is some function of the coordinates, $q$, the velocities, $\dot{q}$, and time, $t$.
+
+The [principle of least action](https://en.wikipedia.org/wiki/Stationary-action_principle) holds that the motion of the masses evolves such that the action, $S$, is minimized.
+
+$$
+S = \int_{t_1}^{t_2} L(q, \dot{q}, t) \mathrm{d}t
+$$
+
+If $q(t)$ is the function that minimizes $S$, then any other function $q(t) + \delta q(t)$ increases $S$. The function $\delta q$ is a *variation* of the trajectory $q$ and all such variation functions must be small everywhere between $t_1$ and $t_2$ and satisfy $\delta q(t_1) = \delta q(t_2) = 0$.
+
+Then for our action to be minimized, the [first variation](https://en.wikipedia.org/wiki/First_variation) of the integral should be zero.
+
+$$
+\delta S = \delta \int_{t_1}^{t^2} L(q, \dot{q}, t) \mathrm{d}t = 0\\
+$$
+
+or
+
+$$
+\int_{t_1}^{t_2} \left( \frac{\partial L}{\partial q} - \frac{\mathrm{d}}{\mathrm{d}t} \frac{\partial L}{\partial \dot{q}} \right) \delta q \mathrm{d}t = 0\\
+$$
+
+<details>
+The action:
+
+$$
+S(q, \dot{q}, t) = \int_{t_1}^{t_2} L(q, \dot{q}, t) \mathrm{d}t
+$$
+
+The [first variation](https://en.wikipedia.org/wiki/First_variation) with $q(t) + \epsilon \eta(t)$,
+
+$$
+\begin{align}
+\delta S(q, \dot{q}, t, \eta) &= \frac{\mathrm{d}}{\mathrm{d} \epsilon} \int_{t_1}^{t_2} L(q + \epsilon \eta, \dot{q} + \epsilon \dot{\eta}, t) \mathrm{d}t \Big|_{\epsilon = 0}\\
+                              &= \int_{t_1}^{t_2} \frac{\mathrm{d}}{\mathrm{d} \epsilon} L(q + \epsilon \eta, \dot{q} + \epsilon \dot{\eta}, t) \Big|_{\epsilon = 0} \mathrm{d}t\\
+                              &= \int_{t_1}^{t_2} \left( \frac{\partial L}{\partial q} \eta + \frac{\partial L}{\partial \dot{q}} \dot{\eta} \right) \mathrm{d}t\\
+                              &= \int_{t_1}^{t_2} \frac{\partial L}{\partial q} \eta \mathrm{d}t + \int_{t_1}^{t_2} \frac{\partial L}{\partial \dot{q}} \dot{\eta} \mathrm{d}t\\
+\end{align}
+$$
+
+Using [integration by parts](https://en.wikipedia.org/wiki/Integration_by_parts), $\int_{t_1}^{t_2} u(t)\dot{v}(t) \mathrm{d}t = \Big[ u(t) v(t) \Big]_{t_1}^{t_2} - \int_{t_1}^{t_2} \dot{u}(t) v(t) \mathrm{d}t$, with $u = \frac{\partial L}{\partial \dot{q}}$, $\dot{v} = \dot{\eta}$,
+
+$$
+\begin{align}
+\delta S(q, \dot{q}, t, \eta) &= \int_{t_1}^{t_2} \frac{\partial L}{\partial q} \eta \mathrm{d}t + \Big[ \frac{\partial L}{\partial \dot{q}} \eta \Big]_{t_1}^{t_2}
+                                  - \int_{t_1}^{t_2} \frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial L}{\partial \dot{q}} \eta \mathrm{d}t\\
+\end{align}
+$$
+
+Noting that $\eta(t_1) = \eta(t_2) = 0$ cancels the middle term and factoring out $\eta$, we require the variation equal zero.
+
+$$
+\delta S(q, \dot{q}, t, \eta) = \int_{t_1}^{t_2} \Big( \frac{\partial L}{\partial q} - \frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial L}{\partial \dot{q}} \Big) \eta \mathrm{d}t = 0
+$$
+</details>
+
+For this to hold for all possible variations we must have the [integrand zero everywhere](https://en.wikipedia.org/wiki/Fundamental_lemma_of_the_calculus_of_variations).
+
+$$
+\frac{\partial L}{\partial q} - \frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial L}{\partial \dot{q}} = 0
+$$
+This is the [Euler–Lagrange equation](https://en.wikipedia.org/wiki/Euler%E2%80%93Lagrange_equation).
