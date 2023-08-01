@@ -13,38 +13,38 @@ knitr::opts_chunk$set(echo = TRUE)
 
 In analyzing motion a very good place to start is choosing a reference frame and coordinate system.
 
-We often try to find one that is not accelerating. In these so called *inertial* frames Newton's [laws of motion](https://en.wikipedia.org/wiki/Newton's_laws_of_motion) apply:
+We often try to find one that is not accelerating. In orbital mechanics the frame is usually chosen with respect to the *fixed stars*. In these so called *inertial* frames Newton's [laws of motion](https://en.wikipedia.org/wiki/Newton's_laws_of_motion) apply:
 
 1. A body remains at rest, or in motion at a constant speed in a straight line, unless acted upon by a force.
 2. When a body is acted upon by a force, the time rate of change of its momentum equals the force.
 3. If two bodies exert forces on each other, these forces have the same magnitude but opposite directions.
 
-In this way we avoid having to think of [fictitious forces](https://en.wikipedia.org/wiki/Fictitious_force) such as the centrifugal or Coriolis. In orbital mechanics the frame is usually chosen with respect to the *fixed stars*.
+In this way we avoid having to think of [fictitious forces](https://en.wikipedia.org/wiki/Fictitious_force) such as the centrifugal or Coriolis.
 
 ## A system of two bodies
 
-We first look at the mutual gravitation of two masses, $m_1$ and $m_2$ with positions ${\bf r}_1$ and ${\bf r}_2$:
+We first look at the mutual gravitation of two masses, $m_1$ and $m_2$ with positions ${\bf r}_1$ and ${\bf r}_2$.
 
 $$
 {\bf r}_1 = x_1 {\bf \hat{i}} + y_1 {\bf \hat{j}} + z_1 {\bf \hat{k}} \\
 {\bf r}_2 = x_2 {\bf \hat{i}} + y_2 {\bf \hat{j}} + z_2 {\bf \hat{k}} 
 $$
 
-The relative position, ${\bf r}$ and its unit vector, $\hat{\bf u}_\mathrm{r}$:
+The relative position, ${\bf r}$ and its unit vector, $\hat{\bf u}_\mathrm{r}$ can be calculated.
 
 $$
 {\bf r} = {\bf r}_2 - {\bf r}_1 = (x_2 - x_1) {\bf \hat{i}} + (y_2 - y_1) {\bf \hat{j}} + (z_2 - z_1) {\bf \hat{k}} \\
 \hat{\bf u}_\mathrm{r} = \frac{\bf r}{r}
 $$
 
-There are no other forces acting so, by Newtons' third law, ${\bf F}_{12} = -{\bf F}_{21}$, and using the law of gravitation ($F = G \frac{m_1 m_2}{r^2}$):
+There are no other forces acting so ${\bf F}_{12} = -{\bf F}_{21}$ by Newtons' third law, and using the [law of gravitation](https://en.wikipedia.org/wiki/Newton%27s_law_of_universal_gravitation) ($F = G \frac{m_1 m_2}{r^2}$) we can find the force acting on the line between the masses.
 
 $$
 {\bf F}_{12} = \frac{G m_1 m_2}{r^2} \hat{\bf u}_\mathrm{r} \\
 {\bf F}_{21} = - \frac{G m_1 m_2}{r^2} \hat{\bf u}_\mathrm{r}
 $$
 
-Now applying Newton's second law ($F = m {\bf \ddot{r}}$) and the definition of $\hat{\bf u}_\mathrm{r}$ we get the accelerations of the two masses:
+Now applying Newton's second law (${\bf F} = m {\bf \ddot{r}}$) and the definition of $\hat{\bf u}_\mathrm{r}$ we get the accelerations of the two masses, which depend only on the relative position.
 
 $$
 \ddot{\bf r}_1 = G m_2 \frac{\bf r}{r^3} \\
@@ -53,7 +53,7 @@ $$
 
 ## Equations of motion
 
-We can integrate the accelerations to get equations for the velocities and positions. Keeping in mind that in general the positions, ${\bf r}_\mathrm{i}$, velocities, $\dot{\bf r}_\mathrm{i}$, and accelerations, $\ddot{\bf r}_\mathrm{i}$, depend on time; for mass $\mathrm{i}$:
+We can integrate the accelerations to get equations for the velocities and positions of mass $\mathrm{i}$. Keeping in mind that in general the positions, ${\bf r}_\mathrm{i}$, velocities, $\dot{\bf r}_\mathrm{i}$, and accelerations, $\ddot{\bf r}_\mathrm{i}$, depend on time.
 
 $$
 \dot{\bf r}(t)_\mathrm{i} =  \dot{\bf r}(0)_\mathrm{i} + \int_{0}^{t} \ddot{\bf r}(t)_\mathrm{i} \mathrm{d}t \\
@@ -62,9 +62,13 @@ $$
 
 We see that we will need the initial positions, ${\bf r}(0)_\mathrm{i}$, and velocities, $\dot{\bf r}(0)_\mathrm{i}$, to solve the motion.
 
+Together we call these 12 quantities the *state vector* of the system: $S = [{\bf r}_1, {\bf r}_2, {\bf \dot{r}}_1, {\bf \dot{r}}_2]$.
+
 ## Numerically in R
 
 ### Initial conditions
+
+We input the gravitational constant and an equal mass for the particles. For reference Earth's mass is $5.972168 \times 10^{24}  kg$.
 
 ```{r}
 G <- 6.67430e-20
@@ -72,36 +76,25 @@ m_1 <- 1.0e26
 m_2 <- m_1
 ```
 
+We represent the state vector as a `data.frame` where each record contains the state vector of a single mass and a timestamp.
+
 ```{r}
-s_vector <- data.frame(obj = 1, ts = 0, x=0, y=0, z=0, dotx=10, doty=20, dotz=30)
-s_vector[nrow(s_vector) + 1,] <- data.frame(obj = 2, ts = 0, x=3000, y=0, z=0, dotx=0, doty=40, dotz=0)
+s_vector      <- data.frame(n_mass = 1, ts = 0, x=0, y=0, z=0, dot.x=10, dot.y=20, dot.z=30)
+s_vector[2, ] <- data.frame(n_mass = 2, ts = 0, x=3000, y=0, z=0, dot.x=0, dot.y=40, dot.z=0)
 ```
-
-### State vector
-
-2 particles
-  - 3 positions
-  - 3 velocities
-
-12 components
-
-- particle num
-  - x
-  - y
-  - z
-  - dotx
-  - doty
-  - dotz
 
 ### Stepwise
 
-We can advance by an arbitrary time step $\Delta t$ if we assume the velocities and accelerations are constant over that time slice:
+We can advance by an arbitrary time step $\Delta t$ if we assume the velocities and accelerations are constant over that time slice.
 
 $$
 \dot{\bf r}(t_0 + \Delta t)_{i} = \dot{\bf r}(t_0)_i + \ddot{\bf r}(t_0)_i \Delta t \\
 {\bf r}(t_0 + \Delta t)_{i} =  {\bf r}(t_0)_i + \dot{\bf r}(t_0)_i \Delta t.
 $$
 
+We develop a function that takes this state vector and returns a new state vector including the current relative distance and accelerations as well as the next positions and velocities.
+
+<details>
 ```{r}
 get_derived_initial_values <- function(pos_1, pos_2) {
   # initial distance
@@ -118,7 +111,7 @@ step <- function(initial, dot_initial, delta) {
   final
 }
 
-get_next_s_vector <- function(s_vector, timestep) {
+get_next_s_vector <- function(s_vector, timestep=1) {
   if (nrow(s_vector) < 2) {
     return(666)
   }
@@ -139,15 +132,21 @@ get_next_s_vector <- function(s_vector, timestep) {
   new_pos_2 <- step(pos_2, vel_2, timestep)
   new_vel_1 <- step(vel_1, init_vals[2:4], timestep)
   new_vel_2 <- step(vel_2, init_vals[5:7], timestep)
-  s_vector[nrow(s_vector) + 1, 1:8] <- data.frame(obj = 1, ts = s_vector[nrow(s_vector) - 1, 2] + timestep, new_pos_1, new_vel_1)
-  s_vector[nrow(s_vector) + 1, 1:8] <- data.frame(obj = 2, ts = s_vector[nrow(s_vector) - 1, 2] + timestep, new_pos_2, new_vel_2)
+  s_vector[nrow(s_vector) + 1, 1:8] <- data.frame(n_mass = 1, ts = s_vector[nrow(s_vector) - 1, 2] + timestep, new_pos_1, new_vel_1)
+  s_vector[nrow(s_vector) + 1, 1:8] <- data.frame(n_mass = 2, ts = s_vector[nrow(s_vector) - 1, 2] + timestep, new_pos_2, new_vel_2)
   return(s_vector)
 }
 ```
+</details>
+
+And now we can see how the motion of the two masses evolves in time.
 
 ```{r}
-for(i in 1:10) {
-  s_vector <- get_next_s_vector(s_vector, 1)
+for(i in 1:6) {
+  s_vector <- get_next_s_vector(s_vector)
 }
-s_vector
+s_vector[s_vector$n_mass == 1, ]
+s_vector[s_vector$n_mass == 2, ]
 ```
+
+The derived quantities $R$, and ${\bf \ddot{r}}$ are not populated for the last record as they are generated during the next time step.
