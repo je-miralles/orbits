@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 A very good place to start analyzing any motion is choosing a reference frame and setting up coordinates. Orbital mechanical systems are often considered with respect to the *fixed stars*.
 
-We often try to find a frame that is not accelerating. This is hard! We've had the argument on who's the center of the universe and I hope we're past it; everything turns out to be moving a little bit, even if we can't see it or feel it immediately. But supposing we choose an *inertial frame* like this, we would find that Newton's [laws of motion](https://en.wikipedia.org/wiki/Newton's_laws_of_motion) apply:
+We often try to find a frame that is not accelerating. This is hard! Everything turns out to be wagging a little, even what we can't see. But supposing we choose an *inertial frame* like this, we would find that Newton's [laws of motion](https://en.wikipedia.org/wiki/Newton's_laws_of_motion) apply:
 
 1. A body remains at rest, or in motion at a constant speed in a straight line, unless acted upon by a force.
 2. When a body is acted upon by a force, the time rate of change of its momentum equals the force.
