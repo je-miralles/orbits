@@ -21,7 +21,7 @@ In this way we avoid having to think of [fictitious forces](https://en.wikipedia
 
 ## A system of two bodies
 
-We first look at the mutual gravitation of two masses, $m_1$ and $m_2$ with positions ${\bf r}_1$ and ${\bf r}_2$.
+We first look at the mutual gravitation of two masses, $m_1$ and $m_2$ with positions ${\bf r}_1$ and ${\bf r}_2$ described with their [Cartesian coordinates](https://en.wikipedia.org/wiki/Cartesian_coordinate_system), $x_i$, $y_i$, and $z_i$:
 
 $$
 {\bf r}_1 = x_1 {\bf \hat{i}} + y_1 {\bf \hat{j}} + z_1 {\bf \hat{k}} \\
@@ -35,14 +35,14 @@ $$
 \hat{\bf u}_\mathrm{r} = \frac{\bf r}{r}
 $$
 
-There are no other forces acting so ${\bf F}_{12} = -{\bf F}_{21}$ by Newtons' third law, and using the [law of gravitation](https://en.wikipedia.org/wiki/Newton%27s_law_of_universal_gravitation) ($F = G \frac{m_1 m_2}{r^2}$) we can find the force acting on the line between the masses.
+Here we are imagining the only two bodies in the universe! (Or everyone else is really, really, far away.) So there are no other forces acting and ${\bf F}_{12} = -{\bf F}_{21}$ by Newtons' third law. Using the [law of gravitation](https://en.wikipedia.org/wiki/Newton%27s_law_of_universal_gravitation) ($F = G \frac{m_1 m_2}{r^2}$) we can find the force acting on the line between the masses.
 
 $$
 {\bf F}_{12} = \frac{G m_1 m_2}{r^2} \hat{\bf u}_\mathrm{r} \\
 {\bf F}_{21} = - \frac{G m_1 m_2}{r^2} \hat{\bf u}_\mathrm{r}
 $$
 
-Now applying Newton's second law (${\bf F} = m {\bf \ddot{r}}$) and the definition of $\hat{\bf u}_\mathrm{r}$ we get the accelerations of the two masses, which depend only on the relative position.
+Now applying Newton's second law (${\bf F} = m {\bf \ddot{r}}$) and the definition of $\hat{\bf u}_\mathrm{r}$ above we get the accelerations of the two masses, which depend only on the relative position.
 
 $$
 \ddot{\bf r}_1 = G m_2 \frac{\bf r}{r^3} \\
@@ -51,16 +51,14 @@ $$
 
 ## Equations of motion
 
-We can integrate the accelerations to get equations for the velocities and positions of mass $\mathrm{i}$. Keeping in mind that in general the positions, ${\bf r}_\mathrm{i}$, velocities, $\dot{\bf r}_\mathrm{i}$, and accelerations, $\ddot{\bf r}_\mathrm{i}$, depend on time.
+We can integrate the accelerations to get equations for the velocities and positions of each mass $\mathrm{i}$. Keeping in mind that in general the positions, ${\bf r}_\mathrm{i}$, velocities, $\dot{\bf r}_\mathrm{i}$, and accelerations, $\ddot{\bf r}_\mathrm{i}$, depend on time.
 
 $$
 \dot{\bf r}(t)_\mathrm{i} =  \dot{\bf r}(0)_\mathrm{i} + \int_{0}^{t} \ddot{\bf r}(t)_\mathrm{i} \mathrm{d}t \\
 {\bf r}(t)_\mathrm{i} = {\bf r}(0)_\mathrm{i} + \int_{0}^{t} \dot{\bf r}(t)_\mathrm{i} \mathrm{d}t
 $$
 
-We see that we will need the initial positions, ${\bf r}(0)_\mathrm{i}$, and velocities, $\dot{\bf r}(0)_\mathrm{i}$, to solve the motion.
-
-Together we call these 12 quantities the *state vector* of the system: $S = [{\bf r}_1, {\bf r}_2, {\bf \dot{r}}_1, {\bf \dot{r}}_2]$.
+We see that we will need the initial positions, ${\bf r}(0)_\mathrm{i}$, and velocities, $\dot{\bf r}(0)_\mathrm{i}$, to solve the motion. Together we call these 12 quantities the *state vector* of the system: $S = [{\bf r}_1, {\bf r}_2, {\bf \dot{r}}_1, {\bf \dot{r}}_2]$.
 
 ## Numerically in R
 
