@@ -64,10 +64,10 @@ We see that we will need the initial positions, ${\bf r}(0)_\mathrm{i}$, and vel
 
 ### Initial conditions
 
-We input the gravitational constant and an equal mass for the particles. For reference Earth's mass is $5.972168 \times 10^{24}  kg$.
+We input the [gravitational constant](https://en.wikipedia.org/wiki/Gravitational_constant), $G = 6.674 \times 10^{-2} \text{km}^3 \text{kg}^{-1} \text{s}^{-2}$, and an equal mass for the particles, $m_1 = m_2 = 10^{26} \text{kg}$. For reference Earth's mass is about $6 \times 10^{24} \text{kg}$, so these are slightly larger.
 
 ```{r}
-G <- 6.67430e-20
+G <- 6.674e-2
 m_1 <- 1.0e26
 m_2 <- m_1
 ```
@@ -81,7 +81,7 @@ s_vector[2, ] <- data.frame(n_mass = 2, ts = 0, x=3000, y=0, z=0, dot.x=0, dot.y
 
 ### Stepwise
 
-We can advance by an arbitrary time step $\Delta t$ if we assume the velocities and accelerations are constant over that time slice.
+We can advance the state vector by an arbitrary time step $\Delta t$ if we assume the velocities and accelerations are constant over that time slice. This can be a good approximation if the time slice is small compared to the characteristic time scale of the motion.
 
 $$
 \dot{\bf r}(t_0 + \Delta t)_{i} = \dot{\bf r}(t_0)_i + \ddot{\bf r}(t_0)_i \Delta t \\
