@@ -32,6 +32,7 @@ $$
 $$
 
 <details>
+<summary>Show derivation</summary>
 The action:
 
 $$
@@ -42,14 +43,14 @@ The [first variation](https://en.wikipedia.org/wiki/First_variation) with $q(t) 
 
 $$
 \begin{align}
-\delta S(q, \dot{q}, t, \eta) &= \frac{\mathrm{d}}{\mathrm{d} \epsilon} \int_{t_1}^{t_2} L(q + \epsilon \eta, \dot{q} + \epsilon \dot{\eta}, t) \mathrm{d}t \Big|_{\epsilon = 0}\\
+\delta S(q, \dot{q}, t, \eta) &=  \frac{\mathrm{d}}{\mathrm{d} \epsilon} S(q + \epsilon \eta, \dot{q} + \epsilon \dot{\eta}, t) \Big|_{\epsilon = 0}\\
                               &= \int_{t_1}^{t_2} \frac{\mathrm{d}}{\mathrm{d} \epsilon} L(q + \epsilon \eta, \dot{q} + \epsilon \dot{\eta}, t) \Big|_{\epsilon = 0} \mathrm{d}t\\
                               &= \int_{t_1}^{t_2} \left( \frac{\partial L}{\partial q} \eta + \frac{\partial L}{\partial \dot{q}} \dot{\eta} \right) \mathrm{d}t\\
                               &= \int_{t_1}^{t_2} \frac{\partial L}{\partial q} \eta \mathrm{d}t + \int_{t_1}^{t_2} \frac{\partial L}{\partial \dot{q}} \dot{\eta} \mathrm{d}t\\
 \end{align}
 $$
 
-Using [integration by parts](https://en.wikipedia.org/wiki/Integration_by_parts), $\int_{t_1}^{t_2} u(t)\dot{v}(t) \mathrm{d}t = \Big[ u(t) v(t) \Big]_{t_1}^{t_2} - \int_{t_1}^{t_2} \dot{u}(t) v(t) \mathrm{d}t$, with $u = \frac{\partial L}{\partial \dot{q}}$, $\dot{v} = \dot{\eta}$,
+Using [integration by parts](https://en.wikipedia.org/wiki/Integration_by_parts), i.e. $\int_{t_1}^{t_2} u(t)\dot{v}(t) \mathrm{d}t = \Big[ u(t) v(t) \Big]_{t_1}^{t_2} - \int_{t_1}^{t_2} \dot{u}(t) v(t) \mathrm{d}t$, substituting with $u = \frac{\partial L}{\partial \dot{q}} and $\dot{v} = \dot{\eta}$,
 
 $$
 \begin{align}
