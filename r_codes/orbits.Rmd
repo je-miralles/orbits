@@ -158,3 +158,14 @@ new_s_vector[new_s_vector$n_mass == 2, ]
 ```
 
 The derived quantities $R$, and ${\bf \ddot{r}}$ are not populated for the last record as they are generated during the next time step.
+
+## Visualization
+
+```{r echo=FALSE}
+library(ggplot2)
+library(gganimate)
+g = ggplot(new_s_vector, aes(y = y, x = x, colour = factor(n_mass)))
+g = g + geom_point(data = new_s_vector, size=2)
+g = g + transition_time(ts) + ease_aes('linear')
+g
+```
