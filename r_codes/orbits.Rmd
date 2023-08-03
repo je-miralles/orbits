@@ -77,9 +77,11 @@ m_2 <- m_1
 We represent the state vector as a `data.frame` where each record contains the state vector of a single mass and a timestamp.
 
 ```{r}
-s_vector      <- data.frame(n_mass=1, ts=0, x=0, y=0, z=0, dot.x=10, dot.y=20, dot.z=30)
-s_vector[2, ] <- data.frame(n_mass=2, ts=0, x=3000, y=0, z=0, dot.x=0, dot.y=40, dot.z=0)
+s_vector      <- data.frame(n_mass=1, ts=0, x=0, y=0, z=0, dot.x=0, dot.y=0, dot.z=0)
+s_vector[2, ] <- data.frame(n_mass=2, ts=0, x=2000, y=0, z=0, dot.x=-2000, dot.y=500, dot.z=0)
 ```
+
+We have $m_1$ starting out stationary at $(0, 0, 0)$ and $m_2$ starting out at $(2000, 0, 0)$ with some initially counterclockwise velocity.
 
 #### Stepwise solutions
 
@@ -152,7 +154,7 @@ And now we can see how the motion of the two masses evolves in time.
 
 ```{r}
 new_s_vector <- s_vector
-for(i in 1:53) { new_s_vector <- get_next_s_vector(new_s_vector, 10e-10) }
+for(i in 1:58) { new_s_vector <- get_next_s_vector(new_s_vector, 5e-10) }
 ```
 
 Here are the first few time slices for $m_1$:
