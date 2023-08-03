@@ -167,6 +167,8 @@ The derived quantities $R$, and ${\bf \ddot{r}}$ are not populated for the last 
 
 ## Visualization
 
+All the motion has been set in the $x$-$y$ plane through the initial conditions.
+
 ```{r echo=FALSE}
 library(ggplot2)
 library(gganimate)
@@ -175,3 +177,5 @@ g = g + geom_point(data = new_s_vector, size=2)
 g = g + transition_time(ts) + ease_aes('linear')
 g
 ```
+
+We can see the mutual attraction pull $m_1$ off of the origin as the two bodies approach each other, eventually getting within $80 \text{km}$ where the gravitational acceleration is at a maximum and slingshots the two back away from each other at high speed.
