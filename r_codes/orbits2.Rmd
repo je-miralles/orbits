@@ -1,0 +1,35 @@
+---
+title: "Orbits again!"
+author: "Emilio Miralles"
+date: "2023-07-24"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Last time we solved the motion of two bodies numerically from an *inertial* reference frame.
+
+Now we introduce the notion of the center of mass or *barycenter* of the system, which is just a sort of weighted average of the positions.
+
+$$
+{\bf R}_\mathrm{COG} = \frac{m_1 {\bf R}_1 + m_2 {\bf R}_2}{m_1 + m_2}
+$$
+
+It follows that the velocity and acceleration are:
+
+$$
+\begin{align}
+{\bf \dot{R}}_\mathrm{COG} &= \frac{m_1 {\bf \dot{R}}_1 + m_2 {\bf \dot{R}}_2}{m_1 + m_2} \\
+{\bf \ddot{R}}_\mathrm{COG} &= \frac{m_1 {\bf \ddot{R}}_1 + m_2 {\bf \ddot{R}}_2}{m_1 + m_2} \\
+\end{align}
+$$
+
+Since the only force we consider here is the gravitational attraction between the masses, we found previously that ${\bf F}_{12} = -{\bf F}_{21}$, so substituting ${\bf F} = m {\bf \ddot{r}}$:
+
+$$
+m_1 {\bf \ddot{R}}_1 + m_2 {\bf \ddot{R}}_2 = 0
+$$
+
+So we see that {${\bf \ddot{R}}_\mathrm{COG} = 0$}, i.e. the barycenter is not accelerating, and is therefore an inertial reference frame.
