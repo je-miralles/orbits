@@ -66,7 +66,7 @@ We see that we will need the initial positions, ${\bf r}(0)_\mathrm{i}$, and vel
 
 #### Initial conditions
 
-We input the [gravitational constant](https://en.wikipedia.org/wiki/Gravitational_constant), $G = 6.674 \times 10^{-2} \text{km}^3 \text{kg}^{-1} \text{s}^{-2}$, and an equal mass for the particles, $m_1 = m_2 = 10^{26} \text{kg}$. For reference Earth's mass is about $6 \times 10^{24} \text{kg}$, so these are slightly larger.
+We input the [gravitational constant](https://en.wikipedia.org/wiki/Gravitational_constant), $G = 6.674 \times 10^{-2} \text{km}^3 \text{kg}^{-1} \text{s}^{-2}$, and an equal mass for the particles, $m_1 = m_2 = 10^{26} \text{kg}$. For reference Earth's mass is about $6 \times 10^{24} \text{kg}$, so these are somewhat larger.
 
 ```{r}
 G <- 6.674e-2
@@ -97,14 +97,15 @@ We develop a function that takes this state vector and returns a new state vecto
 <details>
 <summary>Show code</summary>
 ```{r}
-#' Get relative distance and accelerations from initial state vector
+#' Get relative distance and accelerations from initial positions
+#' @return A data frame containing the relative distance and accelerations
 get_derived_initial_values <- function(pos_1, pos_2) {
   # initial distance
   R0 <- sqrt(sum((pos_2 - pos_1)^2))
   # initial accelerations
   ddotR0_1 <- m_2 * G * (pos_2 - pos_1) / (R0^3)
   ddotR0_2 <- m_1 * G * (pos_1 - pos_2) / (R0^3)
-  init_vals <- data.frame(R=R0, ddot=ddotR0_1, ddotR0_2=ddotR0_2)
+  init_vals <- data.frame(R=R0, ddot_1=ddotR0_1, ddot_2=ddotR0_2)
   init_vals
 }
 
@@ -116,7 +117,7 @@ step <- function(initial, dot_initial, delta) {
 
 #' Return new state vector after advancing by timestep
 #'
-#' @return A data.frame containing the original state vector with new values
+#' @return A data frame containing the original state vector with new values
 #'         appended after timestep as well as the derived initial quantities
 get_next_s_vector <- function(s_vector, timestep=1) {
   if (nrow(s_vector) < 2) {
@@ -173,13 +174,13 @@ The derived quantities $R$, and ${\bf \ddot{r}}$ are not populated for the last 
 
 All the motion has been set in the $x$-$y$ plane through the initial conditions.
 
-```{r echo=FALSE}
+```{r echo=FALSE, out.width="50%"}
 library(ggplot2)
 library(gganimate)
 g = ggplot(new_s_vector, aes(y = y, x = x, colour = factor(n_mass)))
-g = g + geom_point(data = new_s_vector, size=2)
+g = g + geom_point(data = new_s_vector, size=3)
 g = g + transition_time(ts) + ease_aes('linear')
 g
 ```
 
-We can see the mutual attraction pull $m_1$ off of the origin as the two bodies approach each other, eventually getting within $80 \text{km}$ where the maximum gravitational acceleration slingshots the two back away from each other at high speed.
+We can see the mutual attraction pull $m_1$ off of the origin as the two bodies approach each other, eventually getting within $80 \text{km}$ where the maximum gravitational acceleration slingshots them back away from each other at high speed.
