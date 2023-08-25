@@ -132,3 +132,7 @@ svg.append("g")
 ```{r echo=FALSE, fig.height=2, out.width="50%"}
 r2d3(script="./scripts/rcog.js")
 ```
+
+## Links
+
+- [Index](./index.html)

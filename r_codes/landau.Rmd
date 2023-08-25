@@ -72,3 +72,7 @@ $$
 \frac{\partial L}{\partial q} - \frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial L}{\partial \dot{q}} = 0
 $$
 This is the [Euler–Lagrange equation](https://en.wikipedia.org/wiki/Euler%E2%80%93Lagrange_equation).
+
+## Links
+
+- [Index](./index.html)
