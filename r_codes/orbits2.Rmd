@@ -45,22 +45,16 @@ var pathString = (x0, y0, x1, y1) => {
   return path.toString(); // eg. "M40,0A40,40,0,1,1,-40,0A40,40,0,1,1,40,0"
 }
 
-var margin = ({top: 0, right: 0, bottom: 0, left: 0});
-
-var xRange = margin.left + (height - margin.bottom)/2;
-var yRange = margin.top + (height - margin.bottom - margin.top)/2;
-
-var yOffset = `translate(${xRange}, 0)`;
-var xOffset = `translate(0, ${yRange})`;
-var xyOffset = `translate(${xRange}, ${yRange})`;
-
+var yOffset = `translate(${height/2}, 0)`;
+var xOffset = `translate(0, ${height/2})`;
+var xyOffset = `translate(${height/2}, ${height/2})`;
 
 var x = d3.scaleLinear()
-    .domain([-(height - margin.bottom)/2, (height - margin.bottom)/2])
-    .range([margin.left, margin.left + (height - margin.bottom)]);
+    .domain([-height/2, height/2])
+    .range([0, height]);
 var y = d3.scaleLinear()
-    .domain([-(height - margin.bottom)/2, (height - margin.bottom)/2])
-    .range([height - margin.bottom, margin.top]);
+    .domain([-height/2, height/2])
+    .range([height, 0]);
 
 var yAxis = g => g
     .attr("transform", yOffset)
@@ -97,7 +91,7 @@ var vec = (g, id, x1, y1, x2, y2) => g
     .attr("marker-end", "url(#triangle)")
 
 var vecText = (g, id) => g
-    .attr("transform", `translate(${xRange}, ${yRange})`)
+    .attr("transform", xyOffset)
     .append("text")
     .attr("text-anchor", "middle")
     .attr("dy", "1em")
