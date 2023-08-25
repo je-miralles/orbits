@@ -33,10 +33,10 @@ var xAxis = g => g
 
 // Paths
 var pathString = (x0, y0, x1, y1) => {
-  const path = d3.path();
-  path.moveTo(x0, -y0);
-  path.lineTo(x1, -y1);
-  return path.toString(); // eg. "M40,0A40,40,0,1,1,-40,0A40,40,0,1,1,40,0"
+    const path = d3.path();
+    path.moveTo(x0, -y0);
+    path.lineTo(x1, -y1);
+    return path.toString(); // eg. "M40,0A40,40,0,1,1,-40,0A40,40,0,1,1,40,0"
 }
 
 var vec = (g, id, x1, y1, x2, y2) => g
@@ -70,31 +70,19 @@ var mass = (g, id, m, x, y) => g
     .attr("cy", -y);
 
 // Image
-svg.append("g")
-    .call(yAxis);
-svg.append("g")
-    .call(xAxis);
+svg.append("g").call(yAxis);
+svg.append("g").call(xAxis);
 
-svg.append("g")
-    .call(vec, "R1", 0, 0, 100, 120);
-svg.append("g")
-    .call(vecText, "R1");
-svg.append("g")
-    .call(mass, "m1", 6, 100, 120);
+svg.append("g").call(vec, "R1", 0, 0, 100, 120);
+svg.append("g").call(vecText, "R1");
+svg.append("g").call(mass, "m1", 6, 100, 120);
 
-svg.append("g")
-    .call(vec, "R2", 0, 0, 150, 50);
-svg.append("g")
-    .call(vecText, "R2");
-svg.append("g")
-    .call(mass, "m2", 4, 150, 50);
+svg.append("g").call(vec, "R2", 0, 0, 150, 50);
+svg.append("g").call(vecText, "R2");
+svg.append("g").call(mass, "m2", 4, 150, 50);
 
-svg.append("g")
-    .call(vec, "R", 100, 120, 150, 50);
-svg.append("g")
-    .call(vecText, "R", "55%");
+svg.append("g").call(vec, "R", 100, 120, 150, 50);
+svg.append("g").call(vecText, "R", "55%");
     
-svg.append("g")
-    .call(vec, "COG", 0, 0, 116.7, 96.7);
-svg.append("g")
-    .call(vecText, "COG");
+svg.append("g").call(vec, "COG", 0, 0, 116.7, 96.7);
+svg.append("g").call(vecText, "COG");
