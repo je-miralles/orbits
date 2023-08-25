@@ -74,9 +74,10 @@ var vecText = (g, id) => g
     .append("text")
     .attr("text-anchor", "middle")
     .attr("dy", "1em")
+    .attr("font-size", "10")
       .append("textPath")
       .attr("xlink:href", '#' + id)
-      .attr("startOffset", "75%")
+      .attr("startOffset", "45%")
       .text(id);
 
 // Axes
@@ -113,4 +114,8 @@ svg.append("g")
     .call(vec, "R2", 0, 0, 120, -25);
 svg.append("g")
     .call(vecText, "R2");
+svg.append("g")
+    .call(vec, "R", 100, -50, 120, -25);
+svg.append("g")
+    .call(vecText, "R");
 ```
