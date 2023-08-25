@@ -37,6 +37,14 @@ So we see that ${\bf \ddot{R}}_\mathrm{COG} = 0$, i.e. the barycenter is not acc
 
 ## Example
 
+```{r}
+m_1 <- 1.0e26
+m_2 <- 5.0e25
+R_1 <- c(100, 120)
+R_2 <- c(150, 50)
+R_COG <- (m_1*R_1 + m_2*R_2) / (m_1 + m_2)
+```
+
 ```{d3 echo=FALSE, out.width = "50%"}
 // Arrow marker
 svg.append("svg:defs").append("svg:marker")
