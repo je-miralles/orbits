@@ -60,6 +60,15 @@ var vecText = (g, id, so="45%") => g
       .attr("startOffset", so)
       .text(id);
 
+var mass = (g, id, m, x, y) => g
+    .attr("transform", xyOffset)
+    .append("circle")
+    .attr("fill", "black")
+    .attr("id", id)
+    .attr("r", m)
+    .attr("cx", x)
+    .attr("cy", -y);
+
 // Image
 svg.append("g")
     .call(yAxis);
@@ -70,11 +79,15 @@ svg.append("g")
     .call(vec, "R1", 0, 0, 100, 120);
 svg.append("g")
     .call(vecText, "R1");
+svg.append("g")
+    .call(mass, "m1", 6, 100, 120);
 
 svg.append("g")
     .call(vec, "R2", 0, 0, 150, 50);
 svg.append("g")
     .call(vecText, "R2");
+svg.append("g")
+    .call(mass, "m2", 4, 150, 50);
 
 svg.append("g")
     .call(vec, "R", 100, 120, 150, 50);
