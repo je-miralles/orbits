@@ -38,6 +38,20 @@ So we see that {${\bf \ddot{R}}_\mathrm{COG} = 0$}, i.e. the barycenter is not a
 ## Figs
 
 ```{d3 echo=FALSE, out.width = "50%"}
+// Arrow marker
+svg.append("svg:defs").append("svg:marker")
+    .attr("id", "triangle")
+    .attr("refX", 10)
+    .attr("refY", 4)
+    .attr("markerWidth", 10)
+    .attr("markerHeight", 10)
+    .attr("markerUnits","userSpaceOnUse")
+    .attr("orient", "auto")
+    .append("path")
+    .attr("d", "M 0 0 L 0 8 L 10 4 L 0 0")
+    .style("fill", "black");
+
+// Paths
 var pathString = (x0, y0, x1, y1) => {
   const path = d3.path();
   path.moveTo(x0, y0);
@@ -45,6 +59,27 @@ var pathString = (x0, y0, x1, y1) => {
   return path.toString(); // eg. "M40,0A40,40,0,1,1,-40,0A40,40,0,1,1,40,0"
 }
 
+var vec = (g, id, x1, y1, x2, y2) => g
+    .attr("transform", xyOffset)
+    .append("path")
+    .attr("id", id)
+    .attr("fill", "black")
+    .attr("stroke", "black")
+    .attr("stroke-width", 1)
+    .attr("d", pathString(x1,y1,x2,y2))
+    .attr("marker-end", "url(#triangle)")
+
+var vecText = (g, id) => g
+    .attr("transform", xyOffset)
+    .append("text")
+    .attr("text-anchor", "middle")
+    .attr("dy", "1em")
+      .append("textPath")
+      .attr("xlink:href", '#' + id)
+      .attr("startOffset", "75%")
+      .text(id);
+
+// Axes
 var yOffset = `translate(${height/2}, 0)`;
 var xOffset = `translate(0, ${height/2})`;
 var xyOffset = `translate(${height/2}, ${height/2})`;
@@ -63,42 +98,11 @@ var xAxis = g => g
     .attr("transform", xOffset)
     .call(d3.axisBottom(x).ticks(5));
 
+// Image
 svg.append("g")
     .call(yAxis);
 svg.append("g")
     .call(xAxis);
-
-svg.append("svg:defs").append("svg:marker")
-    .attr("id", "triangle")
-    .attr("refX", 10)
-    .attr("refY", 4)
-    .attr("markerWidth", 10)
-    .attr("markerHeight", 10)
-    .attr("markerUnits","userSpaceOnUse")
-    .attr("orient", "auto")
-    .append("path")
-    .attr("d", "M 0 0 L 0 8 L 10 4 L 0 0")
-    .style("fill", "black");
-
-var vec = (g, id, x1, y1, x2, y2) => g
-    .attr("transform", xyOffset)
-    .append("path")
-    .attr("id", id)
-    .attr("fill", "black")
-    .attr("stroke", "black")
-    .attr("stroke-width", 1)
-    .attr("d", pathString(x1,y1,x2,y2))
-    .attr("marker-end", "url(#triangle)")
-
-var vecText = (g, id) => g
-    .attr("transform", xyOffset)
-    .append("text")
-    .attr("text-anchor", "middle")
-    .attr("dy", "1em")
-    .append("textPath")
-    .attr("xlink:href", '#' + id)
-    .attr("startOffset", "75%")
-    .text(id);
 
 svg.append("g")
     .call(vec, "R1", 0, 0, 100, -50);
