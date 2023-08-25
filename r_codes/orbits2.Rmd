@@ -45,7 +45,7 @@ R_2 <- c(150, 50)
 R_COG <- (m_1*R_1 + m_2*R_2) / (m_1 + m_2)
 ```
 
-```{d3 echo=FALSE, out.width = "50%"}
+```{d3 eval=FALSE, include=FALSE}
 // Arrow marker
 svg.append("svg:defs").append("svg:marker")
     .attr("id", "triangle")
@@ -127,4 +127,8 @@ svg.append("g")
     .call(vec, "R", 100, 120, 150, 50);
 svg.append("g")
     .call(vecText, "R");
+```
+
+```{r echo=FALSE, fig.height=2, out.width="50%"}
+r2d3(script="./scripts/rcog.js")
 ```
