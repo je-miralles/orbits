@@ -19,17 +19,17 @@ var xyOffset = `translate(${margin.left}, ${height - margin.bottom})`;
 
 var x = d3.scaleLinear()
     .domain([0, height])
-    .range([margin.left, height]);
+    .range([margin.left, height + margin.left]);
 var y = d3.scaleLinear()
     .domain([0, -height])
-    .range([height - margin.bottom, 0]);
+    .range([height - margin.bottom, -margin.bottom]);
 
 var yAxis = g => g
     .attr("transform", xOffset)
-    .call(d3.axisLeft(y).ticks(5));
+    .call(d3.axisLeft(y).ticks(4));
 var xAxis = g => g
     .attr("transform", yOffset)
-    .call(d3.axisBottom(x).ticks(5));
+    .call(d3.axisBottom(x).ticks(4));
 
 // Paths
 var pathString = (x0, y0, x1, y1) => {
