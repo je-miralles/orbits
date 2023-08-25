@@ -49,7 +49,7 @@ var vec = (g, id, x1, y1, x2, y2) => g
     .attr("d", pathString(x1,y1,x2,y2))
     .attr("marker-end", "url(#triangle)")
 
-var vecText = (g, id) => g
+var vecText = (g, id, so="45%") => g
     .attr("transform", xyOffset)
     .append("text")
     .attr("text-anchor", "middle")
@@ -57,7 +57,7 @@ var vecText = (g, id) => g
     .attr("font-size", "10")
       .append("textPath")
       .attr("xlink:href", '#' + id)
-      .attr("startOffset", "45%")
+      .attr("startOffset", so)
       .text(id);
 
 // Image
@@ -79,7 +79,7 @@ svg.append("g")
 svg.append("g")
     .call(vec, "R", 100, 120, 150, 50);
 svg.append("g")
-    .call(vecText, "R");
+    .call(vecText, "R", "55%");
     
 svg.append("g")
     .call(vec, "COG", 0, 0, 116.7, 96.7);
