@@ -33,9 +33,9 @@ $$
 m_1 {\bf \ddot{R}}_1 + m_2 {\bf \ddot{R}}_2 = 0
 $$
 
-So we see that {${\bf \ddot{R}}_\mathrm{COG} = 0$}, i.e. the barycenter is not accelerating, and is therefore an inertial reference frame.
+So we see that ${\bf \ddot{R}}_\mathrm{COG} = 0$, i.e. the barycenter is not accelerating, and is therefore an inertial reference frame.
 
-## Figs
+## Example
 
 ```{d3 echo=FALSE, out.width = "50%"}
 // Arrow marker
