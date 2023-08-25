@@ -62,8 +62,8 @@ svg.append("svg:defs").append("svg:marker")
 // Paths
 var pathString = (x0, y0, x1, y1) => {
   const path = d3.path();
-  path.moveTo(x0, y0);
-  path.lineTo(x1, y1);
+  path.moveTo(x0, -y0);
+  path.lineTo(x1, -y1);
   return path.toString(); // eg. "M40,0A40,40,0,1,1,-40,0A40,40,0,1,1,40,0"
 }
 
