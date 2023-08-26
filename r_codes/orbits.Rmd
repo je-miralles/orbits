@@ -174,7 +174,7 @@ The derived quantities $R$, and ${\bf \ddot{r}}$ are not populated for the last 
 
 All the motion has been set in the $x$-$y$ plane through the initial conditions.
 
-```{r echo=FALSE, out.width="50%"}
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width="50%"}
 library(ggplot2)
 library(gganimate)
 g = ggplot(new_s_vector, aes(y = y, x = x, colour = factor(n_mass)))

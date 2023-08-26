@@ -7,6 +7,4 @@ filename=$(basename "$file")
 extension="${filename##*.}"
 filename="${filename%.*}"
 
-Rscript -e "library(knitr); knit('$file')" ;
-pandoc ${filename}.md -f markdown -t latex -s -o ./${filename}.tex ;
-pandoc ${filename}.tex -f latex -t html -o ./html/${filename}.html
+Rscript -e "library(knitr); rmarkdown::render('$file')"
