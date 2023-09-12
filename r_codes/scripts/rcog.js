@@ -9,13 +9,15 @@ svg.append("svg:defs").append("svg:marker")
     .attr("orient", "auto")
     .append("path")
     .attr("d", "M 0 0 L 0 8 L 10 4 L 0 0")
-    .style("fill", "black");
+    .attr("fill", "black");
 
 // Axes
 var margin = ({top: 5, right: 5, bottom: 25, left: 25})
 var xOffset = `translate(${margin.left}, 0)`;
 var yOffset = `translate(0, ${height - margin.bottom})`;
 var xyOffset = `translate(${margin.left}, ${height - margin.bottom})`;
+
+var maxMass = Math.max(...data.map(({ m }) => m));
 
 var x = d3.scaleLinear()
     .domain([0, height])
@@ -73,13 +75,38 @@ var mass = (g, id, m, x, y) => g
 svg.append("g").call(yAxis);
 svg.append("g").call(xAxis);
 
-svg.append("g").call(vec, "R1", 0, 0, 100, 120);
-svg.append("g").call(vecText, "R1");
-svg.append("g").call(mass, "m1", 6, 100, 120);
+var lines = svg.append("g")
+  .attr("transform", xyOffset)
+    .selectAll("path")
+    .data(data).enter().append("path")
+      .attr("id", function(d, i) { return "r" + i; })
+      .attr("fill", "black")
+      .attr("stroke", "black")
+      .attr("stroke-width", 1)
+      .attr("d", function(d) { return pathString(0, 0, d.x, d.y) })
+      .attr("marker-end", "url(#triangle)")
 
-svg.append("g").call(vec, "R2", 0, 0, 150, 50);
-svg.append("g").call(vecText, "R2");
-svg.append("g").call(mass, "m2", 4, 150, 50);
+var masses = svg.append("g")
+  .attr("transform", xyOffset)
+    .selectAll("circle")
+    .data(data).enter().append("circle")
+        .attr("id", function(d, i) { return "m" + i; })
+        .attr("r", function(d) { return d.m / maxMass * 6; })
+        .attr("cx", function(d) { return d.x; })
+        .attr("cy", function(d) { return -d.y; })
+        .attr("fill", "black");
+
+var text = svg.append("g")
+  .attr("transform", xyOffset)
+    .selectAll("text")
+    .data(data).enter().append("text")
+      .attr("text-anchor", "middle")
+      .attr("dy", "1em")
+      .attr("font-size", "10")
+        .append("textPath")
+        .attr("xlink:href",  function(d, i) { return "#r" + i; })
+        .attr("startOffset", so = "45%")
+        .text(function(d, i) { return "r" + i; });
 
 svg.append("g").call(vec, "R", 100, 120, 150, 50);
 svg.append("g").call(vecText, "R", "55%");
