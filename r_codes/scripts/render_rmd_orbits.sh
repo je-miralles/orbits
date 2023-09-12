@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Set the first argument as variable file    
+# Set the first argument as variable file
 file=$1
 
 filename=$(basename "$file")
