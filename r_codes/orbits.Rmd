@@ -24,8 +24,8 @@ In this way we avoid having to think of [fictitious forces](https://en.wikipedia
 We first look at the mutual gravitation of two masses, $m_1$ and $m_2$ with positions ${\bf r}_1$ and ${\bf r}_2$ described with their [Cartesian coordinates](https://en.wikipedia.org/wiki/Cartesian_coordinate_system):
 
 $$
-{\bf r}_1 = x_1 {\bf \hat{i}} + y_1 {\bf \hat{j}} + z_1 {\bf \hat{k}} \\
-{\bf r}_2 = x_2 {\bf \hat{i}} + y_2 {\bf \hat{j}} + z_2 {\bf \hat{k}} 
+{\bf r}_1 = x_1 {\bf \hat{x}} + y_1 {\bf \hat{y}} + z_1 {\bf \hat{z}} \\
+{\bf r}_2 = x_2 {\bf \hat{x}} + y_2 {\bf \hat{y}} + z_2 {\bf \hat{z}}
 $$
 
 The relative position, ${\bf r}$ and its unit vector, $\hat{\bf u}_\mathrm{r}$ can be calculated.
@@ -35,12 +35,12 @@ $$
 \hat{\bf u}_\mathrm{r} = \frac{\bf r}{r}
 $$
 
-Here we are imagining the only two bodies in the universe! (Or that everyone else is really, really, far away.) So there are no other forces acting and ${\bf F}_{12} = -{\bf F}_{21}$ by Newtons' third law. Using the [law of gravitation](https://en.wikipedia.org/wiki/Newton%27s_law_of_universal_gravitation) ($F = G \frac{m_1 m_2}{r^2}$) we can find the force acting on the line between the masses.
+Here we are imagining the only two bodies in the universe! (Or that everyone else is really, really, far away.) So there are no other forces acting and the force on $m_1$ is opposite that on $m_2$ by Newtons' third law, i.e.  ${\bf F}_{1} = -{\bf F}_{2}$. Using the [law of gravitation](https://en.wikipedia.org/wiki/Newton%27s_law_of_universal_gravitation) ($F = G \frac{m_1 m_2}{r^2}$) we can find the force acting on the line between the masses.
 
 $$
 \begin{align}
-{\bf F}_{12} &= \frac{G m_1 m_2}{r^2} \hat{\bf u}_\mathrm{r} \\
-{\bf F}_{21} &= - \frac{G m_1 m_2}{r^2} \hat{\bf u}_\mathrm{r}
+{\bf F}_{1} &= \frac{G m_1 m_2}{r^2} \hat{\bf u}_\mathrm{r} \\
+{\bf F}_{2} &= - \frac{G m_1 m_2}{r^2} \hat{\bf u}_\mathrm{r}
 \end{align}
 $$
 
