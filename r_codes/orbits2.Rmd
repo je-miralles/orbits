@@ -69,7 +69,7 @@ var yOffset = `translate(${height/2}, 0)`;
 var xOffset = `translate(0, ${height/2})`;
 var xyOffset = `translate(${height/2}, ${height/2})`;
 
-var maxMass = Math.max(...data.map(({ m }) => m))
+var maxMass = Math.max(...data.map(({ m }) => m));
 
 var x = d3.scaleLinear()
     .domain([-height/2, height/2])
@@ -85,20 +85,50 @@ var xAxis = g => g
     .attr("transform", xOffset)
     .call(d3.axisBottom(x).ticks(5));
 
+// Paths
+var pathString = (x0, y0, x1, y1) => {
+    const path = d3.path();
+    path.moveTo(x0, -y0);
+    path.lineTo(x1, -y1);
+    return path.toString(); // eg. "M40,0A40,40,0,1,1,-40,0A40,40,0,1,1,40,0"
+}
+
 // Image
 svg.append("g").call(yAxis);
 svg.append("g").call(xAxis);
 
-svg.append("g")
+var lines = svg.append("g")
+  .attr("transform", xyOffset)
+    .selectAll("path")
+    .data(data).enter().append("path")
+      .attr("id", function(d, i) { return "r" + i; })
+      .attr("fill", "black")
+      .attr("stroke", "black")
+      .attr("stroke-width", 1)
+      .attr("d", function(d) { return pathString(0, 0, d.x, d.y) })
+      .attr("marker-end", "url(#triangle)")
+
+var masses = svg.append("g")
   .attr("transform", xyOffset)
     .selectAll("circle")
-    .data(data)
-    .enter().append("circle")
-        .attr("id", function(d, i) { return i; })
+    .data(data).enter().append("circle")
+        .attr("id", function(d, i) { return "m" + i; })
         .attr("r", function(d) { return d.m / maxMass * 6; })
         .attr("cx", function(d) { return d.x; })
         .attr("cy", function(d) { return -d.y; })
         .attr("fill", "black");
+
+var text = svg.append("g")
+  .attr("transform", xyOffset)
+    .selectAll("text")
+    .data(data).enter().append("text")
+      .attr("text-anchor", "middle")
+      .attr("dy", "1em")
+      .attr("font-size", "10")
+        .append("textPath")
+        .attr("xlink:href",  function(d, i) { return "#r" + i; })
+        .attr("startOffset", so = "45%")
+        .text(function(d, i) { return "r" + i; });
 ```
 
 ```{r echo=FALSE, fig.height=2, out.width="50%"}
