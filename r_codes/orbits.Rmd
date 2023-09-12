@@ -44,7 +44,7 @@ $$
 \end{align}
 $$
 
-Now applying Newton's second law (${\bf F} = m {\bf \ddot{r}}$) and the definition of $\hat{\bf u}_\mathrm{r}$ above we get the accelerations of the two masses, which depend only on the relative position.
+Now applying Newton's second law (${\bf F}_i = m {\bf \ddot{r}}_i$) and the definition of $\hat{\bf u}_\mathrm{r}$ above we get the accelerations of the two masses, which depend only on the relative position.
 
 $$
 \begin{align}
