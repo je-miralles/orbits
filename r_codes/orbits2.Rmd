@@ -57,7 +57,7 @@ svg.append("svg:defs").append("svg:marker")
     .attr("orient", "auto")
     .append("path")
     .attr("d", "M 0 0 L 0 8 L 10 4 L 0 0")
-    .style("fill", "black");
+    .attr("fill", "black");
 
 // Axes
 var yOffset = `translate(${height/2}, 0)`;
