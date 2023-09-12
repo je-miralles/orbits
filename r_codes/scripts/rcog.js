@@ -1,3 +1,5 @@
+// !preview r2d3 data=data.frame(m=c(1.0e26, 5.0e25), x=c(100, 150), y=c(120, 50))
+
 // Arrow marker
 svg.append("svg:defs").append("svg:marker")
     .attr("id", "triangle")
