@@ -43,36 +43,6 @@ var pathString = (x0, y0, x1, y1) => {
     return path.toString(); // eg. "M40,0A40,40,0,1,1,-40,0A40,40,0,1,1,40,0"
 }
 
-var vec = (g, id, x1, y1, x2, y2) => g
-    .attr("transform", xyOffset)
-    .append("path")
-    .attr("id", id)
-    .attr("fill", "black")
-    .attr("stroke", "black")
-    .attr("stroke-width", 1)
-    .attr("d", pathString(x1,y1,x2,y2))
-    .attr("marker-end", "url(#triangle)")
-
-var vecText = (g, id, so="45%") => g
-    .attr("transform", xyOffset)
-    .append("text")
-    .attr("text-anchor", "middle")
-    .attr("dy", "1em")
-    .attr("font-size", "10")
-      .append("textPath")
-      .attr("xlink:href", '#' + id)
-      .attr("startOffset", so)
-      .text(id);
-
-var mass = (g, id, m, x, y) => g
-    .attr("transform", xyOffset)
-    .append("circle")
-    .attr("fill", "black")
-    .attr("id", id)
-    .attr("r", m)
-    .attr("cx", x)
-    .attr("cy", -y);
-
 // Image
 svg.append("g").call(yAxis);
 svg.append("g").call(xAxis);
@@ -110,8 +80,45 @@ var text = svg.append("g")
         .attr("startOffset", so = "45%")
         .text(function(d, i) { return "r" + i; });
 
-svg.append("g").call(vec, "R", 100, 120, 150, 50);
-svg.append("g").call(vecText, "R", "55%");
-    
-svg.append("g").call(vec, "COG", 0, 0, 116.7, 96.7);
-svg.append("g").call(vecText, "COG");
+var vec = (g, id, x1, y1, x2, y2) => g
+    .attr("transform", xyOffset)
+    .append("path")
+    .attr("id", id)
+    .attr("fill", "black")
+    .attr("stroke", "black")
+    .attr("stroke-width", 1)
+    .attr("d", pathString(x1,y1,x2,y2))
+    .attr("marker-end", "url(#triangle)");
+
+var vecText = (g, id, so="45%") => g
+    .attr("transform", xyOffset)
+    .append("text")
+    .attr("text-anchor", "middle")
+    .attr("dy", "1em")
+    .attr("font-size", "10")
+      .append("textPath")
+      .attr("xlink:href", '#' + id)
+      .attr("startOffset", so)
+      .text(id);
+
+var mass = (g, id, m, x, y) => g
+    .attr("transform", xyOffset)
+    .append("circle")
+    .attr("fill", "black")
+    .attr("id", id)
+    .attr("r", m)
+    .attr("cx", x)
+    .attr("cy", -y);
+
+if(options.cog == "true") {
+    // Hand generate relative vector and center of gravity
+    svg.append("g").call(vec, "R", data[0].x, data[0].y, data[1].x, data[1].y);
+    svg.append("g").call(vecText, "R", "55%");
+
+    // TODO COG assumes just two particles
+    // R_COG <- (m_1*R_1 + m_2*R_2) / (m_1 + m_2)
+    svg.append("g").call(vec, "COG", 0, 0,
+                                (data[0].m*data[0].x + data[1].m*data[1].x) / (data[0].m + data[1].m),
+                                (data[0].m*data[0].y + data[1].m*data[1].y) / (data[0].m + data[1].m));
+    svg.append("g").call(vecText, "COG");
+}
