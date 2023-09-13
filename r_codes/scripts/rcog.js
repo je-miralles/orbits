@@ -112,8 +112,8 @@ var mass = (g, id, m, x, y) => g
 
 if(options.rel == "true") {
     // Hand generate relative vector and center of gravity
-    svg.append("g").call(vec, "R", data[0].x, data[0].y, data[1].x, data[1].y);
-    svg.append("g").call(vecText, "R", "55%");
+    svg.append("g").call(vec, "r", data[0].x, data[0].y, data[1].x, data[1].y);
+    svg.append("g").call(vecText, "r", "55%");
 }
 
 if(options.cog == "true") {

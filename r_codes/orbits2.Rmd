@@ -15,22 +15,22 @@ library(r2d3)
 Now we introduce the notion of the center of mass or *barycenter* of the system, which is just a sort of weighted average of the positions.
 
 $$
-{\bf R}_\mathrm{COG} = \frac{m_1 {\bf r}_1 + m_2 {\bf r}_2}{m_1 + m_2}
+{\bf R}_\mathrm{COG} = \frac{m_0 {\bf r}_0 + m_1 {\bf r}_1}{m_0 + m_1}
 $$
 
 It follows that the velocity and acceleration are:
 
 $$
 \begin{align}
-{\bf \dot{R}}_\mathrm{COG} &= \frac{m_1 {\bf \dot{r}}_1 + m_2 {\bf \dot{r}}_2}{m_1 + m_2} \\
-{\bf \ddot{R}}_\mathrm{COG} &= \frac{m_1 {\bf \ddot{r}}_1 + m_2 {\bf \ddot{r}}_2}{m_1 + m_2} \\
+{\bf \dot{R}}_\mathrm{COG} &= \frac{m_0 {\bf \dot{r}}_0 + m_1 {\bf \dot{r}}_1}{m_0 + m_1} \\
+{\bf \ddot{R}}_\mathrm{COG} &= \frac{m_0 {\bf \ddot{r}}_0 + m_1 {\bf \ddot{r}}_1}{m_0 + m_1} \\
 \end{align}
 $$
 
-Since the only force we consider here is the gravitational attraction between the masses, we found previously that ${\bf F}_{1} = -{\bf F}_{2}$, so substituting ${\bf F}_i = m {\bf \ddot{r}}_i$:
+Since the only force we consider here is the gravitational attraction between the masses, we found previously that ${\bf F}_0 = -{\bf F}_1$, so substituting ${\bf F}_i = m {\bf \ddot{r}}_i$:
 
 $$
-m_1 {\bf \ddot{r}}_1 + m_2 {\bf \ddot{r}}_2 = 0
+m_0 {\bf \ddot{r}}_0 + m_1 {\bf \ddot{r}}_1 = 0
 $$
 
 So we see that ${\bf \ddot{R}}_\mathrm{COG} = 0$, i.e. the barycenter is not accelerating, and is therefore an inertial reference frame.
@@ -38,15 +38,15 @@ So we see that ${\bf \ddot{R}}_\mathrm{COG} = 0$, i.e. the barycenter is not acc
 ## Example
 
 ```{r}
-m_1 <- 1.0e26
-m_2 <- 5.0e25
-R_1 <- c(100, 120)
-R_2 <- c(150, 50)
+m_0 <- 1.0e26
+m_1 <- 5.0e25
+R_0 <- c(100, 120)
+R_1 <- c(150, 50)
 ```
 
 ```{r}
-df      <- data.frame(m=m_1, x=R_1[1], y=R_1[2])
-df[2, ] <- data.frame(m=m_2, x=R_2[1], y=R_2[2])
+df      <- data.frame(m=m_0, x=R_0[1], y=R_0[2])
+df[2, ] <- data.frame(m=m_1, x=R_1[1], y=R_1[2])
 ```
 
 ```{r echo=FALSE, fig.height=2, out.width="50%"}
@@ -56,3 +56,4 @@ r2d3(script="./scripts/rcog.js", data=df,  options=list(cog = "true"))
 ## Links
 
 - [Index](./index.html)
+- [Orbits!](./orbits.html)

@@ -22,17 +22,17 @@ In this way we avoid having to think of [fictitious forces](https://en.wikipedia
 
 ## A system of two bodies
 
-We first look at the mutual gravitation of two masses, $m_1$ and $m_2$ with positions ${\bf r}_1$ and ${\bf r}_2$ described with their [Cartesian coordinates](https://en.wikipedia.org/wiki/Cartesian_coordinate_system):
+We first look at the mutual gravitation of two masses, $m_0$ and $m_1$ with positions ${\bf r}_0$ and ${\bf r}_1$ described with their [Cartesian coordinates](https://en.wikipedia.org/wiki/Cartesian_coordinate_system):
 
 $$
-{\bf r}_1 = x_1 {\bf \hat{x}} + y_1 {\bf \hat{y}} + z_1 {\bf \hat{z}} \\
-{\bf r}_2 = x_2 {\bf \hat{x}} + y_2 {\bf \hat{y}} + z_2 {\bf \hat{z}}
+{\bf r}_0 = x_0 {\bf \hat{x}} + y_0 {\bf \hat{y}} + z_0 {\bf \hat{z}} \\
+{\bf r}_1 = x_1 {\bf \hat{x}} + y_1 {\bf \hat{y}} + z_1 {\bf \hat{z}}
 $$
 
 The relative position, ${\bf r}$ and its unit vector, $\hat{\bf u}_\mathrm{r}$ can be calculated.
 
 $$
-{\bf r} = {\bf r}_2 - {\bf r}_1 = (x_2 - x_1) {\bf \hat{i}} + (y_2 - y_1) {\bf \hat{j}} + (z_2 - z_1) {\bf \hat{k}} \\
+{\bf r} = {\bf r}_1 - {\bf r}_0 = (x_1 - x_0) {\bf \hat{i}} + (y_1 - y_0) {\bf \hat{j}} + (z_1 - z_0) {\bf \hat{k}} \\
 \hat{\bf u}_\mathrm{r} = \frac{\bf r}{r}
 $$
 
@@ -51,12 +51,12 @@ r2d3(script="./scripts/rcog.js", data=df,  options=list(rel = "true", cog = "fal
 
 ***
 
-Here we are imagining the only two bodies in the universe! (Or that everyone else is really, really, far away.) So there are no other forces acting and the force on $m_1$ is opposite that on $m_2$ by Newtons' third law, i.e.  ${\bf F}_{1} = -{\bf F}_{2}$. Using the [law of gravitation](https://en.wikipedia.org/wiki/Newton%27s_law_of_universal_gravitation) ($F = G \frac{m_1 m_2}{r^2}$) we can find the force acting on the line between the masses.
+Here we are imagining the only two bodies in the universe! (Or that everyone else is really, really, far away.) So there are no other forces acting and the force on $m_0$ is opposite that on $m_1$ by Newtons' third law, i.e.  ${\bf F}_0 = -{\bf F}_1$. Using the [law of gravitation](https://en.wikipedia.org/wiki/Newton%27s_law_of_universal_gravitation) ($F = G \frac{m_0 m_1}{r^2}$) we can find the force acting on the line between the masses.
 
 $$
 \begin{align}
-{\bf F}_{1} &= \frac{G m_1 m_2}{r^2} \hat{\bf u}_\mathrm{r} \\
-{\bf F}_{2} &= - \frac{G m_1 m_2}{r^2} \hat{\bf u}_\mathrm{r}
+{\bf F}_0 &= \frac{G m_0 m_1}{r^2} \hat{\bf u}_\mathrm{r} \\
+{\bf F}_1 &= - \frac{G m_0 m_1}{r^2} \hat{\bf u}_\mathrm{r}
 \end{align}
 $$
 
@@ -64,8 +64,8 @@ Now applying Newton's second law (${\bf F}_i = m {\bf \ddot{r}}_i$) and the defi
 
 $$
 \begin{align}
-\ddot{\bf r}_1 &= G m_2 \frac{\bf r}{r^3} \\
-\ddot{\bf r}_2 &= - G m_1 \frac{\bf r}{r^3}
+\ddot{\bf r}_0 &= G m_1 \frac{\bf r}{r^3} \\
+\ddot{\bf r}_1 &= - G m_0 \frac{\bf r}{r^3}
 \end{align}
 $$
 
@@ -76,18 +76,18 @@ $$
 {\bf r}(t)_\mathrm{i} = {\bf r}(0)_\mathrm{i} + \int_{0}^{t} \dot{\bf r}(t)_\mathrm{i} \mathrm{d}t
 $$
 
-We see that we will need the initial positions, ${\bf r}(0)_\mathrm{i}$, and velocities, $\dot{\bf r}(0)_\mathrm{i}$, to solve the motion. Together we call these 12 quantities the *state vector* of the system: $S = [{\bf r}_1, {\bf r}_2, {\bf \dot{r}}_1, {\bf \dot{r}}_2]$.
+We see that we will need the initial positions, ${\bf r}(0)_\mathrm{i}$, and velocities, $\dot{\bf r}(0)_\mathrm{i}$, to solve the motion. Together we call these 12 quantities the *state vector* of the system: $S = [{\bf r}_0, {\bf r}_1, {\bf \dot{r}}_0, {\bf \dot{r}}_1]$.
 
 ### Numerically in R
 
 #### Initial conditions
 
-We input the [gravitational constant](https://en.wikipedia.org/wiki/Gravitational_constant), $G = 6.674 \times 10^{-2} \text{km}^3 \text{kg}^{-1} \text{s}^{-2}$, and an equal mass for the particles, $m_1 = m_2 = 10^{26} \text{kg}$. For reference Earth's mass is about $6 \times 10^{24} \text{kg}$, so these are somewhat larger.
+We input the [gravitational constant](https://en.wikipedia.org/wiki/Gravitational_constant), $G = 6.674 \times 10^{-2} \text{km}^3 \text{kg}^{-1} \text{s}^{-2}$, and an equal mass for the particles, $m_0 = m_1 = 10^{26} \text{kg}$. For reference Earth's mass is about $6 \times 10^{24} \text{kg}$, so these are somewhat larger.
 
 ```{r}
 G <- 6.674e-2
-m_1 <- 1.0e26
-m_2 <- m_1
+m_0 <- 1.0e26
+m_1 <- m_0
 ```
 
 We represent the state vector as a `data.frame` where each record contains the state vector of a single mass and a timestamp.
@@ -97,7 +97,7 @@ s_vector      <- data.frame(n_mass=1, ts=0, x=0, y=0, z=0, dot.x=0, dot.y=0, dot
 s_vector[2, ] <- data.frame(n_mass=2, ts=0, x=2000, y=0, z=0, dot.x=-2000, dot.y=500, dot.z=0)
 ```
 
-We have $m_1$ starting out stationary at $(0, 0, 0)$ and $m_2$ starting out at $(2000, 0, 0)$ with some initially counterclockwise velocity.
+We have $m_0$ starting out stationary at $(0, 0, 0)$ and $m_1$ starting out at $(2000, 0, 0)$ with some initially counterclockwise velocity.
 
 #### Stepwise solutions
 
@@ -115,13 +115,13 @@ We develop a function that takes this state vector and returns a new state vecto
 ```{r}
 #' Get relative distance and accelerations from initial positions
 #' @return A data frame containing the relative distance and accelerations
-get_derived_initial_values <- function(pos_1, pos_2) {
+get_derived_initial_values <- function(pos_0, pos_1) {
   # initial distance
-  R0 <- sqrt(sum((pos_2 - pos_1)^2))
+  R0 <- sqrt(sum((pos_1 - pos_0)^2))
   # initial accelerations
-  ddotR0_1 <- m_2 * G * (pos_2 - pos_1) / (R0^3)
-  ddotR0_2 <- m_1 * G * (pos_1 - pos_2) / (R0^3)
-  init_vals <- data.frame(R=R0, ddot_1=ddotR0_1, ddot_2=ddotR0_2)
+  ddotR0_0 <- m_1 * G * (pos_1 - pos_0) / (R0^3)
+  ddotR0_1 <- m_0 * G * (pos_0 - pos_1) / (R0^3)
+  init_vals <- data.frame(R=R0, ddot_0=ddotR0_0, ddot_1=ddotR0_1)
   init_vals
 }
 
@@ -140,28 +140,28 @@ get_next_s_vector <- function(s_vector, timestep=1) {
     return(666)
   }
   # extract current positions (last rows)
-  pos_1 <- s_vector[nrow(s_vector) - 1, 3:5]
-  pos_2 <- s_vector[nrow(s_vector), 3:5]
+  pos_0 <- s_vector[nrow(s_vector) - 1, 3:5]
+  pos_1 <- s_vector[nrow(s_vector), 3:5]
   # extract current velocities (last rows)
-  vel_1 <- s_vector[nrow(s_vector) - 1, 6:8]
-  vel_2 <- s_vector[nrow(s_vector), 6:8]
+  vel_0 <- s_vector[nrow(s_vector) - 1, 6:8]
+  vel_1 <- s_vector[nrow(s_vector), 6:8]
 
   # calculate current distance and accelerations
-  init_vals = get_derived_initial_values(pos_1, pos_2)
+  init_vals = get_derived_initial_values(pos_0, pos_1)
 
   # annotate current state vector with derived initial values
   s_vector[nrow(s_vector) - 1, 9:12] <- data.frame(init_vals[1], init_vals[2:4])
   s_vector[nrow(s_vector), 9:12] <- data.frame(init_vals[1], init_vals[5:7])
 
   # step forward
+  new_pos_0 <- step(pos_0, vel_0, timestep)
   new_pos_1 <- step(pos_1, vel_1, timestep)
-  new_pos_2 <- step(pos_2, vel_2, timestep)
-  new_vel_1 <- step(vel_1, init_vals[2:4], timestep)
-  new_vel_2 <- step(vel_2, init_vals[5:7], timestep)
+  new_vel_0 <- step(vel_0, init_vals[2:4], timestep)
+  new_vel_1 <- step(vel_1, init_vals[5:7], timestep)
   s_vector[nrow(s_vector) + 1, 1:8] <- data.frame(n_mass=1, ts=s_vector[nrow(s_vector) - 1, 2] + timestep,
-                                                  new_pos_1, new_vel_1)
+                                                  new_pos_0, new_vel_0)
   s_vector[nrow(s_vector) + 1, 1:8] <- data.frame(n_mass=2, ts=s_vector[nrow(s_vector) - 1, 2] + timestep,
-                                                  new_pos_2, new_vel_2)
+                                                  new_pos_1, new_vel_1)
   s_vector
 }
 ```
@@ -174,13 +174,13 @@ new_s_vector <- s_vector
 for(i in 1:58) { new_s_vector <- get_next_s_vector(new_s_vector, 5e-10) }
 ```
 
-Here are the first few time slices for $m_1$:
+Here are the first few time slices for $m_0$:
 
 ```{r echo = FALSE}
 knitr::kable(head(new_s_vector[new_s_vector$n_mass == 1, ], 4), row.names=FALSE, digits=9)
 ```
 
-and for $m_2$:
+and for $m_1$:
 
 ```{r echo = FALSE}
 knitr::kable(head(new_s_vector[new_s_vector$n_mass == 2, ], 4), row.names=FALSE, digits=9)
@@ -199,8 +199,9 @@ g = g + transition_time(ts) + ease_aes('linear')
 g
 ```
 
-We can see the mutual attraction pull $m_1$ off of the origin as the two bodies approach each other, eventually getting within $80 \text{km}$ where the maximum gravitational acceleration slingshots them back away from each other at high speed.
+We can see the mutual attraction pull $m_0$ off of the origin as the two bodies approach each other, eventually getting within $80 \text{km}$ where the maximum gravitational acceleration slingshots them back away from each other at high speed.
 
 ## Links
 
 - [Index](./index.html)
+- [Orbits again!](./orbits2.html)
