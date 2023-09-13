@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ $# -eq 0 ] || [ "$1" == "-h" ]; then
+  echo "Usage: `basename $0` [Rmd_filename]"
+  exit 0
+fi
+
 # Set the first argument as variable file
 file=$1
 
