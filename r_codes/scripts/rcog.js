@@ -118,7 +118,7 @@ if(options.rel == "true") {
 
 if(options.cog == "true") {
     // TODO COG assumes just two particles
-    // R_COG <- (m_1*R_1 + m_2*R_2) / (m_1 + m_2)
+    // R_COG <- (m_1*r_1 + m_2*r_2) / (m_1 + m_2)
     svg.append("g").call(vec, "COG", 0, 0,
                                 (data[0].m*data[0].x + data[1].m*data[1].x) / (data[0].m + data[1].m),
                                 (data[0].m*data[0].y + data[1].m*data[1].y) / (data[0].m + data[1].m));
