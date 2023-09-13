@@ -14,4 +14,4 @@ filename="${filename%.*}"
 
 Rscript -e "library(knitr); rmarkdown::render('$file')"
 
-mv ${filename}.html html/${filename}.html
+mv ${filename}.html ../html/${filename}.html
