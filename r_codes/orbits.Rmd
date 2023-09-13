@@ -7,6 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(r2d3)
 ```
 
 A very good place to start analyzing any motion is choosing a frame of reference and setting up coordinates. Orbital mechanics systems are often considered with respect to the *fixed stars*.
@@ -34,6 +35,21 @@ $$
 {\bf r} = {\bf r}_2 - {\bf r}_1 = (x_2 - x_1) {\bf \hat{i}} + (y_2 - y_1) {\bf \hat{j}} + (z_2 - z_1) {\bf \hat{k}} \\
 \hat{\bf u}_\mathrm{r} = \frac{\bf r}{r}
 $$
+
+***
+
+**Example**
+
+```{r}
+df      <- data.frame(m = 1.0e26, x = 100, y = 120)
+df[2, ] <- data.frame(m = 5.0e25, x = 150, y = 50)
+```
+
+```{r echo=FALSE, fig.height=2, out.width="50%"}
+r2d3(script="./scripts/rcog.js", data=df,  options=list(cog = "false"))
+```
+
+***
 
 Here we are imagining the only two bodies in the universe! (Or that everyone else is really, really, far away.) So there are no other forces acting and the force on $m_1$ is opposite that on $m_2$ by Newtons' third law, i.e.  ${\bf F}_{1} = -{\bf F}_{2}$. Using the [law of gravitation](https://en.wikipedia.org/wiki/Newton%27s_law_of_universal_gravitation) ($F = G \frac{m_1 m_2}{r^2}$) we can find the force acting on the line between the masses.
 
