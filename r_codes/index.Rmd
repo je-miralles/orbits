@@ -1,0 +1,22 @@
+---
+title: "Orbits!"
+author: "Emilio Miralles"
+date: "2023-08-25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+A series of articles, codes, and toys for orbital mechanics.
+
+## Index
+
+- [Reference frames](./orbits.html)
+- [Center of Gravity](./orbits2.html)
+- [Calculus of variations](./landau.html)
+
+## References
+
+- [Orbital mechanics](https://orbital-mechanics.space)
