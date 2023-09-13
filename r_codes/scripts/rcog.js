@@ -110,11 +110,13 @@ var mass = (g, id, m, x, y) => g
     .attr("cx", x)
     .attr("cy", -y);
 
-if(options.cog == "true") {
+if(options.rel == "true") {
     // Hand generate relative vector and center of gravity
     svg.append("g").call(vec, "R", data[0].x, data[0].y, data[1].x, data[1].y);
     svg.append("g").call(vecText, "R", "55%");
+}
 
+if(options.cog == "true") {
     // TODO COG assumes just two particles
     // R_COG <- (m_1*R_1 + m_2*R_2) / (m_1 + m_2)
     svg.append("g").call(vec, "COG", 0, 0,
