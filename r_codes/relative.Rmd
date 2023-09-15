@@ -1,0 +1,69 @@
+---
+title: "Relative motion"
+author: "Emilio Miralles"
+date: "2023-09-15"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(r2d3)
+```
+
+Let's go back to our relative position vector:
+
+$$
+{\bf r} = {\bf r}_1 - {\bf r}_0
+$$
+
+```{r}
+m_sun <- 2.0e30
+m_earth <- 6.0e24
+df <- data.frame(m = c(m_sun, m_earth), x = c(100, 150), y = c(120, 50))
+```
+
+We now use the approximate masses of the sun and earth system.
+
+Whoops, the earth disappears!
+
+```{r echo=FALSE, fig.height=2, out.width="50%"}
+r2d3(script="./scripts/rcog.js", data=df, options=list(relative = "true", masses = "true"))
+```
+
+Keep in mind that the sizes on the figure correspond to the masses, not the dimensions; we are still treating these planets as point masses. This is just to say that the sun is massively more... massive than the earth, so we want to see how that works out for the physics of these old friends.
+
+As before, we have equations for the position, velocity, and acceleration, in this case of the earth, $m_1$ around the sun $m_0$:
+
+$$
+{\bf r} = {\bf r}_1 - {\bf r}_0 \\
+\dot{\bf r} = \dot{\bf r}_1 - \dot{\bf r}_0 \\
+\ddot{\bf r} = \ddot{\bf r}_1 - \ddot{\bf r}_0
+$$
+
+Substituting the accelerations, we develop the equations of motion.
+
+$$
+\begin{align}
+\ddot{\bf r} &= \ddot{\bf r}_1 - \ddot{\bf r}_0 \\
+\ddot{\bf r} &= - \frac{G m_0}{r^3} {\bf r} - \frac{G m_1}{r^3} {\bf r} \\
+\ddot{\bf r} &= -G(m_0 + m_1)  \frac{{\bf r}}{r^3} \\
+\ddot{\bf r} &= -\frac{\mu}{r^3} {\bf r}
+\end{align}
+$$
+
+Where we write the *standard gravitational parameter*, $\mu = G(m_0 + m_1)$.
+
+Lets take a moment to compare with our previous results.
+
+$$
+\begin{align}
+\ddot{\bf r}_0 &= G m_1 \frac{\bf r}{r^3} \\
+\ddot{\bf r}_1 &= - G m_0 \frac{\bf r}{r^3} \\
+\end{align}
+$$
+
+Where we had a state vector of 12 quantities before, $S = [{\bf r}_0, {\bf r}_1, {\bf \dot{r}}_0, {\bf \dot{r}}_1]$, we now have a single equation, with only six, $S = [{\bf r}, {\bf \dot{r}}]$.
+
+$$
+\ddot{\bf r} = -\frac{\mu}{r^3} {\bf r}
+$$
