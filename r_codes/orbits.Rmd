@@ -103,8 +103,8 @@ We have $m_0$ starting out stationary at $(0, 0, 0)$ and $m_1$ starting out at $
 We can advance the state vector by an arbitrary time step $\Delta t$ if we assume the velocities and accelerations are constant over that time slice. This can be a good approximation if the time slice is small compared to the characteristic time scale of the motion.
 
 $$
-\dot{\bf r}(t_0 + \Delta t)_{i} = \dot{\bf r}(t_0)_i + \ddot{\bf r}(t_0)_i \Delta t \\
-{\bf r}(t_0 + \Delta t)_{i} =  {\bf r}(t_0)_i + \dot{\bf r}(t_0)_i \Delta t.
+\dot{\bf r}(t_0 + \Delta t)_\mathrm{i} = \dot{\bf r}(t_0)_\mathrm{i} + \ddot{\bf r}(t_0)_\mathrm{i} \Delta t \\
+{\bf r}(t_0 + \Delta t)_\mathrm{i} =  {\bf r}(t_0)_\mathrm{i} + \dot{\bf r}(t_0)_\mathrm{i} \Delta t.
 $$
 
 We develop a function that takes this state vector and returns a new state vector including the current relative distance and accelerations as well as the next positions and velocities.

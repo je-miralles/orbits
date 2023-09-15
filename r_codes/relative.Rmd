@@ -45,25 +45,25 @@ Substituting the accelerations, we develop the equations of motion.
 $$
 \begin{align}
 \ddot{\bf r} &= \ddot{\bf r}_1 - \ddot{\bf r}_0 \\
-\ddot{\bf r} &= - \frac{G m_0}{r^3} {\bf r} - \frac{G m_1}{r^3} {\bf r} \\
-\ddot{\bf r} &= -G(m_0 + m_1)  \frac{{\bf r}}{r^3} \\
-\ddot{\bf r} &= -\frac{\mu}{r^3} {\bf r}
+\ddot{\bf r} &= -G m_0 \frac{\bf r}{r^3} - G m_1 \frac{\bf r}{r^3} \\
+\ddot{\bf r} &= -G(m_0 + m_1)  \frac{\bf r}{r^3} \\
+\ddot{\bf r} &= -\mu \frac{\bf r}{r^3}
 \end{align}
 $$
 
 Where we write the *standard gravitational parameter*, $\mu = G(m_0 + m_1)$.
 
-Lets take a moment to compare with our previous results.
+Lets take a moment to compare with our previous results. Where we had a state vector of 12 quantities before, $S = [{\bf r}_0, {\bf r}_1, {\bf \dot{r}}_0, {\bf \dot{r}}_1]$,
 
 $$
 \begin{align}
-\ddot{\bf r}_0 &= G m_1 \frac{\bf r}{r^3} \\
-\ddot{\bf r}_1 &= - G m_0 \frac{\bf r}{r^3} \\
+\ddot{\bf r}_0 &= -G m_1 \frac{\ddot{\bf r}_0 - \ddot{\bf r}_1}{r^3} \\
+\ddot{\bf r}_1 &= -G m_0 \frac{\ddot{\bf r}_1 - \ddot{\bf r}_0}{r^3} \\
 \end{align}
 $$
 
-Where we had a state vector of 12 quantities before, $S = [{\bf r}_0, {\bf r}_1, {\bf \dot{r}}_0, {\bf \dot{r}}_1]$, we now have a single equation, with only six, $S = [{\bf r}, {\bf \dot{r}}]$.
+we now have a single equation, with only six, $S = [{\bf r}, {\bf \dot{r}}]$.
 
 $$
-\ddot{\bf r} = -\frac{\mu}{r^3} {\bf r}
+\ddot{\bf r} = -G(m_0 + m_1) \frac{\bf r}{r^3}
 $$
