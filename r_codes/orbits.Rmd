@@ -45,7 +45,7 @@ df[2, ] <- data.frame(m = 5.0e25, x = 150, y = 50)
 ```
 
 ```{r echo=FALSE, fig.height=2, out.width="50%"}
-r2d3(script="./scripts/rcog.js", data=df,  options=list(rel = "true", cog = "false"))
+r2d3(script="./scripts/rcog.js", data=df, options=list(relative = "true", lines = "true", text = "true", masses = "true"))
 ```
 
 ***

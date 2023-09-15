@@ -47,38 +47,44 @@ var pathString = (x0, y0, x1, y1) => {
 svg.append("g").call(yAxis);
 svg.append("g").call(xAxis);
 
-var lines = svg.append("g")
-  .attr("transform", xyOffset)
-    .selectAll("path")
-    .data(data).enter().append("path")
-      .attr("id", function(d, i) { return "r" + i; })
-      .attr("fill", "black")
-      .attr("stroke", "black")
-      .attr("stroke-width", 1)
-      .attr("d", function(d) { return pathString(0, 0, d.x, d.y) })
-      .attr("marker-end", "url(#triangle)")
+if(options.lines == "true") {
+    var lines = svg.append("g")
+      .attr("transform", xyOffset)
+        .selectAll("path")
+        .data(data).enter().append("path")
+          .attr("id", function(d, i) { return "r" + i; })
+          .attr("fill", "black")
+          .attr("stroke", "black")
+          .attr("stroke-width", 1)
+          .attr("d", function(d) { return pathString(0, 0, d.x, d.y) })
+          .attr("marker-end", "url(#triangle)")
+}
 
-var masses = svg.append("g")
-  .attr("transform", xyOffset)
-    .selectAll("circle")
-    .data(data).enter().append("circle")
-        .attr("id", function(d, i) { return "m" + i; })
-        .attr("r", function(d) { return d.m / maxMass * 6; })
-        .attr("cx", function(d) { return d.x; })
-        .attr("cy", function(d) { return -d.y; })
-        .attr("fill", "black");
+if(options.text == "true") {
+    var text = svg.append("g")
+      .attr("transform", xyOffset)
+        .selectAll("text")
+        .data(data).enter().append("text")
+          .attr("text-anchor", "middle")
+          .attr("dy", "1em")
+          .attr("font-size", "10")
+            .append("textPath")
+            .attr("xlink:href",  function(d, i) { return "#r" + i; })
+            .attr("startOffset", so = "45%")
+            .text(function(d, i) { return "r" + i; });
+}
 
-var text = svg.append("g")
-  .attr("transform", xyOffset)
-    .selectAll("text")
-    .data(data).enter().append("text")
-      .attr("text-anchor", "middle")
-      .attr("dy", "1em")
-      .attr("font-size", "10")
-        .append("textPath")
-        .attr("xlink:href",  function(d, i) { return "#r" + i; })
-        .attr("startOffset", so = "45%")
-        .text(function(d, i) { return "r" + i; });
+if(options.masses == "true") {
+    var masses = svg.append("g")
+      .attr("transform", xyOffset)
+        .selectAll("circle")
+        .data(data).enter().append("circle")
+            .attr("id", function(d, i) { return "m" + i; })
+            .attr("r", function(d) { return d.m / maxMass * 6; })
+            .attr("cx", function(d) { return d.x; })
+            .attr("cy", function(d) { return -d.y; })
+            .attr("fill", "black");
+}
 
 var vec = (g, id, x1, y1, x2, y2) => g
     .attr("transform", xyOffset)
@@ -110,7 +116,7 @@ var mass = (g, id, m, x, y) => g
     .attr("cx", x)
     .attr("cy", -y);
 
-if(options.rel == "true") {
+if(options.relative == "true") {
     // Hand generate relative vector and center of gravity
     svg.append("g").call(vec, "r", data[0].x, data[0].y, data[1].x, data[1].y);
     svg.append("g").call(vecText, "r", "55%");
