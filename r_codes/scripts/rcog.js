@@ -80,7 +80,7 @@ if(options.masses == "true") {
         .selectAll("circle")
         .data(data).enter().append("circle")
             .attr("id", function(d, i) { return "m" + i; })
-            .attr("r", function(d) { return d.m / maxMass * 6; })
+            .attr("r", function(d) { return d.m / maxMass * 8; })
             .attr("cx", function(d) { return d.x; })
             .attr("cy", function(d) { return -d.y; })
             .attr("fill", "black");
