@@ -70,7 +70,7 @@ if(options.text == "true") {
           .attr("font-size", "10")
             .append("textPath")
             .attr("xlink:href",  function(d, i) { return "#r" + i; })
-            .attr("startOffset", so = "45%")
+            .attr("startOffset", "45%")
             .text(function(d, i) { return "r" + i; });
 }
 
