@@ -68,3 +68,48 @@ $$
 So the acceleration is along the path between the two and decreases as the square of the distance. The equations are proportional to some negative constant, signalling an attractive force relating to a characteristic mass.
 
 We want to recast this vector equation into some scalar form and see if we can tease out some of the properties of the motion.
+
+We cross both sides of the equation by the angular momentum, $h$:
+
+$$
+\begin{align}
+\ddot{\bf r} \times {\bf h} &= -\left(\frac{\mu}{r^3}\right) {\bf r} \times {\bf h} \\
+\frac{\mathrm{d}}{\mathrm{d} t}(\dot{\bf r} \times {\bf h}) - \dot{\bf r} \times \dot{\bf h} &= -\left(\frac{\mu}{r^3}\right) {\bf r} \times {\bf h} \\
+\frac{\mathrm{d}}{\mathrm{d} t}(\dot{\bf r} \times {\bf h}) &= \mu \frac{\mathrm{d}}{\mathrm{d} t} \frac{\bf r}{r} \\
+\frac{\mathrm{d}}{\mathrm{d} t}\left(\dot{\bf r} \times {\bf h} - \mu \frac{\bf r}{r} \right) &= {\bf 0}
+\end{align}
+$$
+
+Where we have cancelled the term $\dot{\bf r} \times \dot{\bf h}$ since the angular momentum is constant.
+
+Integrating, we get
+
+$$
+\dot{\bf r} \times {\bf h} - \mu \frac{\bf r}{r} = {\bf B}
+$$
+
+where $B$ is the Laplace vector. Rearranging with the apse line, ${\bf e} = {\bf B}/\mu$:
+
+$$
+\frac{\bf r}{r} + {\bf e} = \frac{\dot{\bf r} \times {\bf h}}{\mu}
+$$
+
+Now taking the dot product with ${\bf r}$:
+
+$$
+\begin{align}
+\frac{\bf r}{r} + {\bf e} &= \frac{\dot{\bf r} \times {\bf h}}{\mu} \\
+\frac{\bf r}{r} \cdot {\bf r} &= \left( \frac{\dot{\bf r} \times {\bf h}}{\mu} - {\bf e} \right) \cdot {\bf r} \\
+\end{align}
+$$
+
+Introducing the true anomaly, $\nu$,
+
+$$
+\nu = \arccos \frac{{\bf e}\cdot{\bf r}}{er}
+$$
+we find the orbit equation.
+
+$$
+r = \frac{h^2}{\mu}\frac{1}{1 + e cos(\nu)}
+$$
