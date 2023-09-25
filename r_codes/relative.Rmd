@@ -85,10 +85,10 @@ Where we have cancelled the term $\dot{\bf r} \times \dot{\bf h}$ since the angu
 Integrating, we get
 
 $$
-\dot{\bf r} \times {\bf h} - \mu \frac{\bf r}{r} = {\bf B}
+\dot{\bf r} \times {\bf h} - \mu \frac{\bf r}{r} = \mu {\bf e}
 $$
 
-where $B$ is the Laplace vector. Rearranging with the apse line, ${\bf e} = {\bf B}/\mu$:
+where the eccentricity vector, ${\bf e}$, is a constant vector along the *apse line*, the line between the farthest and nearest points of the orbit. Rearranging:
 
 $$
 \frac{\bf r}{r} + {\bf e} = \frac{\dot{\bf r} \times {\bf h}}{\mu}
@@ -100,15 +100,16 @@ $$
 \begin{align}
 \frac{\bf r}{r} + {\bf e} &= \frac{\dot{\bf r} \times {\bf h}}{\mu} \\
 \frac{\bf r}{r} \cdot {\bf r} &= \left( \frac{\dot{\bf r} \times {\bf h}}{\mu} - {\bf e} \right) \cdot {\bf r} \\
+r &= \frac{{\bf r} \cdot \left( \dot{\bf r} \times {\bf h}\right)}{\mu} - {\bf r} \cdot {\bf e}
 \end{align}
 $$
 
-Introducing the true anomaly, $\nu$,
+Introducing the *true anomaly*, $\nu$,
 
 $$
 \nu = \arccos \frac{{\bf e}\cdot{\bf r}}{er}
 $$
-we find the orbit equation.
+we find the *orbit equation*.
 
 $$
 r = \frac{h^2}{\mu}\frac{1}{1 + e cos(\nu)}
