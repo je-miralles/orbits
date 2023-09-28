@@ -9,10 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Emilio Miralles" />
 
-<meta name="date" content="2023-07-24" />
+<meta name="date" content="2023-09-15" />
 
-<title>Orbits again!</title>
+<title>Relative motion</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -2128,53 +2129,122 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Orbits again!</h1>
-<h4 class="date">2023-07-24</h4>
+<h1 class="title toc-ignore">Relative motion</h1>
+<h4 class="author">Emilio Miralles</h4>
+<h4 class="date">2023-09-15</h4>
 
 </div>
 
 
-<p><a href="./orbits.html">Last time</a> we solved the motion of two
-bodies numerically from an <em>inertial</em> reference frame.</p>
-<p>Now we introduce the notion of the center of mass, or
-<em>barycenter</em>, of the system, which is just a sort of weighted
-average of the positions.</p>
-<p><span class="math display">\[
-{\bf R}_\mathrm{COG} = \frac{m_0 {\bf r}_0 + m_1 {\bf r}_1}{m_0 + m_1}
-\]</span></p>
-<p>It follows that the velocity and acceleration are:</p>
+<p>We now use the approximate masses of the sun and earth system.</p>
+<pre class="r"><code>m_sun &lt;- 2.0e30
+m_earth &lt;- 6.0e24
+df &lt;- data.frame(m = c(m_sun, m_earth), x = c(100, 150), y = c(120, 50))</code></pre>
+<p>Whoops, the earth disappears!</p>
+<div class="r2d3 html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-157000204bee0293b665" style="width:50%;height:192px;"></div>
+<script type="application/json" data-for="htmlwidget-157000204bee0293b665">{"x":{"data":{"m":[2e+30,6e+24],"x":[100,150],"y":[120,50]},"type":"data.frame","container":"svg","options":{"relative":"true","masses":"true"},"script":"var d3Script = function(d3, r2d3, data, svg, width, height, options, theme, console) {\nthis.d3 = d3;\n\nsvg = d3.select(svg.node());\n/* R2D3 Source File:  ./scripts/rcog.js */\n// !preview r2d3 data=data.frame(m=c(1.0e26, 5.0e25), x=c(100, 150), y=c(120, 50))\n\n// Arrow marker\nsvg.append(\"svg:defs\").append(\"svg:marker\")\n    .attr(\"id\", \"triangle\")\n    .attr(\"refX\", 10)\n    .attr(\"refY\", 4)\n    .attr(\"markerWidth\", 10)\n    .attr(\"markerHeight\", 10)\n    .attr(\"markerUnits\",\"userSpaceOnUse\")\n    .attr(\"orient\", \"auto\")\n    .append(\"path\")\n    .attr(\"d\", \"M 0 0 L 0 8 L 10 4 L 0 0\")\n    .attr(\"fill\", \"black\");\n\n// Axes\nvar margin = ({top: 5, right: 5, bottom: 25, left: 25})\nvar xOffset = `translate(${margin.left}, 0)`;\nvar yOffset = `translate(0, ${height - margin.bottom})`;\nvar xyOffset = `translate(${margin.left}, ${height - margin.bottom})`;\n\nvar maxMass = Math.max(...data.map(({ m }) => m));\n\nvar x = d3.scaleLinear()\n    .domain([0, height])\n    .range([margin.left, height + margin.left]);\nvar y = d3.scaleLinear()\n    .domain([0, -height])\n    .range([height - margin.bottom, -margin.bottom]);\n\nvar yAxis = g => g\n    .attr(\"transform\", xOffset)\n    .call(d3.axisLeft(y).ticks(4));\nvar xAxis = g => g\n    .attr(\"transform\", yOffset)\n    .call(d3.axisBottom(x).ticks(4));\n\n// Paths\nvar pathString = (x0, y0, x1, y1) => {\n    const path = d3.path();\n    path.moveTo(x0, -y0);\n    path.lineTo(x1, -y1);\n    return path.toString(); // eg. \"M40,0A40,40,0,1,1,-40,0A40,40,0,1,1,40,0\"\n}\n\n// Image\nsvg.append(\"g\").call(yAxis);\nsvg.append(\"g\").call(xAxis);\n\nif(options.lines == \"true\") {\n    var lines = svg.append(\"g\")\n      .attr(\"transform\", xyOffset)\n        .selectAll(\"path\")\n        .data(data).enter().append(\"path\")\n          .attr(\"id\", function(d, i) { return \"r\" + i; })\n          .attr(\"fill\", \"black\")\n          .attr(\"stroke\", \"black\")\n          .attr(\"stroke-width\", 1)\n          .attr(\"d\", function(d) { return pathString(0, 0, d.x, d.y) })\n          .attr(\"marker-end\", \"url(#triangle)\")\n}\n\nif(options.text == \"true\") {\n    var text = svg.append(\"g\")\n      .attr(\"transform\", xyOffset)\n        .selectAll(\"text\")\n        .data(data).enter().append(\"text\")\n          .attr(\"text-anchor\", \"middle\")\n          .attr(\"dy\", \"1em\")\n          .attr(\"font-size\", \"10\")\n            .append(\"textPath\")\n            .attr(\"xlink:href\",  function(d, i) { return \"#r\" + i; })\n            .attr(\"startOffset\", \"45%\")\n            .text(function(d, i) { return \"r\" + i; });\n}\n\nif(options.masses == \"true\") {\n    var masses = svg.append(\"g\")\n      .attr(\"transform\", xyOffset)\n        .selectAll(\"circle\")\n        .data(data).enter().append(\"circle\")\n            .attr(\"id\", function(d, i) { return \"m\" + i; })\n            .attr(\"r\", function(d) { return d.m / maxMass * 8; })\n            .attr(\"cx\", function(d) { return d.x; })\n            .attr(\"cy\", function(d) { return -d.y; })\n            .attr(\"fill\", \"black\");\n}\n\n// TODO\nif(options.masstext == \"true\") {\n    var masstext = svg.append(\"g\")\n      .attr(\"transform\", xyOffset)\n        .selectAll(\"text\")\n        .data(data).enter().append(\"text\")\n          .attr(\"text-anchor\", \"right\")\n          //.attr(\"dy\", \"1em\")\n          .attr(\"font-size\", \"10\")\n            //.append(\"textPath\")\n            //.attr(\"xlink:href\",  function(d, i) { return \"#r\" + i; })\n            //.attr(\"startOffset\", so = \"45%\")\n            //.text(function(d, i) { return \"r\" + i; });\n}\n\nvar vec = (g, id, x1, y1, x2, y2) => g\n    .attr(\"transform\", xyOffset)\n    .append(\"path\")\n    .attr(\"id\", id)\n    .attr(\"fill\", \"black\")\n    .attr(\"stroke\", \"black\")\n    .attr(\"stroke-width\", 1)\n    .attr(\"d\", pathString(x1,y1,x2,y2))\n    .attr(\"marker-end\", \"url(#triangle)\");\n\nvar vecText = (g, id, so=\"45%\") => g\n    .attr(\"transform\", xyOffset)\n    .append(\"text\")\n    .attr(\"text-anchor\", \"middle\")\n    .attr(\"dy\", \"1em\")\n    .attr(\"font-size\", \"10\")\n      .append(\"textPath\")\n      .attr(\"xlink:href\", '#' + id)\n      .attr(\"startOffset\", so)\n      .text(id);\n\nvar mass = (g, id, m, x, y) => g\n    .attr(\"transform\", xyOffset)\n    .append(\"circle\")\n    .attr(\"fill\", \"black\")\n    .attr(\"id\", id)\n    .attr(\"r\", m)\n    .attr(\"cx\", x)\n    .attr(\"cy\", -y);\n\nif(options.relative == \"true\") {\n    // Hand generate relative vector and center of gravity\n    svg.append(\"g\").call(vec, \"r\", data[0].x, data[0].y, data[1].x, data[1].y);\n    svg.append(\"g\").call(vecText, \"r\", \"55%\");\n}\n\nif(options.cog == \"true\") {\n    // TODO COG assumes just two particles\n    // R_COG <- (m_1*r_1 + m_2*r_2) / (m_1 + m_2)\n    svg.append(\"g\").call(vec, \"COG\", 0, 0,\n                                (data[0].m*data[0].x + data[1].m*data[1].x) / (data[0].m + data[1].m),\n                                (data[0].m*data[0].y + data[1].m*data[1].y) / (data[0].m + data[1].m));\n    svg.append(\"g\").call(vecText, \"COG\");\n}\n};","style":null,"version":6,"theme":{"default":{"background":"#FFFFFF","foreground":"#000000"},"runtime":null},"useShadow":true},"evals":[],"jsHooks":[]}</script>
+<p>The sizes on the figure correspond to the masses, not the dimensions;
+we are treating these as point particles with no internal structure.
+This is just to say that the sun is massively more… massive than the
+earth, so we want to see how that works out for the physics of their
+motion.</p>
+<p>Lets take a moment to review our previous results. We had a state
+vector of 12 quantities, <span class="math inline">\(S = [{\bf r}_0,
+{\bf r}_1, {\bf \dot{r}}_0, {\bf \dot{r}}_1]\)</span>, and a system of
+two differential equations describing the motion of the bodies:</p>
 <p><span class="math display">\[
 \begin{align}
-{\bf \dot{R}}_\mathrm{COG} &amp;= \frac{m_0 {\bf \dot{r}}_0 + m_1 {\bf
-\dot{r}}_1}{m_0 + m_1} \\
-{\bf \ddot{R}}_\mathrm{COG} &amp;= \frac{m_0 {\bf \ddot{r}}_0 + m_1 {\bf
-\ddot{r}}_1}{m_0 + m_1} \\
+\ddot{\bf r}_0 &amp;= -G m_1 \frac{{\bf r}_0 - {\bf r}_1}{r^3} \\
+\ddot{\bf r}_1 &amp;= -G m_0 \frac{{\bf r}_1 - {\bf r}_0}{r^3} \\
 \end{align}
 \]</span></p>
-<p>Since the only force we consider here is the gravitational attraction
-between the masses, we found previously that <span class="math inline">\({\bf F}_0 = -{\bf F}_1\)</span>, so substituting
-<span class="math inline">\({\bf F}_i = m {\bf \ddot{r}}_i\)</span>:</p>
+<p>Note the signs chosen to show the similar form of the equations.</p>
+<p>Now taking <span class="math inline">\({\bf r}\)</span> as the
+position of the earth, <span class="math inline">\(m_1\)</span> around
+the sun, <span class="math inline">\(m_0\)</span>, we have equations for
+its position, velocity, and acceleration:</p>
 <p><span class="math display">\[
-m_0 {\bf \ddot{r}}_0 + m_1 {\bf \ddot{r}}_1 = 0
+{\bf r} = {\bf r}_1 - {\bf r}_0 \\
+\dot{\bf r} = \dot{\bf r}_1 - \dot{\bf r}_0 \\
+\ddot{\bf r} = \ddot{\bf r}_1 - \ddot{\bf r}_0
 \]</span></p>
-<p>So we see that <span class="math inline">\({\bf
-\ddot{R}}_\mathrm{COG} = 0\)</span>: the barycenter is not accelerating,
-and is therefore an inertial reference frame.</p>
-<hr />
-<p><strong>Example</strong></p>
-<p>Our previous example written more compactly:</p>
-<pre class="r"><code>df &lt;- data.frame(m = c(1.0e26, 5.0e25), x = c(100, 150), y = c(120, 50))</code></pre>
-<div class="r2d3 html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-23a07306af9143a38f7c" style="width:50%;height:192px;"></div>
-<script type="application/json" data-for="htmlwidget-23a07306af9143a38f7c">{"x":{"data":{"m":[1e+26,5e+25],"x":[100,150],"y":[120,50]},"type":"data.frame","container":"svg","options":{"cog":"true","lines":"true","text":"true","masses":"true"},"script":"var d3Script = function(d3, r2d3, data, svg, width, height, options, theme, console) {\nthis.d3 = d3;\n\nsvg = d3.select(svg.node());\n/* R2D3 Source File:  ./scripts/rcog.js */\n// !preview r2d3 data=data.frame(m=c(1.0e26, 5.0e25), x=c(100, 150), y=c(120, 50))\n\n// Arrow marker\nsvg.append(\"svg:defs\").append(\"svg:marker\")\n    .attr(\"id\", \"triangle\")\n    .attr(\"refX\", 10)\n    .attr(\"refY\", 4)\n    .attr(\"markerWidth\", 10)\n    .attr(\"markerHeight\", 10)\n    .attr(\"markerUnits\",\"userSpaceOnUse\")\n    .attr(\"orient\", \"auto\")\n    .append(\"path\")\n    .attr(\"d\", \"M 0 0 L 0 8 L 10 4 L 0 0\")\n    .attr(\"fill\", \"black\");\n\n// Axes\nvar margin = ({top: 5, right: 5, bottom: 25, left: 25})\nvar xOffset = `translate(${margin.left}, 0)`;\nvar yOffset = `translate(0, ${height - margin.bottom})`;\nvar xyOffset = `translate(${margin.left}, ${height - margin.bottom})`;\n\nvar maxMass = Math.max(...data.map(({ m }) => m));\n\nvar x = d3.scaleLinear()\n    .domain([0, height])\n    .range([margin.left, height + margin.left]);\nvar y = d3.scaleLinear()\n    .domain([0, -height])\n    .range([height - margin.bottom, -margin.bottom]);\n\nvar yAxis = g => g\n    .attr(\"transform\", xOffset)\n    .call(d3.axisLeft(y).ticks(4));\nvar xAxis = g => g\n    .attr(\"transform\", yOffset)\n    .call(d3.axisBottom(x).ticks(4));\n\n// Paths\nvar pathString = (x0, y0, x1, y1) => {\n    const path = d3.path();\n    path.moveTo(x0, -y0);\n    path.lineTo(x1, -y1);\n    return path.toString(); // eg. \"M40,0A40,40,0,1,1,-40,0A40,40,0,1,1,40,0\"\n}\n\n// Image\nsvg.append(\"g\").call(yAxis);\nsvg.append(\"g\").call(xAxis);\n\nif(options.lines == \"true\") {\n    var lines = svg.append(\"g\")\n      .attr(\"transform\", xyOffset)\n        .selectAll(\"path\")\n        .data(data).enter().append(\"path\")\n          .attr(\"id\", function(d, i) { return \"r\" + i; })\n          .attr(\"fill\", \"black\")\n          .attr(\"stroke\", \"black\")\n          .attr(\"stroke-width\", 1)\n          .attr(\"d\", function(d) { return pathString(0, 0, d.x, d.y) })\n          .attr(\"marker-end\", \"url(#triangle)\")\n}\n\nif(options.text == \"true\") {\n    var text = svg.append(\"g\")\n      .attr(\"transform\", xyOffset)\n        .selectAll(\"text\")\n        .data(data).enter().append(\"text\")\n          .attr(\"text-anchor\", \"middle\")\n          .attr(\"dy\", \"1em\")\n          .attr(\"font-size\", \"10\")\n            .append(\"textPath\")\n            .attr(\"xlink:href\",  function(d, i) { return \"#r\" + i; })\n            .attr(\"startOffset\", \"45%\")\n            .text(function(d, i) { return \"r\" + i; });\n}\n\nif(options.masses == \"true\") {\n    var masses = svg.append(\"g\")\n      .attr(\"transform\", xyOffset)\n        .selectAll(\"circle\")\n        .data(data).enter().append(\"circle\")\n            .attr(\"id\", function(d, i) { return \"m\" + i; })\n            .attr(\"r\", function(d) { return d.m / maxMass * 8; })\n            .attr(\"cx\", function(d) { return d.x; })\n            .attr(\"cy\", function(d) { return -d.y; })\n            .attr(\"fill\", \"black\");\n}\n\n// TODO\nif(options.masstext == \"true\") {\n    var masstext = svg.append(\"g\")\n      .attr(\"transform\", xyOffset)\n        .selectAll(\"text\")\n        .data(data).enter().append(\"text\")\n          .attr(\"text-anchor\", \"right\")\n          //.attr(\"dy\", \"1em\")\n          .attr(\"font-size\", \"10\")\n            //.append(\"textPath\")\n            //.attr(\"xlink:href\",  function(d, i) { return \"#r\" + i; })\n            //.attr(\"startOffset\", so = \"45%\")\n            //.text(function(d, i) { return \"r\" + i; });\n}\n\nvar vec = (g, id, x1, y1, x2, y2) => g\n    .attr(\"transform\", xyOffset)\n    .append(\"path\")\n    .attr(\"id\", id)\n    .attr(\"fill\", \"black\")\n    .attr(\"stroke\", \"black\")\n    .attr(\"stroke-width\", 1)\n    .attr(\"d\", pathString(x1,y1,x2,y2))\n    .attr(\"marker-end\", \"url(#triangle)\");\n\nvar vecText = (g, id, so=\"45%\") => g\n    .attr(\"transform\", xyOffset)\n    .append(\"text\")\n    .attr(\"text-anchor\", \"middle\")\n    .attr(\"dy\", \"1em\")\n    .attr(\"font-size\", \"10\")\n      .append(\"textPath\")\n      .attr(\"xlink:href\", '#' + id)\n      .attr(\"startOffset\", so)\n      .text(id);\n\nvar mass = (g, id, m, x, y) => g\n    .attr(\"transform\", xyOffset)\n    .append(\"circle\")\n    .attr(\"fill\", \"black\")\n    .attr(\"id\", id)\n    .attr(\"r\", m)\n    .attr(\"cx\", x)\n    .attr(\"cy\", -y);\n\nif(options.relative == \"true\") {\n    // Hand generate relative vector and center of gravity\n    svg.append(\"g\").call(vec, \"r\", data[0].x, data[0].y, data[1].x, data[1].y);\n    svg.append(\"g\").call(vecText, \"r\", \"55%\");\n}\n\nif(options.cog == \"true\") {\n    // TODO COG assumes just two particles\n    // R_COG <- (m_1*r_1 + m_2*r_2) / (m_1 + m_2)\n    svg.append(\"g\").call(vec, \"COG\", 0, 0,\n                                (data[0].m*data[0].x + data[1].m*data[1].x) / (data[0].m + data[1].m),\n                                (data[0].m*data[0].y + data[1].m*data[1].y) / (data[0].m + data[1].m));\n    svg.append(\"g\").call(vecText, \"COG\");\n}\n};","style":null,"version":6,"theme":{"default":{"background":"#FFFFFF","foreground":"#000000"},"runtime":null},"useShadow":true},"evals":[],"jsHooks":[]}</script>
-<hr />
-<p>The barycenter lies on the line between the masses and a little
-closer to the larger of the two, <span class="math inline">\(m_0\)</span>.</p>
-<div id="links" class="section level2">
-<h2>Links</h2>
-<ul>
-<li><a href="./index.html">Index</a></li>
-<li><a href="./orbits.html">Orbits!</a></li>
-</ul>
+<p>Substituting the accelerations derived from Newton’s <a href="https://en.wikipedia.org/wiki/Newton%27s_law_of_universal_gravitation">law
+of gravitation</a>, we develop the equations of motion.</p>
+<p><span class="math display">\[
+\begin{align}
+\ddot{\bf r} &amp;= \ddot{\bf r}_1 - \ddot{\bf r}_0 \\
+\ddot{\bf r} &amp;= -G m_0 \frac{\bf r}{r^3} - G m_1 \frac{\bf r}{r^3}
+\\
+\ddot{\bf r} &amp;= -G(m_0 + m_1) \frac{\bf r}{r^3}
+\end{align}
+\]</span></p>
+<p>we now have a single equation, with only six quantities, <span class="math inline">\(S = [{\bf r}, {\bf \dot{r}}]\)</span>.</p>
+<div id="scalar-form" class="section level2">
+<h2>Scalar form</h2>
+<p>Writing the <em>standard gravitational parameter</em>, <span class="math inline">\(\mu = G(m_0 + m_1)\)</span>,</p>
+<p><span class="math display">\[
+\ddot{\bf r} = -\mu \frac{\bf r}{r^3} = -\mu \frac{\hat{\bf r}}{r^2}
+\]</span></p>
+<p>So the acceleration is along the path between the two and decreases
+as the square of the distance. The equations are proportional to some
+negative constant, signalling an attractive force relating to a
+characteristic mass.</p>
+<p>We want to recast this vector equation into some scalar form and see
+if we can tease out some of the properties of the motion.</p>
+<p>We cross both sides of the equation by the angular momentum, <span class="math inline">\(h\)</span>:</p>
+<p><span class="math display">\[
+\begin{align}
+\ddot{\bf r} \times {\bf h} &amp;= -\left(\frac{\mu}{r^3}\right) {\bf r}
+\times {\bf h} \\
+\frac{\mathrm{d}}{\mathrm{d} t}(\dot{\bf r} \times {\bf h}) - \dot{\bf
+r} \times \dot{\bf h} &amp;= -\left(\frac{\mu}{r^3}\right) {\bf r}
+\times {\bf h} \\
+\frac{\mathrm{d}}{\mathrm{d} t}(\dot{\bf r} \times {\bf h}) &amp;= \mu
+\frac{\mathrm{d}}{\mathrm{d} t} \frac{\bf r}{r} \\
+\frac{\mathrm{d}}{\mathrm{d} t}\left(\dot{\bf r} \times {\bf h} - \mu
+\frac{\bf r}{r} \right) &amp;= {\bf 0}
+\end{align}
+\]</span></p>
+<p>Where we have cancelled the term <span class="math inline">\(\dot{\bf
+r} \times \dot{\bf h}\)</span> since the angular momentum is
+constant.</p>
+<p>Integrating, we get</p>
+<p><span class="math display">\[
+\dot{\bf r} \times {\bf h} - \mu \frac{\bf r}{r} = \mu {\bf e}
+\]</span></p>
+<p>where the eccentricity vector, <span class="math inline">\({\bf
+e}\)</span>, is a constant vector along the <em>apse line</em>, the line
+between the farthest and nearest points of the orbit. Rearranging:</p>
+<p><span class="math display">\[
+\frac{\bf r}{r} + {\bf e} = \frac{\dot{\bf r} \times {\bf h}}{\mu}
+\]</span></p>
+<p>Now taking the dot product with <span class="math inline">\({\bf
+r}\)</span>:</p>
+<p><span class="math display">\[
+\begin{align}
+\frac{\bf r}{r} + {\bf e} &amp;= \frac{\dot{\bf r} \times {\bf h}}{\mu}
+\\
+\frac{\bf r}{r} \cdot {\bf r} &amp;= \left( \frac{\dot{\bf r} \times
+{\bf h}}{\mu} - {\bf e} \right) \cdot {\bf r} \\
+r &amp;= \frac{{\bf r} \cdot \left( \dot{\bf r} \times {\bf
+h}\right)}{\mu} - {\bf r} \cdot {\bf e}
+\end{align}
+\]</span></p>
+<p>Introducing the <em>true anomaly</em>, <span class="math inline">\(\nu\)</span>,</p>
+<p><span class="math display">\[
+\nu = \arccos \frac{{\bf e}\cdot{\bf r}}{er}
+\]</span> we find the <em>orbit equation</em>.</p>
+<p><span class="math display">\[
+r = \frac{h^2}{\mu}\frac{1}{1 + e cos(\nu)}
+\]</span></p>
+<pre class="r"><code>E &lt;- -2.65096e33
+l &lt;- 2.66e40
+m_earth &lt;- 5.972e24
+G &lt;- 6.67e-11
+m_sun &lt;- 1.99e30
+ellipse_df &lt;- data.frame(E = -2.65096e33, l = 2.66e40, m = 5.972e24, G = 6.67e-11, M = 1.99e30)</code></pre>
+<div class="r2d3 html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-bccb968a82a76f7b72be" style="width:50%;height:192px;"></div>
+<script type="application/json" data-for="htmlwidget-bccb968a82a76f7b72be">{"x":{"data":{"E":[-2.65096e+33],"l":[2.66e+40],"m":[5.972e+24],"G":[6.67e-11],"M":[1.99e+30]},"type":"data.frame","container":"svg","options":{"orbit":"true"},"script":"var d3Script = function(d3, r2d3, data, svg, width, height, options, theme, console) {\nthis.d3 = d3;\n\nsvg = d3.select(svg.node());\n/* R2D3 Source File:  ./scripts/ellipse.js */\n// !preview r2d3 data=data.frame(E = -2.65096e33, l = 2.66e40, m = 5.972e24, G = 6.67e-11, M = 1.99e30)\n// data=data.frame(E, l, m, G, M)\n\nvar range = (start, stop, step) => Array.from({ length: (stop - start) / step + 1}, (_, i) => start + (i * step));\n\nvar mu_f = (G, M) => {\n  return G * M;\n};\n\nvar e_f = (E, l, m, mu) => {\n  return Math.sqrt(1 + (2*E*(l**2) / (m**3 * mu**2)) );\n};\n\nvar r_f = (l, m, mu, e, theta) => {\n  return l**2 / (m**2 * mu) / (1 + e*Math.cos(Math.PI*theta/180));\n};\n\nvar ellipse_coords = (E, l, m, G, M) => {\n    var mu = mu_f(G, M);\n    var e = e_f(E, l, m, mu);\n\n    return range(0, 360, 1).map((theta) => {\n        return ({\n          \"theta_r\": Math.PI*theta/180,\n          \"r_f\": r_f(l, m, mu, e, theta),\n          \"x\": r_f(l, m, mu, e, theta)*Math.cos(Math.PI*theta/180),\n          \"y\": r_f(l, m, mu, e, theta)*Math.sin(Math.PI*theta/180),\n          \"mu\": mu,\n          \"e\": e\n        });\n    });\n};\n\nvar coords = ellipse_coords(data[0].E, data[0].l, data[0].m, data[0].G, data[0].M);\n\nvar max_coord = (coords) => {\n  var xVals_abs = coords.map(function(coord) { return Math.abs(coord.x); });\n  var yVals_abs = coords.map(function(coord) { return Math.abs(coord.y); });\n  var maxX  = Math.max.apply(Math, xVals_abs);\n  var maxY  = Math.max.apply(Math, yVals_abs);\n  var max = Math.max.apply(Math, [maxX, maxY]);\n  return max;\n};\n\nvar maxCoord = max_coord(coords);\n\n// Axes\nvar margin = ({top: 25, right: 25, bottom: 25, left: 25});\nvar xOffset = `translate(${(margin.left + height - margin.right)/2}, 0)`;\nvar yOffset = `translate(0, ${(margin.top + height - margin.bottom)/2})`;\nvar xyOffset = `translate(${(margin.left + height - margin.right)/2}, ${(margin.top + height - margin.bottom)/2})`;\n\nvar x = d3.scaleLinear()\n    .domain([-maxCoord, maxCoord])\n    .range([margin.left, height - margin.right]);\nvar y = d3.scaleLinear()\n    .domain([-maxCoord, maxCoord])\n    .range([margin.top, height - margin.bottom]);\n\nvar coords_scaled = coords.map((d) => ({x: x(d.x), y: y(d.y)}));\n\nvar yAxis = g => g\n    .attr(\"transform\", xOffset)\n    .call(d3.axisLeft(y).tickValues([]).tickSizeOuter(0));\nvar xAxis = g => g\n    .attr(\"transform\", yOffset)\n    .call(d3.axisBottom(x).ticks(3));\n\n// Paths\nvar ellipse_path_string = (coords) =>{\n  const path = d3.path();\n  coords.forEach(function (v, i) {\n      if (i == 0) {\n        path.moveTo(v.x, v.y);\n      } else {\n        path.lineTo(v.x, v.y);\n      }\n  });\n  return path.toString();\n};\n\n// Image\nsvg.append(\"g\").call(yAxis);\nsvg.append(\"g\").call(xAxis);\n\nif(options.orbit == \"true\"){\n    var orbit = svg.append(\"g\").append(\"path\")\n        .attr(\"fill\", \"none\")\n        .attr(\"stroke\", \"black\")\n        .attr(\"stroke-width\", 2)\n        .attr(\"d\", ellipse_path_string(coords_scaled));\n};\n};","style":null,"version":6,"theme":{"default":{"background":"#FFFFFF","foreground":"#000000"},"runtime":null},"useShadow":true},"evals":[],"jsHooks":[]}</script>
 </div>
 
 
