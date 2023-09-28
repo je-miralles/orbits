@@ -114,3 +114,15 @@ we find the *orbit equation*.
 $$
 r = \frac{h^2}{\mu}\frac{1}{1 + e cos(\nu)}
 $$
+```{r}
+E <- -2.65096e33
+l <- 2.66e40
+m_earth <- 5.972e24
+G <- 6.67e-11
+m_sun <- 1.99e30
+ellipse_df <- data.frame(E = -2.65096e33, l = 2.66e40, m = 5.972e24, G = 6.67e-11, M = 1.99e30)
+```
+
+```{r echo=FALSE, fig.height=2, out.width="50%"}
+r2d3(script="./scripts/ellipse.js", data=ellipse_df, options=list(orbit = "true"))
+```
