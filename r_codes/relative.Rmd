@@ -116,20 +116,37 @@ Introducing the *true anomaly*, $\nu$,
 $$
 \nu = \arccos \frac{{\bf e}\cdot{\bf r}}{er}
 $$
+
 we find the *orbit equation*.
 
 $$
 r = \frac{h^2}{\mu}\frac{1}{1 + e cos(\nu)}
 $$
+
+## Drawing Ellipses
+
 ```{r}
-E <- -2.65096e33
-l <- 2.66e40
+E_earth <- -2.65096e33
+l_earth <- 2.66e40
 m_earth <- 5.972e24
 G <- 6.67e-11
 m_sun <- 1.99e30
-ellipse_df <- data.frame(E = -2.65096e33, l = 2.66e40, m = 5.972e24, G = 6.67e-11, M = 1.99e30)
+earth_df <- data.frame(E = E_earth, l = l_earth, m = m_earth, G = G, M = m_sun)
 ```
 
 ```{r echo=FALSE, fig.height=2, out.width="50%"}
-r2d3(script="./scripts/ellipse.js", data=ellipse_df, options=list(orbit = "true"))
+r2d3(script="./scripts/ellipse.js", data=earth_df, options=list(orbit = "true"))
+```
+
+```{r}
+E_pluto <- -1.2405e32
+l_pluto <- 1.2140e37
+m_pluto <- 1.303e22
+G <- 6.67e-11
+m_sun <- 1.99e30
+pluto_df <- data.frame(E = E_pluto, l = l_pluto, m = m_pluto, G = G, M = m_sun)
+```
+
+```{r echo=FALSE, fig.height=2, out.width="50%"}
+r2d3(script="./scripts/ellipse.js", data=pluto_df, options=list(orbit = "true"))
 ```
