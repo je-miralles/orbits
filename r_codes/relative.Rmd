@@ -126,8 +126,8 @@ $$
 ## Drawing Ellipses
 
 ```{r}
-E_earth <- -2.65096e33
-l_earth <- 2.66e40
+E_earth <- -1.5501749e36
+l_earth <- 1.1e39
 m_earth <- 5.972e24
 G <- 6.67e-11
 m_sun <- 1.99e30
