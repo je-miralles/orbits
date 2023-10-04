@@ -189,12 +189,12 @@ ellipse_coords <- function(E, l, m, G, M, theta_start, theta_end, stepsize = 1) 
 mu_sun <- mu_f(G, m_sun)
 e_earth_sun <- e_f(E_earth, l_earth, m_earth, mu_sun)
 r_earth_sun <- r_f(l_earth, m_earth, mu_sun, e_earth_sun, 0)
-ellipse_coords(E = E_earth, l = l_earth, m = m_earth, G = G, M = m_sun, 0, 360)
+head(ellipse_coords(E = E_earth, l = l_earth, m = m_earth, G = G, M = m_sun, 0, 360))
 ```
 
 ```{r}
 mu_sun <- mu_f(G, m_sun)
 e_pluto_sun <- e_f(E_pluto, l_pluto, m_pluto, mu_sun)
 r_pluto_sun <- r_f(l_pluto, m_pluto, mu_sun, e_pluto_sun, 0)
-ellipse_coords(E = E_pluto, l = l_pluto, m = m_pluto, G = G, M = m_sun, 0, 360)
+head(ellipse_coords(E = E_pluto, l = l_pluto, m = m_pluto, G = G, M = m_sun, 0, 360))
 ```
