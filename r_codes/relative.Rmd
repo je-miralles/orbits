@@ -150,3 +150,51 @@ pluto_df <- data.frame(E = E_pluto, l = l_pluto, m = m_pluto, G = G, M = m_sun)
 ```{r echo=FALSE, fig.height=2, out.width="50%"}
 r2d3(script="./scripts/ellipse.js", data=pluto_df, options=list(orbit = "true"))
 ```
+
+### Alternate (calculating within R)
+
+```{r}
+mu_f <- function(G, M) {
+  G * M
+}
+
+e_f <- function(E, l, m, mu) {
+  sqrt(1 + (2*E*(l**2) / (m**3 * mu**2)) )
+}
+
+Emin_f <- function(E, l, m, mu) {
+  -1/2 * (m**3 * mu**2) / (l**2)
+}
+
+r_f <- function(l, m, mu, e, theta) {
+  (l**2) / (m**2 * mu) / (1 + e*cos(pi*theta/180))
+}
+```
+
+```{r}
+ellipse_coords <- function(E, l, m, G, M, theta_start, theta_end, stepsize = 1) {
+  mu <- mu_f(G, M)
+  Emin <- Emin_f(E, l, m, mu)
+  # if (E < Emin) { E = Emin } # TODO: Need some way to warn about this
+  e <- e_f(E, l, m, mu)
+  orbit <- data.frame(r = r_f(l, m, mu, e, theta_start), theta = theta_start)
+  for(theta in (theta_start + 1):theta_end) {
+    orbit[nrow(orbit) + 1, ] <- data.frame(r = r_f(l, m, mu, e, theta), theta = theta)
+  }
+  data.frame(orbit = orbit, mu = mu, e = e, Emin = Emin)
+}
+```
+
+```{r}
+mu_sun <- mu_f(G, m_sun)
+e_earth_sun <- e_f(E_earth, l_earth, m_earth, mu_sun)
+r_earth_sun <- r_f(l_earth, m_earth, mu_sun, e_earth_sun, 0)
+ellipse_coords(E = E_earth, l = l_earth, m = m_earth, G = G, M = m_sun, 0, 360)
+```
+
+```{r}
+mu_sun <- mu_f(G, m_sun)
+e_pluto_sun <- e_f(E_pluto, l_pluto, m_pluto, mu_sun)
+r_pluto_sun <- r_f(l_pluto, m_pluto, mu_sun, e_pluto_sun, 0)
+ellipse_coords(E = E_pluto, l = l_pluto, m = m_pluto, G = G, M = m_sun, 0, 360)
+```
