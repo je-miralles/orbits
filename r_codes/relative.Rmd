@@ -69,7 +69,14 @@ So the acceleration is along the path between the two and decreases as the squar
 
 We want to recast this vector equation into some scalar form and see if we can tease out some of the properties of the motion.
 
-We cross both sides of the equation by the angular momentum, $h$:
+We cross both sides of the equation by the *specific angular momentum*, ${\bf h}$. Note that this differs from ${\bf l}$ by a factor of the mass.
+
+$$
+\begin{align}
+{\bf l} &= {\bf r} \times {\bf p} \\
+{\bf h} &= {\bf r} \times \dot{\bf r} = \frac{\bf l}{m}
+\end{align}
+$$
 
 $$
 \begin{align}
