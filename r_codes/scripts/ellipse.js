@@ -1,4 +1,4 @@
-// !preview r2d3 data=data.frame(E = -2.65096e33, l = 2.66e40, m = 5.972e24, G = 6.67e-11, M = 1.99e30)
+// !preview r2d3 data=data.frame(E = -2.65096e33, l = 2.66e40, m = 5.972e24, G = 6.67e-11, M = 1.99e30) options=list(orbit = "true")
 // data=data.frame(E, l, m, G, M)
 
 var range = (start, stop, step) => Array.from({ length: (stop - start) / step + 1}, (_, i) => start + (i * step));
