@@ -61,10 +61,10 @@ var coords_scaled = coords.map((d) => ({x: x(d.x), y: y(d.y)}));
 
 var yAxis = g => g
     .attr("transform", xOffset)
-    .call(d3.axisLeft(y).tickValues([]).tickSizeOuter(0));
+    .call(d3.axisLeft(y).tickValues([maxCoord/2, maxCoord]).tickFormat(d3.format(".2s")));
 var xAxis = g => g
     .attr("transform", yOffset)
-    .call(d3.axisBottom(x).ticks(3));
+    .call(d3.axisBottom(x).tickValues([maxCoord/2, maxCoord]).tickFormat(d3.format(".2s")));
 
 // Paths
 var ellipse_path_string = (coords) =>{
