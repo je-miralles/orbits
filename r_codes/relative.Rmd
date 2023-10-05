@@ -55,7 +55,7 @@ $$
 \end{align}
 $$
 
-we now have a single equation, with only six quantities, $S = [{\bf r}, {\bf \dot{r}}]$.
+we now have a single equation, with only six quantities in the state vector, $S = [{\bf r}, {\bf \dot{r}}]$.
 
 ## Scalar form
 
@@ -123,6 +123,8 @@ $$
 r = \frac{h^2}{\mu}\frac{1}{1 + e cos(\nu)}
 $$
 
+So here we have an equation for the radius of the motion with respect to one of the foci, and the angle from the major axis.
+
 ## Drawing Ellipses
 
 ```{r}
@@ -154,27 +156,32 @@ r2d3(script="./scripts/ellipse.js", data=pluto_df, options=list(orbit = "true"))
 ### Alternate (calculating within R)
 
 ```{r}
+# gravitational parameter
 mu_f <- function(G, M) {
   G * M
 }
 
+# eccentricity, general
 e_f <- function(E, l, m, mu) {
-  sqrt(1 + (2*E*(l**2) / (m**3 * mu**2)) )
+  sqrt(1 + (2*E*(l**2) / (m**3 * mu**2)))
 }
 
-Emin_f <- function(E, l, m, mu) {
+# minimum energy given l, m, mu to have a real number eccentricity
+Emin_f <- function(l, m, mu) {
   -1/2 * (m**3 * mu**2) / (l**2)
 }
 
+# radius for a given angle theta, in degrees
 r_f <- function(l, m, mu, e, theta) {
   (l**2) / (m**2 * mu) / (1 + e*cos(pi*theta/180))
 }
 ```
 
 ```{r}
+# orbit as an array of radii for angles between theta_start and theta_end by stepsize
 ellipse_coords <- function(E, l, m, G, M, theta_start, theta_end, stepsize = 1) {
   mu <- mu_f(G, M)
-  Emin <- Emin_f(E, l, m, mu)
+  Emin <- Emin_f(l, m, mu)
   # if (E < Emin) { E = Emin } # TODO: Need some way to warn about this
   e <- e_f(E, l, m, mu)
   orbit <- data.frame(r = r_f(l, m, mu, e, theta_start), theta = theta_start)
