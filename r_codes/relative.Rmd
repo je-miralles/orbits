@@ -155,6 +155,9 @@ r2d3(script="./scripts/ellipse.js", data=pluto_df, options=list(orbit = "true"))
 
 ### Alternate (calculating within R)
 
+- [Specific orbital energy](https://en.wikipedia.org/wiki/Specific_orbital_energy)
+- [Specific angular momentum](https://en.wikipedia.org/wiki/Specific_angular_momentum)
+
 ```{r}
 # gravitational parameter
 mu_f <- function(G, M) {
