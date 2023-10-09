@@ -9,14 +9,11 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-A series of articles, codes, and toys for orbital mechanics.
+A wander through statistics in R (and Python, and Javascript,) through star databases and orbital mechanics theory.
 
 ## Index
 
 - [Reference frames](./orbits.html)
 - [Center of Gravity](./orbits2.html)
+- [Relative motion](./relative.html)
 - [Calculus of variations](./landau.html)
-
-## References
-
-- [Orbital mechanics](https://orbital-mechanics.space)
