@@ -1,7 +1,6 @@
 ---
 title: "Orbits!"
 author: "Emilio Miralles"
-date: "2023-08-25"
 output: html_document
 ---
 
