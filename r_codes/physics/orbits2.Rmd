@@ -54,5 +54,9 @@ The barycenter lies on the line between the masses and a little closer to the la
 
 ***
 
-- [Index](./index.html)
-- [Reference frames](./orbits.html)
+- [next: Relative motion](./relative.html)
+- [prev: Reference frames](./orbits.html)
+
+***
+
+[Orbits!](./index.html)

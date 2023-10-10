@@ -210,5 +210,8 @@ head(ellipse_coords(E = E_pluto, l = l_pluto, m = m_pluto, G = G, M = m_sun, 0, 
 
 ***
 
-- [Index](./index.html)
-- [Reference frames](./orbits.html)
+- [prev: Center of Gravity](./orbits2.html)
+
+***
+
+[Orbits!](./index.html)

@@ -204,5 +204,8 @@ We can see the mutual attraction pull $m_0$ off of the origin as the two bodies 
 
 ***
 
-- [Index](./index.html)
-- [Center of Gravity](./orbits2.html)
+- [next: Center of Gravity](./orbits2.html)
+
+***
+
+[Orbits!](./index.html)

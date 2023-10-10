@@ -74,4 +74,4 @@ This is the [Euler–Lagrange equation](https://en.wikipedia.org/wiki/Euler%E2%8
 
 ***
 
-- [Index](./index.html)
+[Orbits!](./index.html)

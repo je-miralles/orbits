@@ -17,4 +17,4 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ***
 
-- [Index](./index.html)
+[Orbits!](./index.html)
