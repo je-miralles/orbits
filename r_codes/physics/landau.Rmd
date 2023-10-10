@@ -72,6 +72,6 @@ $$
 $$
 This is the [Euler–Lagrange equation](https://en.wikipedia.org/wiki/Euler%E2%80%93Lagrange_equation).
 
-## Links
+***
 
 - [Index](./index.html)
