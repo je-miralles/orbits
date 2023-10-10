@@ -13,7 +13,7 @@ A wander through statistics in R (and Python, and Javascript,) using star databa
 ***
 
 - [Reference frames](./orbits.html)
-- [Center of Gravity](./orbits2.html)
+- [Center of gravity](./orbits2.html)
 - [Relative motion](./relative.html)
 - [Calculus of variations](./landau.html)
 
