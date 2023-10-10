@@ -202,7 +202,7 @@ g
 
 We can see the mutual attraction pull $m_0$ off of the origin as the two bodies approach each other, eventually getting within $80 \text{km}$ where the maximum gravitational acceleration slingshots them back away from each other at high speed.
 
-## Links
+***
 
 - [Index](./index.html)
-- [Orbits again!](./orbits2.html)
+- [Center of Gravity](./orbits2.html)

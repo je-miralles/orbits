@@ -52,7 +52,7 @@ r2d3(script="../scripts/rcog.js", data=df,  options=list(cog = "true", lines = "
 
 The barycenter lies on the line between the masses and a little closer to the larger of the two, $m_0$.
 
-## Links
+***
 
 - [Index](./index.html)
-- [Orbits!](./orbits.html)
+- [Reference frames](./orbits.html)

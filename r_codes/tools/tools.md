@@ -14,3 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 - http://www.strudel.org.uk/lookUP/about.html
 - http://simbad.u-strasbg.fr/simbad/
 - https://data.explore.star.fr/api/explore/v2.1/console
+
+***
+
+- [Index](./index.html)

@@ -10,9 +10,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 A wander through statistics in R (and Python, and Javascript,) using star databases and orbital mechanics theory.
 
-## Index
+***
 
 - [Reference frames](./orbits.html)
 - [Center of Gravity](./orbits2.html)
 - [Relative motion](./relative.html)
 - [Calculus of variations](./landau.html)
+
+***
+
+[je-miralles/orbits](https://github.com/je-miralles/orbits)
