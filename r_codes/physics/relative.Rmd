@@ -20,7 +20,7 @@ df <- data.frame(m = c(m_sun, m_earth), x = c(100, 150), y = c(120, 50))
 Whoops, the earth disappears!
 
 ```{r echo=FALSE, fig.height=2, out.width="50%"}
-r2d3(script="./scripts/rcog.js", data=df, options=list(relative = "true", masses = "true"))
+r2d3(script="../scripts/rcog.js", data=df, options=list(relative = "true", masses = "true"))
 ```
 
 The sizes on the figure correspond to the masses, not the dimensions; we are treating these as point particles with no internal structure. This is just to say that the sun is massively more... massive than the earth, so we want to see how that works out for the physics of their motion.
@@ -136,7 +136,7 @@ earth_df <- data.frame(E = E_earth, l = l_earth, m = m_earth, G = G, M = m_sun)
 ```
 
 ```{r echo=FALSE, fig.height=2, out.width="50%"}
-r2d3(script="./scripts/ellipse.js", data=earth_df, options=list(orbit = "true"))
+r2d3(script="../scripts/ellipse.js", data=earth_df, options=list(orbit = "true"))
 ```
 
 ```{r}
@@ -149,7 +149,7 @@ pluto_df <- data.frame(E = E_pluto, l = l_pluto, m = m_pluto, G = G, M = m_sun)
 ```
 
 ```{r echo=FALSE, fig.height=2, out.width="50%"}
-r2d3(script="./scripts/ellipse.js", data=pluto_df, options=list(orbit = "true"))
+r2d3(script="../scripts/ellipse.js", data=pluto_df, options=list(orbit = "true"))
 ```
 
 ### Alternate (calculating within R)

@@ -1,4 +1,4 @@
-#!/bin/bash
+  #!/bin/bash
 
 if [ $# -eq 0 ] || [ "$1" == "-h" ]; then
   echo "Usage: `basename $0` [Rmd_filename]"
@@ -9,9 +9,12 @@ fi
 file=$1
 
 filename=$(basename "$file")
+dirname=$(dirname "$file")
 extension="${filename##*.}"
 filename="${filename%.*}"
 
-Rscript -e "library(knitr); rmarkdown::render('$file')"
-
-mv ${filename}.html ../docs/${filename}.html
+echo ${dirname}
+pushd ${dirname}
+Rscript -e "library(knitr); rmarkdown::render('$filename.$extension')"
+popd
+mv ${dirname}/${filename}.html ../docs/${filename}.html
