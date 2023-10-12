@@ -1,4 +1,4 @@
-  #!/bin/bash
+#!/bin/bash
 
 if [ $# -eq 0 ] || [ "$1" == "-h" ]; then
   echo "Usage: `basename $0` [Rmd_filename]"
