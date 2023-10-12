@@ -1,12 +1,13 @@
 ---
 title: "The principle of least action"
-date: "2023-07-24"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+***
 
 In a closed system of masses, the [Lagrangian](https://en.wikipedia.org/wiki/Lagrangian_mechanics), $L$, is some function of the coordinates, $q$, the velocities, $\dot{q}$, and time, $t$.
 

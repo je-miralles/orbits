@@ -1,6 +1,5 @@
 ---
 title: "Relative motion"
-date: "2023-09-15"
 output: html_document
 ---
 
@@ -8,6 +7,8 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 library(r2d3)
 ```
+
+***
 
 We now use the approximate masses of the sun and earth system.
 
