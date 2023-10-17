@@ -14,8 +14,8 @@ A wander through orbital mechanics and statistics in R (and Python, and Javascri
 
 **Orbital Mechanics**
 
-- [Reference frames](./orbits.html)
-- [Center of gravity](./orbits2.html)
+- [Reference frames](./frames.html)
+- [Center of gravity](./center.html)
 - [Relative motion](./relative.html)
 
 **Statistics**
