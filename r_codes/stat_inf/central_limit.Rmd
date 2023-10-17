@@ -32,7 +32,9 @@ $$
 f(x) = \lambda e^{- \lambda x},
 $$
 
-for $x \geq 0$. We define our rate parameter ($\lambda$), calculate the theoretical population mean ($\mu$), standard deviation ($\sigma$), and variance ($\sigma^2$):
+for $x \geq 0$.
+
+We define our rate parameter ($\lambda$), calculate the theoretical population mean ($\mu$), standard deviation ($\sigma$), and variance ($\sigma^2$):
 
 ```{r}
 lambda = 0.2 # rate, mu = 5, sd = 5, var = 25
@@ -42,6 +44,15 @@ pop_var = pop_sd^2
 ```
 
 ```{r echo=FALSE}
+n <- 40
+k <- 1000
+```
+
+We take $k = `r k`$ means of exponential samples each with $n = `r n`$.
+
+<details>
+<summary>Show code</summary>
+```{r}
 #' n: # number of rexp samples for each mean
 #' k: # number of means
 generate_means <- function(n, k, lambda) {
@@ -52,18 +63,13 @@ generate_means <- function(n, k, lambda) {
   means_df
 }
 ```
+</details>
 
 ```{r}
-n <- 40
-k <- 1000
 df1 <- generate_means(n, k, lambda)
 ```
 
-We take $`r k`$ means of exponential samples each with $n = `r n`$.
-
-## Sample Mean versus Theoretical Mean
-
-The mean of our sampled means is $`r round(mean(df1$means),3)`$, close to the theoretical value of $`r pop_mean`$ represented by the red line on the boxplot.
+The overall mean of our sampled means is $`r round(mean(df1$means),3)`$, close to the theoretical value of $`r pop_mean`$ represented by the red line on the boxplot.
 
 ```{r fig.height = 3, echo=FALSE}
 p1 <- ggplot(df1, aes(means)) + theme(legend.position="none")
