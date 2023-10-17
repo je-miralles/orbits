@@ -1,0 +1,102 @@
+---
+title: "Central limit theorem"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+We explore the exponential distribution via simulation and compare our sample statistics with the theoretical statistics of the distribution.
+
+## Simulations
+
+For an exponential distribution with density,
+
+$$
+f(x) = \lambda e^{- \lambda x},
+$$
+
+for $x \geq 0$, we define our rate parameter ($\lambda$), calculate the theoretical population mean ($\mu$), standard deviation ($\sigma$), and variance ($\sigma^2$):
+
+```{r}
+lambda = 0.2 # rate, mu = 5, sd = 5, var = 25
+pop_mean = 1/lambda
+pop_sd = 1/lambda
+pop_var = pop_sd^2
+```
+
+```{r echo=FALSE}
+#' n: # number of rexp samples for each mean
+#' k: # number of means
+generate_means <- function(n, k, lambda) {
+  #' collect k means, each with n samples, in an array
+  sample_means = NULL
+  for (i in 1:k) sample_means = c(sample_means, mean(rexp(n, lambda)))
+  means_df <- data.frame(means = sample_means)
+  means_df
+}
+```
+
+```{r echo=FALSE}
+n <- 40
+k <- 1000
+sample_means <- generate_means(n, k, lambda)
+```
+
+We take $`r k`$ means of exponential samples each with $n = `r n`$.
+
+## Sample Mean versus Theoretical Mean
+
+The mean of our sampled means is $`r round(mean(sample_means$means),3)`$, close to the theoretical value of $`r pop_mean`$ represented by the red line on the boxplot.
+
+```{r fig.height = 3, echo=FALSE}
+p1 <- ggplot(sample_means, aes(means)) + theme(legend.position="none")
+p1 + geom_boxplot() + geom_vline(aes(xintercept = pop_mean, colour = "red"))
+```
+
+## Sample Variance versus Theoretical Variance
+
+If we assume $n = `r n`$ is large enough, the distribution is close to normal with mean $\mu$ and variance $\sigma^2/n$, where $\sigma^2$ is the variance of the exponential distribution we were originally sampling from. The variance $\sigma^2/n$ is referred to as the *standard error*, and will be our theoretical variance.
+
+| exponential variance ($\sigma^2$) | theoretical variance ($\sigma^2/n$) | sample variance         |
+|:---------------------------------:|:-----------------------------------:|:-----------------------:|
+| $`r pop_var`$                     | $`r pop_var/n`$                     | $`r var(sample_means$means)`$ |
+
+## Distribution
+
+Since we are sampling from the `rexp` function, we know the data is independent and identically distributed. A large number of `rexp` samples simply follow the exponential curve. We are interested in the means of these samples, so the central limit theorem applies.
+
+```{r fig.height = 3, echo = FALSE}
+sample <- data.frame(data=rexp(k, lambda))
+p2 <- ggplot(sample, aes(data))
+p2 <- p2 + geom_histogram(aes(y=after_stat(density)), binwidth=1.5)
+p2 + stat_function(fun=dexp, args=list(rate = lambda), colour="red", xlim=c(0, max(sample$data)))
+```
+
+While the underlying samples are exponential, the distribution of means looks normal (dashed red line), centered around the theoretical population mean $\mu$ (the vertical red line), with standard deviation $\sigma/\sqrt{n}$.
+
+```{r fig.height = 3, echo=FALSE}
+p3 <- ggplot(sample_means, aes(means)) + theme(legend.position="none")
+p3 <- p3 + geom_histogram(aes(y=after_stat(density)), binwidth=0.2)
+p3 <- p3 + stat_function(fun=dnorm, args=list(mean=pop_mean, sd=pop_sd/sqrt(n)), colour="red")
+p3 + geom_vline(aes(xintercept=pop_mean, colour="red"))
+```
+
+Any individual sample of the exponential distribution can have a mean far from the population mean, as seen for cumulative means with small $k$ on the left. As we average over more sample means, we get closer to the theoretical population mean $\mu = `r pop_mean`$, the horizontal red line.
+
+```{r fig.height = 3, echo=FALSE}
+cumulative <- data.frame(means=cumsum(sample_means$means) / (1 : k))
+p4 <- ggplot(cumulative, aes(x=1:k, y=means)) + theme(legend.position="none")
+p4 + geom_line() + geom_hline(aes(yintercept=pop_mean, colour="red"))
+```
+
+***
+
+- [next: Statistical inference](./stat_inf.html)
+- [prev: Statistical distributions](./stat_dist.html)
+
+***
+
+[Orbits!](./index.html)
