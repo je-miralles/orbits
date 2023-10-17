@@ -53,20 +53,20 @@ generate_means <- function(n, k, lambda) {
 }
 ```
 
-```{r echo=FALSE}
+```{r}
 n <- 40
 k <- 1000
-sample_means <- generate_means(n, k, lambda)
+df1 <- generate_means(n, k, lambda)
 ```
 
 We take $`r k`$ means of exponential samples each with $n = `r n`$.
 
 ## Sample Mean versus Theoretical Mean
 
-The mean of our sampled means is $`r round(mean(sample_means$means),3)`$, close to the theoretical value of $`r pop_mean`$ represented by the red line on the boxplot.
+The mean of our sampled means is $`r round(mean(df1$means),3)`$, close to the theoretical value of $`r pop_mean`$ represented by the red line on the boxplot.
 
 ```{r fig.height = 3, echo=FALSE}
-p1 <- ggplot(sample_means, aes(means)) + theme(legend.position="none")
+p1 <- ggplot(df1, aes(means)) + theme(legend.position="none")
 p1 + geom_boxplot() + geom_vline(aes(xintercept = pop_mean, colour = "red"))
 ```
 
@@ -76,7 +76,7 @@ If we assume $n = `r n`$ is large enough, the distribution is close to normal wi
 
 | exponential variance ($\sigma^2$) | theoretical variance ($\sigma^2/n$) | sample variance         |
 |:---------------------------------:|:-----------------------------------:|:-----------------------:|
-| $`r pop_var`$                     | $`r pop_var/n`$                     | $`r var(sample_means$means)`$ |
+| $`r pop_var`$                     | $`r pop_var/n`$                     | $`r var(df1$means)`$ |
 
 ## Distribution
 
@@ -92,7 +92,7 @@ p2 + stat_function(fun=dexp, args=list(rate = lambda), colour="red", xlim=c(0, m
 While the underlying samples are exponential, the distribution of means looks normal (dashed red line), centered around the theoretical population mean $\mu$ (the vertical red line), with standard deviation $\sigma/\sqrt{n}$.
 
 ```{r fig.height = 3, echo=FALSE}
-p3 <- ggplot(sample_means, aes(means)) + theme(legend.position="none")
+p3 <- ggplot(df1, aes(means)) + theme(legend.position="none")
 p3 <- p3 + geom_histogram(aes(y=after_stat(density)), binwidth=0.2)
 p3 <- p3 + stat_function(fun=dnorm, args=list(mean=pop_mean, sd=pop_sd/sqrt(n)), colour="red")
 p3 + geom_vline(aes(xintercept=pop_mean, colour="red"))
@@ -101,7 +101,7 @@ p3 + geom_vline(aes(xintercept=pop_mean, colour="red"))
 Any individual sample of the exponential distribution can have a mean far from the population mean, as seen for cumulative means with small $k$ on the left. As we average over more sample means, we get closer to the theoretical population mean $\mu = `r pop_mean`$, the horizontal red line.
 
 ```{r fig.height = 3, echo=FALSE}
-cumulative <- data.frame(means=cumsum(sample_means$means) / (1 : k))
+cumulative <- data.frame(means=cumsum(df1$means) / (1 : k))
 p4 <- ggplot(cumulative, aes(x=1:k, y=means)) + theme(legend.position="none")
 p4 + geom_line() + geom_hline(aes(yintercept=pop_mean, colour="red"))
 ```
