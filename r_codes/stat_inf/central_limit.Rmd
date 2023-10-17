@@ -81,13 +81,13 @@ p2 <- p2 + geom_histogram(aes(y=after_stat(density)), binwidth=1.5)
 p2 + stat_function(fun=dexp, args=list(rate = lambda), colour="red", xlim=c(0, max(sample$data)))
 ```
 
-Assuming $n = `r n`$ is large enough, the distribution approaches a normal with mean $\mu$ and variance $\sigma^2/n$, where $\sigma^2$ is the variance of the exponential distribution we were originally sampling from. The variance $\sigma^2/n$ is referred to as the *standard error*, and will be our theoretical variance.
+Assuming $n = `r n`$ is large enough, the distribution of means approaches a normal with mean $\mu$ and variance $\sigma^2/n$, where $\sigma^2$ is the variance of the exponential distribution we were originally sampling from. The variance $\sigma^2/n$ is referred to as the *standard error*, and will be our theoretical variance.
 
 - exponential variance ($\sigma^2$): $`r pop_var`$
 - theoretical variance ($\sigma^2/n$): $`r pop_var/n`$
 - sample variance: $`r var(df1$means)`$
 
-While the underlying samples are exponential, the distribution of means looks normal (dashed red line), centered around the theoretical population mean $\mu$ (the vertical red line), with standard deviation $\sigma/\sqrt{n}$.
+While the underlying samples are exponential, the distribution of means looks normal, centered around the theoretical population mean $\mu$, with standard deviation $\sigma/\sqrt{n}$.
 
 ```{r fig.height = 3, echo=FALSE}
 p3 <- ggplot(df1, aes(means)) + theme(legend.position="none")
@@ -96,12 +96,6 @@ p3 <- p3 + stat_function(fun=dnorm, args=list(mean=pop_mean, sd=pop_sd/sqrt(n)),
 p3 + geom_vline(aes(xintercept=pop_mean, colour="red"))
 ```
 
-Normalization moves the values so that that $\mu = 0$ and $\sigma = 1$:
-
-$$
-X = \frac{X' - \mu}{\sigma/\sqrt{n}}.
-$$
-
 Any individual sample of the exponential distribution can have a mean far from the population mean, as seen for cumulative means with small $k$ on the left. As we average over more sample means, we get closer to the theoretical population mean $\mu = `r pop_mean`$, the horizontal red line.
 
 ```{r fig.height = 3, echo=FALSE}
@@ -109,6 +103,12 @@ cumulative <- data.frame(means=cumsum(df1$means) / (1 : k))
 p4 <- ggplot(cumulative, aes(x=1:k, y=means)) + theme(legend.position="none")
 p4 + geom_line() + geom_hline(aes(yintercept=pop_mean, colour="red"))
 ```
+
+Normalization moves the values so that that $\mu = 0$ and $\sigma = 1$:
+
+$$
+X = \frac{X' - \mu}{\sigma/\sqrt{n}}.
+$$
 
 ***
 
