@@ -26,12 +26,16 @@ $$
 
 We define our rate parameter ($\lambda$), calculate the theoretical population mean ($\mu$), standard deviation ($\sigma$), and variance ($\sigma^2$):
 
-```{r}
+```{r echo=FALSE}
 lambda = 0.2 # rate, mu = 5, sd = 5, var = 25
 pop_mean = 1/lambda
 pop_sd = 1/lambda
 pop_var = pop_sd^2
 ```
+
+- $\lambda = `r lambda`$
+- $\mu = \sigma = 1/\lambda = `r pop_mean`$
+- $\sigma^2 = `r pop_var`$
 
 ## Simulation
 
