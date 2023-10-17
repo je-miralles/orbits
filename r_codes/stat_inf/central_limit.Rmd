@@ -70,11 +70,9 @@ p1 + geom_boxplot() + geom_vline(aes(xintercept = pop_mean, colour = "red"))
 
 Assuming $n = `r n`$ is large enough, the distribution approaches a normal with mean $\mu$ and variance $\sigma^2/n$, where $\sigma^2$ is the variance of the exponential distribution we were originally sampling from. The variance $\sigma^2/n$ is referred to as the *standard error*, and will be our theoretical variance.
 
-| exponential variance ($\sigma^2$) | theoretical variance ($\sigma^2/n$) | sample variance         |
-|:---------------------------------:|:-----------------------------------:|:-----------------------:|
-| $`r pop_var`$                     | $`r pop_var/n`$                     | $`r var(df1$means)`$ |
-
-## Distribution
+- exponential variance ($\sigma^2$): $`r pop_var`$
+- theoretical variance ($\sigma^2/n$): $`r pop_var/n`$
+- sample variance: $`r var(df1$means)`$
 
 Since we are sampling from the `rexp` function, we know the data is independent and identically distributed. A large number of `rexp` samples simply follow the exponential curve. We are interested in the means of these samples, so the central limit theorem applies.
 
@@ -87,18 +85,18 @@ p2 + stat_function(fun=dexp, args=list(rate = lambda), colour="red", xlim=c(0, m
 
 While the underlying samples are exponential, the distribution of means looks normal (dashed red line), centered around the theoretical population mean $\mu$ (the vertical red line), with standard deviation $\sigma/\sqrt{n}$.
 
-The normalization moves the values so that that $\mu = 0$ and $\sigma = 1$.
-
-$$
-X = \frac{X' - \mu}{\sigma/\sqrt{n}}.
-$$
-
 ```{r fig.height = 3, echo=FALSE}
 p3 <- ggplot(df1, aes(means)) + theme(legend.position="none")
 p3 <- p3 + geom_histogram(aes(y=after_stat(density)), binwidth=0.2)
 p3 <- p3 + stat_function(fun=dnorm, args=list(mean=pop_mean, sd=pop_sd/sqrt(n)), colour="red")
 p3 + geom_vline(aes(xintercept=pop_mean, colour="red"))
 ```
+
+Normalization moves the values so that that $\mu = 0$ and $\sigma = 1$:
+
+$$
+X = \frac{X' - \mu}{\sigma/\sqrt{n}}.
+$$
 
 Any individual sample of the exponential distribution can have a mean far from the population mean, as seen for cumulative means with small $k$ on the left. As we average over more sample means, we get closer to the theoretical population mean $\mu = `r pop_mean`$, the horizontal red line.
 
