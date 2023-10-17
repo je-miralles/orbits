@@ -1,0 +1,153 @@
+---
+title: "Statistical basics"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+
+## Probability
+
+The probability, $P(E)$, of an event is the ratio of the number of ways it can occur to the number of all possible outcomes.
+
+Some properties:
+
+- $0 \leq P(E) \leq 1$, where $0$ is impossible and $1$ is certain
+- The sum over probabilities of all outcomes must be $1$. For $n$ outcomes equally likely, each outcome has $\frac{1}{n}$ chance
+- If $A$ and $B$ are independent, the probability of both occurring is the product: $P(A \& B) = P(A) P(B)$
+- If $E$ can occur in mutually exclusive ways, $P(E)$ is the sum of individual probabilities
+- The probability of at least one of $A$ or $B$ occurring is the sum of individual probabilities minus the intersection: $P(A \cup B) = P(A) + P(B) - P(A \& B)$
+    - If disjoint, i.e. $P(A \& B) = 0$, then $P(A \cup B) = P(A) + P(B)$
+
+***
+
+**Example**
+
+Cards: 52 cards, 4 suits, 13 cards per suit.  
+1 (ace), 2-10, 3 face (king, queen, jack).  
+2 red: diamonds and hearts.  
+2 black: spades and clubs.  
+
+- $P$ of drawing 5 jacks: $0$
+- $P$ of drawing a queen: $\frac{4 \hspace{0.1cm} \text{ways to draw a queen}}{\hspace{0.1cm} 52 \hspace{0.1cm} \text{possible card outcomes}} = \frac{1}{13}$
+- $P$ of drawing one of the four suits: $1$
+- $P$ of drawing the same card from each of two decks (i.e. *with replacement*): $P(A \& B) = P(A) P(B) = \frac{1}{52} \frac{1}{52}$
+- $P$ of drawing two cards of same suit from one deck: $4$ suits, $13$ cards per suit. After the first pick, there are $\frac{12}{51}$ ways to pick another of the same suit
+
+## Probability functions
+
+The *probability mass function* is the probability that a *discrete random variable* equals some value.
+
+The *probability density function* is the probability that a *continuous random variable* equals some value.
+
+The probability that a random variable falls within a range is the area under the $PDF$. The $PDF$ must be nonnegative and the total area under it must be $1$.
+
+The *cumulative distribution function* of a random variable $X$ is $CDF(x) = P(X <= x)$.
+
+The *survivor function* of a random variable $X$ is $S(x) = P(X > x) = 1 - CDF(x)$.
+
+The *quantile* $v$ of a CDF is the point $x_v$ at which $CDF(x_v) = v$. The *percentile* is a quantile where $v$ is expressed as a percentage.
+
+## Conditional Probability
+
+If we ask about the chance of $B$ given that $A$ occurs, we find this *conditional probability* is the probability both $A$ and $B$ occur divided by the probability of $A$:
+
+$$
+P(B|A) = \frac{P(A \& B)}{P(A)}
+$$
+
+[Bayes rule](https://en.wikipedia.org/wiki/Bayes%27_theorem):
+
+$$
+P(A|B) = \frac{P(A \& B)}{P(B)} = \frac{P(B|A) P(A)}{P(B)}
+$$
+
+and since $P(B) = P(B|A) P(A) + P(B|\neg A) P(\neg A)$, we find:
+
+$$
+P(A|B) = \frac{P(B|A) P(A)}{P(B|A) P(A) + P(B|\neg A) P(\neg A)}
+$$
+
+### Medical diagnostics
+
+In medicine these concepts are used to understand the efficacy of diagnostic tests.
+
+- *sensitivity*: $P(\text{positive test when patient is positive}) = P(+|D)$
+- *specificity*: $P(\text{negative test when the patient is negative}) = P(-|\neg D)$
+
+By definition, $P(+|\neg D) = 1 - P(-|\neg D)$.
+
+- *positive predictive value*: $P(D|+) = \frac{P(+|D) P(D)}{P(+|D) P(D) + P(+|\neg D) P(\neg D)}$
+- *negative predictive value*: $P(\neg D|-) =\frac{P(-|\neg D) P(\neg D)}{P(-|\neg D) P(\neg D) + P(-|D) P(D)}$
+
+The *likelihood ratio*: $LR_+ = \frac{\text{sensitivity}}{1 - \text{specificity}} = \frac{P(+ | D)}{P(+ | \neg D)}$
+
+- diagnostic likelihood ratio positive test: $DLR_+ = \frac{P(+|D)}{P(+|\neg D)}$ (generally large)
+- diagnostic likelihood ratio negative test: $DLR_- = \frac{P(-|D)}{P(-|\neg D)}$ (generally small)
+
+- *post-test odds* given positive: $\frac{P(D|+)}{P(\neg D|+)} = \frac{P(+|D) P(D)}{P(+|\neg D) P(\neg D)}$
+- *post-test odds* given negative: $\frac{P(D|-)}{P(\neg D|-)} = \frac{P(-|D) P(D)}{P(-|\neg D) P(\neg D)}$
+
+## Expectations
+
+A measure of central tendency. The sum over outcomes weighted by each of their probabilities.
+
+For discrete $X$ with $PMF$ $p(x)$, the expected value is the sum:
+
+$$
+E(X) = \sum_i {x_i p(x_i)}.
+$$
+
+If each outcome has the same probability, this is the mean. For $n$ values $x_i$ where $p(x) = 1/n$,
+
+$$
+\mu = E(X) = \frac{1}{n} \sum_i {x_i}.
+$$
+
+It is linear, so that with constants $a, b, c$:
+
+$$
+\begin{align}
+E(aX) &= a E(X), \\
+E(X + Y) &= E(X) + E(Y), \\
+E(bX + cY) &= bE(X) + cE(Y).
+\end{align}
+$$
+
+For continuous $X$ with $PDF$ $f(t)$, the expected value is the integral:
+
+$$
+E(X) = \int_t {t f(t)}.
+$$
+
+## Variance
+
+A measure of spread. The expected value of the squared differences from the mean.
+
+$$
+\begin{align}
+Var(X) &= E((X - \mu)^2) \\
+       &= E(X^2) - E(2 \mu X) + E(\mu^2) \\
+       &= E(X^2) - 2 \mu E(X) + E(\mu^2) \\
+\end{align}
+$$
+
+and since $\mu = E(X)$ and $E(\mu^2) = E(E(X)^2) = E(X)^2$,
+
+$$
+\begin{align}
+       &= E(X^2) - 2E(X)^2 + E(X)^2 \\
+Var(X) &= E(X^2) - E(X)^2
+\end{align}
+$$
+
+***
+
+- [next: Central limit theorem](./central_limit.html)
+
+***
+
+[Orbits!](./index.html)
