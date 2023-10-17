@@ -8,15 +8,24 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-A wander through statistics in R (and Python, and Javascript,) using star databases and orbital mechanics theory.
+A wander through orbital mechanics and statistics in R (and Python, and Javascript,).
 
 ***
+
+**Orbital Mechanics**
 
 - [Reference frames](./orbits.html)
 - [Center of gravity](./orbits2.html)
 - [Relative motion](./relative.html)
+
+**Statistics**
+
+- [Statistics basics](./stat_base.html)
+- [Central limit theorem](./central_limit.html)
+
+**Math**
 - [Calculus of variations](./landau.html)
 
 ***
 
-[je-miralles/orbits](https://github.com/je-miralles/orbits)
+[repo: je-miralles/orbits](https://github.com/je-miralles/orbits)
