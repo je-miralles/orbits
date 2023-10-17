@@ -8,17 +8,31 @@ knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 ```
 
+The [law of large numbers][1] shows that the average of many samples will approach the expected value as the number of samples goes to infinity:
+
+$$
+\lim_{n \to \infty} \sum_{i=1}^n \frac{X_i}{n} = E(X).
+$$
+
+For [independent and identically distributed variables][2], the [central limit theorem][3] shows that as your sample size increases, the distribution of averages approaches a [standard normal distribution][4].
+
+The normalization moves the values so that that $\mu = 0$ and $\sigma = 1$.
+
+$$
+X = \frac{X' - \mu}{\sigma/\sqrt{n}}.
+$$
+
+### Exponential
+
 We explore the exponential distribution via simulation and compare our sample statistics with the theoretical statistics of the distribution.
 
-## Simulations
-
-For an exponential distribution with density,
+An exponential distribution can describe events that happen at a constant average rate, independently from each other. It has a density function,
 
 $$
 f(x) = \lambda e^{- \lambda x},
 $$
 
-for $x \geq 0$, we define our rate parameter ($\lambda$), calculate the theoretical population mean ($\mu$), standard deviation ($\sigma$), and variance ($\sigma^2$):
+for $x \geq 0$. We define our rate parameter ($\lambda$), calculate the theoretical population mean ($\mu$), standard deviation ($\sigma$), and variance ($\sigma^2$):
 
 ```{r}
 lambda = 0.2 # rate, mu = 5, sd = 5, var = 25
@@ -96,6 +110,11 @@ p4 + geom_line() + geom_hline(aes(yintercept=pop_mean, colour="red"))
 
 - [next: Statistical inference](./stat_inf.html)
 - [prev: Statistical distributions](./stat_dist.html)
+
+[1]:(https://en.wikipedia.org/wiki/Law_of_large_numbers)
+[2]:(https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables)
+[3]:(https://en.wikipedia.org/wiki/Central_limit_theorem)
+[4]:(https://en.wikipedia.org/wiki/Normal_distribution)
 
 ***
 
