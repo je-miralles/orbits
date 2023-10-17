@@ -16,23 +16,13 @@ $$
 
 For [independent and identically distributed variables][2], the [central limit theorem][3] shows that as your sample size increases, the distribution of averages approaches a [standard normal distribution][4].
 
-The normalization moves the values so that that $\mu = 0$ and $\sigma = 1$.
-
-$$
-X = \frac{X' - \mu}{\sigma/\sqrt{n}}.
-$$
-
-### Exponential
-
-We explore the exponential distribution via simulation and compare our sample statistics with the theoretical statistics of the distribution.
+## Exponential
 
 An exponential distribution can describe events that happen at a constant average rate, independently from each other. It has a density function,
 
 $$
-f(x) = \lambda e^{- \lambda x},
+f(x) = \lambda e^{- \lambda x}, \text{for} \hspace{0.1cm} x \geq 0.
 $$
-
-for $x \geq 0$.
 
 We define our rate parameter ($\lambda$), calculate the theoretical population mean ($\mu$), standard deviation ($\sigma$), and variance ($\sigma^2$):
 
@@ -42,6 +32,8 @@ pop_mean = 1/lambda
 pop_sd = 1/lambda
 pop_var = pop_sd^2
 ```
+
+## Simulation
 
 ```{r echo=FALSE}
 n <- 40
@@ -76,9 +68,7 @@ p1 <- ggplot(df1, aes(means)) + theme(legend.position="none")
 p1 + geom_boxplot() + geom_vline(aes(xintercept = pop_mean, colour = "red"))
 ```
 
-## Sample Variance versus Theoretical Variance
-
-If we assume $n = `r n`$ is large enough, the distribution is close to normal with mean $\mu$ and variance $\sigma^2/n$, where $\sigma^2$ is the variance of the exponential distribution we were originally sampling from. The variance $\sigma^2/n$ is referred to as the *standard error*, and will be our theoretical variance.
+Assuming $n = `r n`$ is large enough, the distribution approaches a normal with mean $\mu$ and variance $\sigma^2/n$, where $\sigma^2$ is the variance of the exponential distribution we were originally sampling from. The variance $\sigma^2/n$ is referred to as the *standard error*, and will be our theoretical variance.
 
 | exponential variance ($\sigma^2$) | theoretical variance ($\sigma^2/n$) | sample variance         |
 |:---------------------------------:|:-----------------------------------:|:-----------------------:|
@@ -96,6 +86,12 @@ p2 + stat_function(fun=dexp, args=list(rate = lambda), colour="red", xlim=c(0, m
 ```
 
 While the underlying samples are exponential, the distribution of means looks normal (dashed red line), centered around the theoretical population mean $\mu$ (the vertical red line), with standard deviation $\sigma/\sqrt{n}$.
+
+The normalization moves the values so that that $\mu = 0$ and $\sigma = 1$.
+
+$$
+X = \frac{X' - \mu}{\sigma/\sqrt{n}}.
+$$
 
 ```{r fig.height = 3, echo=FALSE}
 p3 <- ggplot(df1, aes(means)) + theme(legend.position="none")
