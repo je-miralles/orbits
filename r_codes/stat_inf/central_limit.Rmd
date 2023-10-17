@@ -14,7 +14,7 @@ $$
 \lim_{n \to \infty} \sum_{i=1}^n \frac{X_i}{n} = E(X).
 $$
 
-For [independent and identically distributed variables][2], the [central limit theorem][3] shows that as your sample size increases, the distribution of averages approaches a [standard normal distribution][4].
+For [independent and identically distributed variables][2], the [central limit theorem][3] shows that as your sample size increases, the distribution of averages approaches a [normal distribution][4].
 
 ## Exponential
 
@@ -99,7 +99,7 @@ p3 + geom_vline(aes(xintercept=pop_mean, colour="red"))
 Any individual sample of the exponential distribution can have a mean far from the population mean, as seen for cumulative means with small $k$ on the left. As we average over more sample means, we get closer to the theoretical population mean $\mu = `r pop_mean`$.
 
 ```{r fig.height = 3, echo=FALSE}
-cumulative <- data.frame(means=cumsum(df1$means) / (1 : k))
+cumulative <- data.frame(means=cumsum(df1$means) / (1:k))
 p4 <- ggplot(cumulative, aes(x=1:k, y=means)) + theme(legend.position="none")
 p4 + geom_line() + geom_hline(aes(yintercept=pop_mean, colour="red"))
 ```
@@ -111,9 +111,9 @@ X = \frac{X' - \mu}{\sigma/\sqrt{n}}.
 $$
 
 ```{r fig.height = 3, echo=FALSE}
-df2 <- transform(df1, means = (means - pop_mean)/(pop_sd/sqrt(n)))
+df2 <- transform(df1, means = (means - pop_mean) / (pop_sd/sqrt(n)))
 p4 <- ggplot(df2, aes(means)) + theme(legend.position="none")
-p4 <- p4 + geom_histogram(aes(y=after_stat(density)), binwidth=0.2)
+p4 <- p4 + geom_histogram(aes(y=after_stat(density)), binwidth=0.15)
 p4 <- p4 + stat_function(fun=dnorm, args=list(mean=0, sd=1), colour="red")
 p4 + geom_vline(aes(xintercept=0, colour="red"))
 ```
