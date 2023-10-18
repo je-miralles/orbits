@@ -1,0 +1,86 @@
+---
+title: "Statistical distributions"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+
+Discrete variables with two outcomes. Success/failure, such as coin flips.
+
+For a single trial, the [Bernoulli distribution][1]:
+
+$$
+P(X = x) = f(x;p) = p^x (1-p)^{1-x}
+$$
+For $x$ successes out of $n$ trials, the [Binomial distribution][2]:
+
+$$
+P(X = x) = f(x; n, p) = \binom{n}{x} p^x (1-p)^{n-x}
+$$
+
+Properties:
+
+- $E(X) = p$
+- $Var(X) = p(1 - p)$
+- $p(1) = p$
+- $p(0) = 1 - p$
+
+***
+
+Continuous real-valued variables, the [normal distribution][3]:
+
+$$
+P(X = x) = f(x; \mu, \sigma) = \frac{1}{\sigma \sqrt{2 \pi}} e ^{-\frac{1}{2} (\frac{x - \mu}{\sigma})^2}
+$$
+
+Properties:
+
+- $E(X) = \mu$
+- $Var(X) = \sigma^2$
+- with $\mu = 0, \sigma = 1$, it's called a standard normal
+- 1, 2, 3, standard deviations contain 68% 95% 99% of density
+- $Z = \frac{X - \mu}{\sigma}$ has $\mu = 0, \sigma = 1$
+
+***
+
+Time between independent events with a consistent average rate, the [exponential distribution][4]:
+
+$$
+P(X = x) = f(x; \lambda) = \lambda e^{- \lambda x}
+$$
+Properties:
+
+- $E(x) = \frac{1}{\lambda}$
+- $Var(X) = \frac{1}{\lambda^2}$
+
+***
+
+For given number of independent events with a consistent average rate occurring in a fixed time, the [Poisson distribution][5]:
+
+$$
+P(X = x) = f(x; \lambda) = \frac{\lambda^x e^{- \lambda}}{x!}
+$$
+
+Properties:
+
+- $E(X) = Var(X) = \lambda$
+- if $n$ is large and $p$ is small, a Poisson with $\lambda = n p$ approximates a binomial
+
+***
+
+- [next: Statistical inference](./stat_inf.html)
+- [prev: Central limit theorem](./central_limit.html)
+
+[1]:(https://en.wikipedia.org/wiki/Bernoulli_distribution)
+[2]:(https://en.wikipedia.org/wiki/Binomial_distribution)
+[3]:(https://en.wikipedia.org/wiki/Normal_distribution)
+[4]:(https://en.wikipedia.org/wiki/Exponential_distribution)
+[5]:(https://en.wikipedia.org/wiki/Poisson_distribution)
+
+***
+
+[Orbits!](./index.html)
