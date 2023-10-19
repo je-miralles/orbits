@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ***
 
-Discrete variables with two outcomes. Success/failure, such as coin flips.
+Discrete variables with two outcomes such as success/failure or coin flips.
 
 For a single trial, the [Bernoulli distribution][1]:
 
@@ -17,7 +17,12 @@ $$
 P(X = x) = f(x;p) = p^x (1-p)^{1-x},
 $$
 
-where $p$ is the probability of "success" ($x = 1$), $1 - p$ is the probability of "failure" ($x = 0$).
+where $p$ is the probability that $x = 1$ and $1 - p$ is the probability that $x = 0$.
+
+Properties:
+
+- $E(X) = p$
+- $Var(X) = p(1 - p)$
 
 For $x$ successes out of $n$ trials, the [Binomial distribution][2]:
 
@@ -29,26 +34,8 @@ where $n$ is the number of trials and $x$ is the number of successes.
 
 Properties:
 
-- $E(X) = p$
-- $Var(X) = p(1 - p)$
-- $p(1) = p$
-- $p(0) = 1 - p$
-
-***
-
-Continuous real-valued variables, the [normal distribution][3]:
-
-$$
-P(X = x) = f(x; \mu, \sigma) = \frac{1}{\sigma \sqrt{2 \pi}} e ^{-\frac{1}{2} (\frac{x - \mu}{\sigma})^2},
-$$
-
-Properties:
-
-- $E(X) = \mu$
-- $Var(X) = \sigma^2$
-- with $\mu = 0, \sigma = 1$, it's called a standard normal
-- 1, 2, 3, standard deviations contain 68% 95% 99% of density
-- $Z = \frac{X - \mu}{\sigma}$ has $\mu = 0, \sigma = 1$
+- $E(X) = np$
+- $Var(X) = np(1 - p)$
 
 ***
 
@@ -62,10 +49,8 @@ where $\lambda$ is the rate, and $x$ is the time between events.
 
 Properties:
 
-- $E(x) = \frac{1}{\lambda}$
+- $E(X) = \frac{1}{\lambda}$
 - $Var(X) = \frac{1}{\lambda^2}$
-
-***
 
 For given number of independent events with a consistent average rate occurring in a fixed time, the [Poisson distribution][5]:
 
@@ -79,6 +64,22 @@ Properties:
 
 - $E(X) = Var(X) = \lambda$
 - if $n$ is large and $p$ is small, a Poisson with $\lambda = n p$ approximates a binomial
+
+***
+
+Continuous real-valued variables, the [normal distribution][3]:
+
+$$
+P(X = x) = f(x; \mu, \sigma) = \frac{1}{\sigma \sqrt{2 \pi}} e ^{-\frac{1}{2} (\frac{x - \mu}{\sigma})^2},
+$$
+
+Properties:
+
+- $E(X) = \mu$
+- $Var(X) = \sigma^2$
+- with $\mu = 0$ and $\sigma = 1$, it's called a standard normal
+- 1, 2, 3, standard deviations contain 68% 95% 99% of the density
+- the transformation $Z = \frac{X - \mu}{\sigma}$ has $\mu = 0, \sigma = 1$
 
 ***
 
