@@ -77,9 +77,13 @@ Properties:
 
 - $E(X) = \mu$
 - $Var(X) = \sigma^2$
-- with $\mu = 0$ and $\sigma = 1$, it's called a standard normal
 - 1, 2, 3, standard deviations contain 68% 95% 99% of the density
-- the transformation $Z = \frac{X - \mu}{\sigma}$ has $\mu = 0, \sigma = 1$
+- the transformation $Z = \frac{X - \mu}{\sigma}$ gives $\mu = 0$ and $\sigma = 1$
+- with $\mu = 0$ and $\sigma = 1$, it's called a standard normal
+
+$$
+P(Z = x) = f(x) = \frac{1}{\sqrt{2 \pi}} e ^{- \frac{x^2}{2}},
+$$
 
 ***
 
