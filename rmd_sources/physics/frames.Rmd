@@ -5,7 +5,10 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-library(r2d3)
+if(!require("r2d3")) { install.packages('r2d3', repos = "http://cran.us.r-project.org"); library("r2d3") }
+if(!require("ggplot2")) { install.packages('ggplot2', repos = "http://cran.us.r-project.org"); library("ggplot2") }
+if(!require("gifski")) { install.packages('gifski', repos = "http://cran.us.r-project.org"); library("gifski") }
+if(!require("gganimate")) { install.packages('gganimate', repos = "http://cran.us.r-project.org"); library("gganimate") }
 ```
 
 ***
@@ -192,9 +195,6 @@ The derived quantities $r$, and ${\bf \ddot{r}}$ are not populated for the last 
 All the motion has been set in the $x$-$y$ plane through the initial conditions.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, out.width="50%"}
-library(ggplot2)
-library(gifski)
-library(gganimate)
 g = ggplot(new_s_vector, aes(y = y, x = x, colour = factor(n_mass)))
 g = g + geom_point(data = new_s_vector, size=3)
 g = g + transition_time(ts) + ease_aes('linear')

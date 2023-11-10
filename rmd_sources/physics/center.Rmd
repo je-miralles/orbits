@@ -5,7 +5,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-library(r2d3)
+if(!require("r2d3")) { install.packages('r2d3', repos = "http://cran.us.r-project.org"); library("r2d3") }
 ```
 
 ***
