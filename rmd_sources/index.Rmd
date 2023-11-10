@@ -14,18 +14,18 @@ A wander through orbital mechanics and statistics in R (and Python, and Javascri
 
 **Orbital Mechanics**
 
-- [Reference frames](./frames.html)
-- [Center of gravity](./center.html)
-- [Relative motion](./relative.html)
+- [Reference frames](./physics/frames.html)
+- [Center of gravity](./physics/center.html)
+- [Relative motion](./physics/relative.html)
 
 **Statistics**
 
-- [Statistics basics](./stat_base.html)
-- [Central limit theorem](./central_limit.html)
+- [Statistics basics](./stat_inf/stat_base.html)
+- [Central limit theorem](./stat_inf/central_limit.html)
 
 **Math**
 
-- [Calculus of variations](./landau.html)
+- [Calculus of variations](./physics/landau.html)
 
 ***
 

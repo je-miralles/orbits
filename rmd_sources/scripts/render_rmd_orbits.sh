@@ -7,6 +7,6 @@ for d in */ ; do
         if [[ ! -e "$file" ]]; then continue; fi
         echo $file
         Rscript -e "library(knitr); rmarkdown::render('$file')"
-        mv $d/$(basename "$file" .Rmd).html ../docs/
+        mv $d/$(basename "$file" .Rmd).html ../docs/$d/
     done
 done
