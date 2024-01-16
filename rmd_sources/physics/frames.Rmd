@@ -8,7 +8,7 @@ knitr::opts_chunk$set(echo = TRUE)
 if(!require("r2d3")) { install.packages('r2d3', repos = "http://cran.us.r-project.org"); library("r2d3") }
 if(!require("ggplot2")) { install.packages('ggplot2', repos = "http://cran.us.r-project.org"); library("ggplot2") }
 if(!require("gifski")) { install.packages('gifski', repos = "http://cran.us.r-project.org"); library("gifski") }
-if(!require("gganimate")) { install.packages('gganimate', repos = "http://cran.us.r-project.org"); library("gganimate") }
+if(!require("gganimate")) { install.packages(c('stringi', 'gganimate'), repos = "http://cran.us.r-project.org"); library("gganimate") }
 ```
 
 ***
