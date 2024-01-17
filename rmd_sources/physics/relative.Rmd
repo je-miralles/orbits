@@ -125,14 +125,16 @@ $$
 
 So here we have an equation for the radius of the motion with respect to one of the foci, and the angle from the major axis.
 
-## Drawing Ellipses
+## Planets
+
+Let's try to [ballpark][1] something more familiar. Using the relevant masses, eccentricities, and orbital periods, we can estimate the other parameters for Earth and Pluto.
 
 ```{r}
-E_earth <- -1.5501749e36
-l_earth <- 1.1e39
-m_earth <- 5.972e24
-G <- 6.67e-11
-m_sun <- 1.99e30
+E_earth <- -1.5501749e36 # kg m / s^2
+l_earth <- 1.1e39 # kg m^2 / s
+m_earth <- 5.972e24 # kg
+G <- 6.67e-11 # N m^2 / kg^2
+m_sun <- 1.99e30 # kg
 earth_df <- data.frame(E = E_earth, l = l_earth, m = m_earth, G = G, M = m_sun)
 ```
 
@@ -141,11 +143,11 @@ r2d3(script="../scripts/ellipse.js", data=earth_df, options=list(orbit = "true")
 ```
 
 ```{r}
-E_pluto <- -1.2405e32
-l_pluto <- 1.2140e37
-m_pluto <- 1.303e22
-G <- 6.67e-11
-m_sun <- 1.99e30
+E_pluto <- -1.2405e32 # kg m / s^2
+l_pluto <- 1.2140e37 # kg m^2 / s
+m_pluto <- 1.303e22 # kg
+G <- 6.67e-11 # N m^2 / kg^2
+m_sun <- 1.99e30 # kg
 pluto_df <- data.frame(E = E_pluto, l = l_pluto, m = m_pluto, G = G, M = m_sun)
 ```
 
@@ -156,6 +158,8 @@ r2d3(script="../scripts/ellipse.js", data=pluto_df, options=list(orbit = "true")
 ***
 
 [<- Center of Gravity](./center.html)
+
+[1]: https://observablehq.com/@je-miralles/orbits
 
 ***
 
