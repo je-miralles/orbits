@@ -1,0 +1,16 @@
+---
+title: "Statistical inference"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+
+[<- Statistical distributions](./stat_dist.html)
+
+***
+
+[Orbits!](../index.html)
