@@ -211,7 +211,7 @@ head(ellipse_coords(E = E_pluto, l = l_pluto, m = m_pluto, G = G, M = m_sun, 0, 
 
 ***
 
-- [prev: Center of Gravity](./center.html)
+[<- Center of Gravity](./center.html)
 
 ***
 

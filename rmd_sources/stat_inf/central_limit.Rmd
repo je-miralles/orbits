@@ -120,8 +120,7 @@ p4 + geom_vline(aes(xintercept=0, colour="red"))
 
 ***
 
-- [next: Statistical distributions](./stat_dist.html)
-- [prev: Statistical basics](./stat_base.html)
+[<- Statistical basics](./stat_base.html) | [Statistical distributions ->](./stat_dist.html)
 
 [1]: https://en.wikipedia.org/wiki/Law_of_large_numbers
 [2]: https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables

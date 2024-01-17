@@ -146,7 +146,7 @@ $$
 
 ***
 
-- [next: Central limit theorem](./central_limit.html)
+[Central limit theorem ->](./central_limit.html)
 
 ***
 
