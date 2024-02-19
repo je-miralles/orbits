@@ -23,6 +23,10 @@ A wander through orbital mechanics and statistics in R (and Python, and Javascri
 - [Statistics basics](./stat_inf/stat_base.html)
 - [Central limit theorem](./stat_inf/central_limit.html)
 
+**Statistical machanics**
+
+- [Statistical mechanics I](./physics/stat_mech.html)
+
 **Math**
 
 - [Calculus of variations](./physics/landau.html)

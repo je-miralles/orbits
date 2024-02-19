@@ -9,10 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Emilio Miralles" />
 
 
-<title>Orbits!</title>
+<title>stat_mech.knit</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -349,38 +348,197 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Orbits!</h1>
-<h4 class="author">Emilio Miralles</h4>
 
 </div>
 
 
-<p>A wander through orbital mechanics and statistics in R (and Python,
-and Javascript).</p>
+<div id="statistical-mechanics" class="section level1">
+<h1>Statistical Mechanics</h1>
+<p><a href="https://youtu.be/D1RzvXDXyqA?feature=shared">Leonard
+Susskind: Stat Mech I</a></p>
+<blockquote>
+<p>The second law of thermodynamics may be deeper and more general that
+a lot of other “flashy” physics.</p>
+</blockquote>
+<p>Classical Mechanics, Quantum Mechanics, and other views, are about
+predictability; tracing a closed system by its rules of evolution from
+initial conditions onward.</p>
+<p>Statistical mechanics allows you to make inferences without knowing
+the conditions or laws driving the thing. But it deals with bulk
+properties, not about tracking individual molecules, etc.</p>
+<p>Good for elements</p>
+<ul>
+<li>too small to see</li>
+<li>too numerous to account for</li>
+</ul>
+<div id="probability" class="section level2">
+<h2>Probability</h2>
+<p>We want to think of the space of possibilities, whether outcomes of
+experiments, states of a system, etc, in a structured way.</p>
+<p>So we define some rules:</p>
+<table>
+<colgroup>
+<col width="60%" />
+<col width="39%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(i \in 1...n\)</span></td>
+<td>number the states</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(P(i) \geq 0\)</span></td>
+<td>each state has some positive probability</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\sum_{i} P(i) = 1\)</span></td>
+<td>summing over the probabilities gives <span class="math inline">\(1\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\lim_{N = \infty} N(i)/N =
+P(i)\)</span></td>
+<td>as our number of experiments increases, we can approximate the
+probability of any state <span class="math inline">\(P(i)\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <hr />
-<p><strong>Orbital Mechanics</strong></p>
-<ul>
-<li><a href="./physics/frames.html">Reference frames</a></li>
-<li><a href="./physics/center.html">Center of gravity</a></li>
-<li><a href="./physics/relative.html">Relative motion</a></li>
-</ul>
-<p><strong>Statistics</strong></p>
-<ul>
-<li><a href="./stat_inf/stat_base.html">Statistics basics</a></li>
-<li><a href="./stat_inf/central_limit.html">Central limit
-theorem</a></li>
-</ul>
-<p><strong>Statistical machanics</strong></p>
-<ul>
-<li><a href="./physics/stat_mech.html">Statistical mechanics I</a></li>
-</ul>
-<p><strong>Math</strong></p>
-<ul>
-<li><a href="./physics/landau.html">Calculus of variations</a></li>
-</ul>
+<p><strong>Classic example: coin flips</strong></p>
+<p>Through the <em>symmetry</em> of the perfectly fair coin, we say
+that:</p>
+<p><span class="math display">\[
+P(\text{heads}) = 0.5 \\
+P(\text{tails}) = 0.5.
+\]</span></p>
+<p>In the absence of such symmetry, such as imperfectly machined coins,
+or weighted dice, we just don’t know. We can measure <span class="math inline">\(N(i)/N\)</span> for a very large number of trials
+and we can get a close approximation, or we can appeal to the symmetries
+of some underlying theory to model the probability in question, but we
+ultimately can not know.</p>
+<p>We can assign values to states of our system arbitrarily:</p>
+<p><span class="math display">\[
+F(\text{heads}) = -1 \\
+F(\text{tails}) = 1,
+\]</span></p>
+<p>or these functions could be observables such as the energy or
+momentum.</p>
+<p>We can take statistics on functions of these states, like the
+mean:</p>
+<p><span class="math display">\[
+\begin{align}
+&lt;F(i)&gt; &amp;= \sum_{i} F(i) P(i) \\
+       &amp;= \sum_{i} \frac{F(i) N(i)}{N}
+\end{align}
+\]</span></p>
+<p>Note in this case that <span class="math inline">\(&lt;F(i)&gt; =
+F(\text{heads}) P(\text{heads}) + F(\text{tails}) P(\text{tails}) =
+0\)</span>, which is not a valid value for <span class="math inline">\(F\)</span>, but is nonetheless a valid
+statistic.</p>
 <hr />
-<p><a href="https://github.com/je-miralles/orbits">repo:
-je-miralles/orbits</a></p>
+</div>
+<div id="symmetry" class="section level2">
+<h2>Symmetry</h2>
+<p>Continuing with symmetrical systems, suppose there is some law of
+motion describing the change from one state to the next, spending equal
+time in each state. In a small system we can just enumerate the states
+and their transitions as a finite state machine.</p>
+<p><span class="math display">\[
+\begin{align}
+R &amp;\rightarrow B \\
+B &amp;\rightarrow G \\
+G &amp;\rightarrow Y \\
+Y &amp;\rightarrow O \\
+O &amp;\rightarrow P \\
+P &amp;\rightarrow R
+\end{align}
+\]</span></p>
+<p>We can still make observations on the evolution of these states, and
+without knowing the starting point or the detailed law, we can make a
+pretty good guess what a given snapshot will be.</p>
+<p>A closed cycle of events for which you pass through each color once.
+If they are spending equal time on each color, over many trials we can
+simply say that <span class="math inline">\(P = 1/6\)</span>.</p>
+<p>Now if the states are not all connected:</p>
+<pre><code>  B
+/   \
+R - G
+
+P - Y
+\   /
+  O</code></pre>
+<p>Without knowing which triangle we started in, we can still make
+progress. We know the probability of getting any one color in a given
+cycle is one third, and outside the cycle zero.</p>
+<p>Though we couldn’t find it through symmetry, suppose we know the
+probability for being in either cycle. From some outside tip or a strong
+hunch we <em>know</em> these probabilities.</p>
+<p>Then, for the chance of getting any one color we take the probability
+that we’re either in the top or bottom half, and then the probability
+within each cycle for our color:</p>
+<p><span class="math display">\[
+\begin{align}
+P(\text{top}) \frac{1}{3} &amp;= P(R|B|G) \\
+P(\text{bottom}) \frac{1}{3} &amp;= P(P|Y|O)
+\end{align}
+\]</span></p>
+<p>This situation is what we call having a <em>conservation law</em>,
+where the underlying configuration space is broken up into cycles.</p>
+<p>If we assigned a number to our states, <span class="math inline">\(F(\text{top}) = -1, F(\text{bottom}) = 1\)</span>,
+this could be our conserved quantity; a number that, once observed in
+our closed system, never changes. It could be the <em>energy</em>, the
+<em>momentum</em>, or any suitable quantity deriving from the current
+state.</p>
+<hr />
+<p><strong>Bad laws</strong>:</p>
+<ul>
+<li>Have an irreversible end state: information is lost about the path
+taken</li>
+<li>States do not have exactly entry or exit point: it is not possible
+to reconstruct the path</li>
+</ul>
+<p>They do not <em>conserve information</em>.</p>
+<hr />
+<p><strong>Friction</strong></p>
+<p><span class="math display">\[
+\frac{\mathrm{d^2 x_n}}{\mathrm{d}t^2} = -\gamma \frac{\mathrm{d
+x_n}}{\mathrm{d}t}
+\]</span></p>
+<p>Seems to be a bad law. Motion grinding irreversibly to a halt.</p>
+<p>What of <a href="https://en.wikipedia.org/wiki/Liouville&#39;s_theorem_(Hamiltonian)">Liouville’s
+theorem</a>? The phase space distribution function is constant along
+trajectories of the system? It seems to violate energy conservation, and
+the second law of thermodynamics as well!</p>
+<p>Of course we know this can’t be a closed system, and energy is being
+lost into the environment.</p>
+<hr />
+<p>So lets say we know our system has only <span class="math inline">\(M\)</span> available states. We don’t know how
+many states there possibly are in total, or how many may be in other
+cycles. We only know the states that are reachable; even so, we can
+describe it:</p>
+<p><span class="math display">\[
+\begin{align}
+&amp;N = \text{total} \\
+\text{for} \space M &lt; N, \space &amp;P = 1/M \\
+\text{others}, \space &amp;P = 0
+\end{align}
+\]</span></p>
+<p>So <span class="math inline">\(M\)</span> in relation to <span class="math inline">\(N\)</span> is a measure of our ignorance, which
+leads us to <em>entropy</em>, so fundamental that it shows up before
+energy and before temperature,</p>
+<p><span class="math display">\[
+S = \log M
+\]</span></p>
+<p>is a conserved quantity, no matter how the configurations of the
+system change. It is a measure of the number of states that have a
+non-zero probability, and we will surely see it again.</p>
+<hr />
+<p><a href="../index.html">Orbits!</a></p>
+</div>
+</div>
 
 
 

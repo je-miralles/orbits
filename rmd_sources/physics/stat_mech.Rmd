@@ -1,0 +1,160 @@
+# Statistical Mechanics
+
+[Leonard Susskind: Stat Mech I](https://youtu.be/D1RzvXDXyqA?feature=shared)
+
+> The second law of thermodynamics may be deeper and more general that a lot of other "flashy" physics.
+
+Classical Mechanics, Quantum Mechanics, and other views, are about predictability; tracing a closed system by its rules of evolution from initial conditions onward.
+
+Statistical mechanics allows you to make inferences without knowing the conditions or laws driving the thing. But it deals with bulk properties, not about tracking individual molecules, etc.
+
+Good for elements
+
+- too small to see
+- too numerous to account for
+
+## Probability
+
+We want to think of the space of possibilities, whether outcomes of experiments, states of a system, etc, in a structured way.
+
+So we define some rules:
+
+|                                   |                       |
+|-----------------------------------|-----------------------|
+| $i \in 1...n$                     | number the states     |
+| $P(i) \geq 0$                     | each state has some positive probability |
+| $\sum_{i} P(i) = 1$               | summing over the probabilities gives $1$ |
+| $\lim_{N = \infty} N(i)/N = P(i)$ | as our number of experiments increases, we can approximate the probability of any state $P(i)$ |
+|                                   |                       |
+
+***
+
+**Classic example: coin flips**
+
+Through the *symmetry* of the perfectly fair coin, we say that:
+
+$$
+P(\text{heads}) = 0.5 \\
+P(\text{tails}) = 0.5.
+$$
+
+In the absence of such symmetry, such as imperfectly machined coins, or weighted dice, we just don't know. We can measure $N(i)/N$ for a very large number of trials and we can get a close approximation, or we can appeal to the symmetries of some underlying theory to model the probability in question, but we ultimately can not know.
+
+We can assign values to states of our system arbitrarily:
+
+$$
+F(\text{heads}) = -1 \\
+F(\text{tails}) = 1,
+$$
+
+or these functions could be observables such as the energy or momentum.
+
+We can take statistics on functions of these states, like the mean:
+
+
+$$
+\begin{align}
+<F(i)> &= \sum_{i} F(i) P(i) \\
+       &= \sum_{i} \frac{F(i) N(i)}{N}
+\end{align}
+$$
+
+Note in this case that $<F(i)> = F(\text{heads}) P(\text{heads}) + F(\text{tails}) P(\text{tails}) = 0$, which is not a valid value for $F$, but is nonetheless a valid statistic.
+
+***
+
+## Symmetry
+
+Continuing with symmetrical systems, suppose there is some law of motion describing the change from one state to the next, spending equal time in each state. In a small system we can just enumerate the states and their transitions as a finite state machine.
+
+$$ 
+\begin{align}
+R &\rightarrow B \\
+B &\rightarrow G \\
+G &\rightarrow Y \\
+Y &\rightarrow O \\
+O &\rightarrow P \\
+P &\rightarrow R
+\end{align}
+$$
+
+We can still make observations on the evolution of these states, and without knowing the starting point or the detailed law, we can make a pretty good guess what a given snapshot will be.
+
+A closed cycle of events for which you pass through each color once. If they are spending equal time on each color, over many trials we can simply say that $P = 1/6$.
+
+
+Now if the states are not all connected:
+
+```
+  B
+/   \
+R - G
+
+P - Y
+\   /
+  O
+```
+
+Without knowing which triangle we started in, we can still make progress. We know the probability of getting any one color in a given cycle is one third, and outside the cycle zero.
+
+Though we couldn't find it through symmetry, suppose we know the probability for being in either cycle. From some outside tip or a strong hunch we *know* these probabilities.
+
+Then, for the chance of getting any one color we take the probability that we're either in the top or bottom half, and then the probability within each cycle for our color:
+
+$$
+\begin{align}
+P(\text{top}) \frac{1}{3} &= P(R|B|G) \\
+P(\text{bottom}) \frac{1}{3} &= P(P|Y|O)
+\end{align}
+$$
+
+This situation is what we call having a *conservation law*, where the underlying configuration space is broken up into cycles.
+
+If we assigned a number to our states, $F(\text{top}) = -1, F(\text{bottom}) = 1$, this could be our conserved quantity; a number that, once observed in our closed system, never changes. It could be the *energy*, the *momentum*, or any suitable quantity deriving from the current state.
+
+***
+
+**Bad laws**:
+
+- Have an irreversible end state: information is lost about the path taken
+- States do not have exactly entry or exit point: it is not possible to reconstruct the path
+
+They do not *conserve information*.
+
+***
+
+**Friction**
+
+$$
+\frac{\mathrm{d^2 x_n}}{\mathrm{d}t^2} = -\gamma \frac{\mathrm{d x_n}}{\mathrm{d}t}
+$$
+
+Seems to be a bad law. Motion grinding irreversibly to a halt.
+
+What of [Liouville's theorem](https://en.wikipedia.org/wiki/Liouville's_theorem_(Hamiltonian))? The phase space distribution function is constant along trajectories of the system? It seems to violate energy conservation, and the second law of thermodynamics as well! 
+
+Of course we know this can't be a closed system, and energy is being lost into the environment.
+
+***
+
+So lets say we know our system has only $M$ available states. We don't know how many states there possibly are in total, or how many may be in other cycles. We only know the states that are reachable; even so, we can describe it:
+
+$$
+\begin{align}
+&N = \text{total} \\
+\text{for} \space M < N, \space &P = 1/M \\
+\text{others}, \space &P = 0
+\end{align}
+$$
+
+So $M$ in relation to $N$ is a measure of our ignorance, which leads us to *entropy*, so fundamental that it shows up before energy and before temperature,
+
+$$
+S = \log M
+$$
+
+is a conserved quantity, no matter how the configurations of the system change. It is a measure of the number of states that have a non-zero probability, and we will surely see it again.
+
+***
+
+[Orbits!](../index.html)
