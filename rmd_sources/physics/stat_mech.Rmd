@@ -1,5 +1,5 @@
 ---
-title: "Statistical inference"
+title: "Stat Mech A: Symmetry"
 output: html_document
 ---
 
@@ -141,7 +141,7 @@ Seems to be a bad law. Motion grinding irreversibly to a halt.
 
 What of [Liouville's theorem](https://en.wikipedia.org/wiki/Liouville's_theorem_(Hamiltonian))? The phase space distribution function is constant along trajectories of the system? It seems to violate energy conservation, and the second law of thermodynamics as well! 
 
-Of course we know this can't be a closed system, and energy is being lost into the environment.
+Of course we know this can't be a closed system; energy is being lost into the environment.
 
 ***
 
@@ -189,7 +189,11 @@ p1
 
 Each point here represents a state of our system. With a well formed law, we expect time to evolve each initial state to a single corresponding later state. The configurations may change, but there will always be $M$ non-zero probability states.
 
-Working up toward an *infinite* number of states, in the fully continuous case, we can imagine a region representing reachable states, normally a multi-dimentional region in phase space. Appealing back to [Liouville's theorem](https://en.wikipedia.org/wiki/Liouville's_theorem_(Hamiltonian)), we understand that the volume of that region does not change over its trajectories, nor does its distribution function. If all $M$ states were initially equally likely, we should continue to have *some* $M$ equally likely states.
+Working up toward an *infinite* number of states, in the fully continuous case, we can imagine a region representing reachable states, normally a multi-dimentional region in phase space. Appealing back to [Liouville's theorem](https://en.wikipedia.org/wiki/Liouville's_theorem_(Hamiltonian)), we understand that the volume of that region does not change over the trajectories of the system, nor does its probability distribution change. If all $M$ states were initially equally likely, we should continue to have *some* $M$ equally likely states.
+
+***
+
+[Stat Mech B: Energy ->](./stat_mech_b.html)
 
 ***
 
