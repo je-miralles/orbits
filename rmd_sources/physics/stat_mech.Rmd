@@ -1,4 +1,11 @@
-# Statistical Mechanics
+---
+title: "Statistical inference"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 [Leonard Susskind: Stat Mech I](https://youtu.be/D1RzvXDXyqA?feature=shared)
 
@@ -24,7 +31,7 @@ So we define some rules:
 | $i \in 1...n$                     | number the states     |
 | $P(i) \geq 0$                     | each state has some positive probability |
 | $\sum_{i} P(i) = 1$               | summing over the probabilities gives $1$ |
-| $\lim_{N = \infty} N(i)/N = P(i)$ | as our number of experiments increases, we can approximate the probability of any state $P(i)$ |
+| $\lim_{N \rightarrow \infty} N(i)/N = P(i)$ | as our number of experiments increases, we can approximate the probability of any state $P(i)$ |
 |                                   |                       |
 
 ***
@@ -117,7 +124,7 @@ If we assigned a number to our states, $F(\text{top}) = -1, F(\text{bottom}) = 1
 **Bad laws**:
 
 - Have an irreversible end state: information is lost about the path taken
-- States do not have exactly entry or exit point: it is not possible to reconstruct the path
+- States do not have exactly one entry and exit point: again it is not possible to reconstruct the path
 
 They do not *conserve information*.
 
@@ -147,13 +154,15 @@ $$
 \end{align}
 $$
 
-So $M$ in relation to $N$ is a measure of our ignorance, which leads us to *entropy*, so fundamental that it shows up before energy and before temperature,
+So $M$ in relation to $N$ is a measure of our ignorance: when $M = N$ all states are equally likely and we essentially know nothing; when M = 1 we always know we're in the only available state.
+
+This notion leads us to *entropy*, a quantity so fundamental that it shows up before energy and before temperature,
 
 $$
 S = \log M
 $$
 
-is a conserved quantity, no matter how the configurations of the system change. It is a measure of the number of states that have a non-zero probability, and we will surely see it again.
+is conserved no matter how the configurations of the system change. It depends both on the state of the system and your state of knowledge of the system. It is a measure of the number of states that have a non-zero probability, and we will surely see it again.
 
 ***
 
