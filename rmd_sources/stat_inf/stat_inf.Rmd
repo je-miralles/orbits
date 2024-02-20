@@ -37,7 +37,35 @@ $$
 P(\mu \in\bar{X}_n \pm z_{(1-\alpha/2)} \sigma/\sqrt{n}) = 100(1-\alpha)\%,
 $$
 
-and $z_{(1-\alpha/2)}$ is the corresponding standard normal quantile.
+$z_{(1-\alpha/2)}$ being the corresponding standard normal quantile.
+
+***
+
+**example**
+
+```{r}
+n <- 10000
+df2 <- data.frame(x = rnorm(n))
+z_95 <- qnorm(0.95)
+
+X2 <- 1.5
+low_95 <- X2 - z_95
+high_95 <- X2 + z_95
+```
+
+If we choose a point, say $x = 1.5$, we can establish with 95% confidence that,
+
+$$
+`r low_95` \leq \mu \leq `r high_95`
+$$
+
+```{r fig.height = 3, echo=FALSE}
+p2 <- ggplot(df2, aes(x)) + theme(legend.position="none") + xlim(-4, 4)
+p2 <- p2 + geom_histogram(aes(y=after_stat(density)), binwidth=0.2, na.rm=TRUE)
+p2 <- p2 + stat_function(fun=dnorm, args=list(mean=0, sd=1), colour="red")
+vline_data = data.frame(x_int = c(low_95, X2, high_95))
+p2 + geom_vline(aes(xintercept=x_int, colour="red"), vline_data)
+```
 
 ***
 
