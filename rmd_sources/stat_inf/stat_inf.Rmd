@@ -43,6 +43,41 @@ $z_{(1-\alpha/2)}$ being the corresponding standard normal quantile.
 
 **example**
 
+```{r echo=FALSE}
+#' n: # number of rexp samples for each mean
+#' k: # number of means
+generate_means <- function(n, years, prob) {
+  #' collect k means, each with n samples, in an array
+  sample_means = NULL
+  for (i in 1:years) sample_means = c(sample_means, mean(rbinom(n, size=1, prob=prob)))
+  means_df <- data.frame(means = sample_means)
+  means_df
+}
+```
+
+Let's get away from normals for a second and talk about a different sort of process. Every year an inquiry is made into whether the good citizens of Zilcholand would like to run juice through the water lines instead of water. A yes or no from $N = 20000$ people.
+
+A single referendum might look like this:
+
+```{r fig.height = 3, echo = FALSE}
+N <- 20000
+years <- 1000
+df3 <- data.frame(noyes = factor(rbinom(N, size=1, prob=0.4)))
+df4 <- generate_means(N, years, 0.4)
+p3 <- ggplot(df3, aes(noyes))+ geom_bar()
+p3
+```
+
+If we take the average every time, after `r years` years the mean response is $`r mean(df4$means)`$
+
+```{r fig.height = 3, echo = FALSE}
+p4 <- ggplot(df4, aes(means))
+p4 <- p4 + geom_histogram(aes(y=after_stat(density)), binwidth=0.001)
+p4
+```
+
+***
+
 ```{r}
 n <- 10000
 df2 <- data.frame(x = rnorm(n))
