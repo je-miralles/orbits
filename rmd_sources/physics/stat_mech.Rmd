@@ -5,6 +5,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+if(!require("ggplot2")) { install.packages('ggplot2', repos = "http://cran.us.r-project.org"); library("ggplot2") }
 ```
 
 [Leonard Susskind: Stat Mech I](https://youtu.be/D1RzvXDXyqA?feature=shared)
@@ -163,6 +164,32 @@ S = \log M
 $$
 
 is conserved no matter how the configurations of the system change. It depends both on the state of the system and your state of knowledge of the system. It is a measure of the number of states that have a non-zero probability, and we will surely see it again.
+
+***
+
+**Continuous system**
+
+Consider a continuous system of many particles. We draw a simplified phase space of the momenta and positions, $p$ vs $x$, keeping in mind that in general this is a multi-dimentional space, consisting of several degrees of freedom for each particle.
+
+```{r echo=FALSE}
+# For a $450\text{g}$ association football travelling near $150\text{km/h}$ around a $15\text{m}$ gym:
+M <- 1000; m <- 0.450; v <- 150000*60*60; xmax <- 15
+p0 <- rnorm(M, m*v*1.5, 30000000)
+x0 <- rnorm(M, xmax/2, 1)
+p1 <- rnorm(M, m*v/1.5, 85000000)
+x1 <- rnorm(M, xmax/1.5, 1)
+
+df <- data.frame(p = p0, x = x0, state="initial")
+df[1001:2000, ] <- data.frame(p = p1, x = x1, state="later")
+p1 <- ggplot(df, aes(x = x, y = p, colour = state)) + xlim(c(0, 15)) + ylim(c(0, 500000000))
+p1 <- p1 + xlab("position (m)") + ylab("momentum (kg m/s)")
+p1 <- p1 + geom_point(data = df, na.rm=TRUE)
+p1
+```
+
+Each point here represents a state of our system. With a well formed law, we expect time to evolve each initial state to a single corresponding later state. The configurations may change, but there will always be $M$ non-zero probability states.
+
+Working up toward an *infinite* number of states, in the fully continuous case, we can imagine a region representing reachable states, normally a multi-dimentional region in phase space. Appealing back to [Liouville's theorem](https://en.wikipedia.org/wiki/Liouville's_theorem_(Hamiltonian)), we understand that the volume of that region does not change over its trajectories, nor does its distribution function. If all $M$ states were initially equally likely, we should continue to have *some* $M$ equally likely states.
 
 ***
 
