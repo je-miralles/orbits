@@ -22,22 +22,50 @@ p1 <- p1 + geom_histogram(aes(y=after_stat(density)), binwidth=0.2, na.rm=TRUE)
 p1 <- p1 + stat_function(fun=dnorm, args=list(mean=0, sd=1), colour="red")
 p1 <- p1 + stat_function(fun=dnorm, xlim = c(-1, 1), geom = "area")
 vline_data = data.frame(x_int = c(-2, -1, 1, 2))
-p1 + geom_vline(aes(xintercept=x_int, colour="red"), vline_data)
+p1 + geom_vline(xintercept=vline_data$x_int, colour="red")
 ```
 
-Another way of looking at it is that we have 95% confidence that the population mean, $\mu$, of some statistic falls inside the interval:
+To build some intuition we can go back to the definition of the quantile, the point $x_v$ for which $CDF(x_v) = P(X \leq x_v) = v$.
+
+```{r echo=FALSE}
+v <- 0.975
+```
+
+If our random variable is suitable for the law of large numbers, we can cast this into a normalized value and approximate it with the standard normal quantile, for example with $v = `r v`$:
 
 $$
-\bar{X}_n - 2 \sigma/\sqrt{n} \leq \mu \leq \bar{X}_n + 2 \sigma/\sqrt{n}
+\begin{align}
+P(X \leq x_{`r v`}) &= `r v` \\
+P(\frac{X - \mu}{\sigma} \leq \frac{x_{`r v`} - \mu}{\sigma}) &= `r v`.
+\end{align}
 $$
 
-Or, in general,
+so the quantile we are looking for is:
 
 $$
-P(\mu \in \bar{X}_n \pm z_{(1-\alpha/2)} \sigma/\sqrt{n}) = 100(1-\alpha)\%,
+\begin{align}
+\frac{x_{`r v`} - \mu}{\sigma} &= qnorm(`r v`) = `r qnorm(v)` \\
+x_{`r v`} &= \mu + `r qnorm(v)` \sigma.
+\end{align}
 $$
 
-$z_{(1-\alpha/2)}$ being the corresponding standard normal quantile.
+With probability $`r v`$ a randomly chosen variable will satisfy $x_i \geq \mu + `r qnorm(v)` \sigma$ and by symmetry the probability of a randomly chosen variable satisfying $x_i \leq \mu - `r qnorm(v)` \sigma$ is $`r v`$.
+
+Since the density is split evenly among the tails, we use $v = 1-\alpha/2$ where $\alpha = 0.05$, and say with $95\%$ confidence that the population mean, $\mu$, falls roughly inside the interval:
+
+$$
+\bar{X}_n - 2 \frac{\sigma}{\sqrt{n}} \leq \mu \leq \bar{X}_n + 2 \frac{\sigma}{\sqrt{n}},
+$$
+
+with the sample's [standard error](https://en.wikipedia.org/wiki/Standard_error), $s = \sigma/\sqrt{n}$, replacing the population's unknown standard deviation.
+
+So in general,
+
+$$
+P(\mu \in \bar{X}_n \pm z_{(1-\alpha/2)} \frac{\sigma}{\sqrt{n}}) = 100(1-\alpha)\%,
+$$
+
+where $z_{(1-\alpha/2)}$ is the corresponding standard normal quantile.
 
 ***
 
@@ -67,44 +95,51 @@ colorize <- function(x, color) {
 }
 ```
 
-Let's get away from normals for a second and talk about a different sort of process. Every year an inquiry is made into whether the good citizens of Zilcholand would like to run juice through the water lines instead of water. A yes or no from $N = 20000$ people.
-
-A single referendum might look like this:
+Let's get away from normals for a second and talk about a different sort of process. Every year an inquiry is made into whether the good citizens of Zilcholand would like to run juice through the water lines instead of water. A yes or no is collected from $N = 20000$ people.
 
 ```{r fig.height = 3, echo = FALSE}
-N <- 20000
-years <- 100
+N <- 1000
+years <- 50
 df3 <- data.frame(vote = factor(rbinom(N, size=1, prob=0.4)))
 df4 <- generate_means(N, years, 0.4)
-X_n <- mean(df4$means)
-low  <- function(quant) { X_n - qnorm(quant)*sd(df4$means)/sqrt(length(df4$means)) }
-high <- function(quant) { X_n + qnorm(quant)*sd(df4$means)/sqrt(length(df4$means)) }
-vline_data <- function(quant) { data.frame(x_int = c(low(quant), X_n, high(quant))) }
+XBar_n <- mean(df4$means)
+low  <- function(quant) { XBar_n - qnorm(quant)*sd(df4$means)/sqrt(length(df4$means)) }
+high <- function(quant) { XBar_n + qnorm(quant)*sd(df4$means)/sqrt(length(df4$means)) }
+vline_data <- function(quant) { data.frame(x_int = c(low(quant), XBar_n, high(quant))) }
 ```
 
-```{r echo=FALSE}
-p3 <- ggplot(df3, aes(vote))+ geom_bar()
-p3
+```{r fig.height = 3, echo = FALSE}
+p3 <- ggplot(df3, aes(vote))+ geom_bar() + ggtitle("single run")
 ```
 
-If we take the average every time, after `r years` years we get the mean response, $\bar{X}_n =`r X_n`$, and we can establish with `r colorize("95% confidence", "red")` that the population mean, $\mu$,
+```{r, echo = FALSE}
+p4 <- ggplot(df4, aes(means)) + theme(legend.position="none") + ggtitle(paste("means for", as.character(N), " runs"))
+p4 <- p4 + geom_histogram(aes(y=after_stat(density)), binwidth=0.006, na.rm=TRUE)
+p4 <- p4 + stat_function(fun=dnorm, args=list(mean=XBar_n, sd=sd(df4$means)), colour="red")
+vline_95 <- vline_data(0.95)
+vline_99 <- vline_data(0.99)
+p4 <- p4 + geom_vline(xintercept=vline_95$x_int, colour="red")
+p4 <- p4 + geom_vline(xintercept=vline_99$x_int, colour="blue")
+```
+
+```{r fig.height = 3, echo = FALSE}
+library(patchwork)
+p3 + p4
+```
+
+If we take the average every time, after `r years` years we get an estimate for the mean response, $\bar{X}_n =`r XBar_n`$, and we can establish with `r colorize("95% confidence", "red")` that the population mean, $\mu$,
 
 $$
 `r low(0.95)` \leq \mu \leq `r high(0.95)`
 $$
 
-```{r fig.height = 3, echo = FALSE}
-p4 <- ggplot(df4, aes(means)) + theme(legend.position="none")
-p4 <- p4 + geom_histogram(aes(y=after_stat(density)), binwidth=0.001, na.rm=TRUE)
-p4 <- p4 + geom_vline(aes(xintercept=x_int, colour="red"), vline_data(0.95))
-p4 + geom_vline(aes(xintercept=x_int, colour="blue"), vline_data(0.99))
-```
-
 or with `r colorize("99% confidence", "blue")`:
 
 $$
-`r low(0.99)` \leq \mu \leq `r high(0.99)`
+`r low(0.99)` \leq \mu \leq `r high(0.99)`.
 $$
+
+In other words we exchange confidence for the spread in our estimate.
 
 ***
 
