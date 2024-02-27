@@ -1,5 +1,5 @@
 ---
-title: "Statistical inference"
+title: "Confidence Intervals"
 output: html_document
 ---
 
@@ -7,8 +7,6 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 if(!require("ggplot2")) { install.packages('ggplot2', repos = "http://cran.us.r-project.org"); library("ggplot2") }
 ```
-
-## Confidence Intervals
 
 We can integrate the standard normal to find the following rules of thumb:
 

@@ -22,6 +22,7 @@ A wander through orbital mechanics and statistics in R (and Python, and Javascri
 
 - [Statistics basics](./stat_inf/stat_base.html)
 - [Central limit theorem](./stat_inf/central_limit.html)
+- [Confidence intervals](./stat_inf/stat_inf.html)
 
 **Statistical machanics**
 
