@@ -411,7 +411,7 @@ pick another of the same suit</li>
 area under the <span class="math inline">\(PDF\)</span>. The <span class="math inline">\(PDF\)</span> must be nonnegative and the total
 area under it must be <span class="math inline">\(1\)</span>.</p>
 <p>The <em>cumulative distribution function</em> of a random variable
-<span class="math inline">\(X\)</span> is <span class="math inline">\(CDF(x) = P(X &lt;= x)\)</span>.</p>
+<span class="math inline">\(X\)</span> is <span class="math inline">\(CDF(x) = P(X \leq x)\)</span>.</p>
 <p>The <em>survivor function</em> of a random variable <span class="math inline">\(X\)</span> is <span class="math inline">\(S(x) =
 P(X &gt; x) = 1 - CDF(x)\)</span>.</p>
 <p>The <em>quantile</em> <span class="math inline">\(v\)</span> of a CDF
@@ -516,6 +516,25 @@ Var(X) &amp;= E((X - \mu)^2) \\
 Var(X) &amp;= E(X^2) - E(X)^2
 \end{align}
 \]</span></p>
+<hr />
+<p><strong>interpretation</strong></p>
+<p>From <a href="https://en.wikipedia.org/wiki/Chebyshev&#39;s_inequality">Chebyshev’s
+inequality</a>, the probability of a random variable being more than k
+standard deviations from its mean is:</p>
+<p><span class="math display">\[
+P(|X - \mu| \geq k \sigma) \leq \frac{1}{k^2},
+\]</span></p>
+<p>or, for the first few deviations,</p>
+<p><span class="math display">\[
+\begin{align}
+P(|X - \mu| \geq 1 \sigma) &amp; \leq 1 \\
+P(|X - \mu| \geq 2 \sigma) &amp; \leq 0.25 \\
+P(|X - \mu| \geq 3 \sigma) &amp; \leq 0.1111111.
+\end{align}
+\]</span></p>
+<p>This is more general that the <a href="https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule">68-95-99.7
+rule</a> of the normal distribution, as it applies to any distribution
+that has a defined mean and variance.</p>
 <hr />
 <p><a href="./central_limit.html">Central limit theorem -&gt;</a></p>
 <hr />
