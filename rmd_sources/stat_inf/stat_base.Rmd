@@ -45,7 +45,7 @@ The *probability density function* is the probability that a *continuous random 
 
 The probability that a random variable falls within a range is the area under the $PDF$. The $PDF$ must be nonnegative and the total area under it must be $1$.
 
-The *cumulative distribution function* of a random variable $X$ is $CDF(x) = P(X <= x)$.
+The *cumulative distribution function* of a random variable $X$ is $CDF(x) = P(X \leq x)$.
 
 The *survivor function* of a random variable $X$ is $S(x) = P(X > x) = 1 - CDF(x)$.
 
@@ -143,6 +143,29 @@ $$
 Var(X) &= E(X^2) - E(X)^2
 \end{align}
 $$
+
+***
+
+**interpretation**
+
+From [Chebyshev's inequality](https://en.wikipedia.org/wiki/Chebyshev's_inequality), the probability of a random variable being more than k standard deviations from its mean is:
+
+$$
+P(|X - \mu| \geq k \sigma) \leq \frac{1}{k^2},
+$$
+
+or, for the first few deviations,
+
+$$
+\begin{align}
+P(|X - \mu| \geq 1 \sigma) & \leq `r 1/1^2` \\
+P(|X - \mu| \geq 2 \sigma) & \leq `r 1/2^2` \\
+P(|X - \mu| \geq 3 \sigma) & \leq `r 1/3^2`.
+\end{align}
+$$
+
+This is more general that the [68-95-99.7 rule](https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule) of the normal distribution, as it applies to any distribution that has a defined mean and variance.
+
 
 ***
 
