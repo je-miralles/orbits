@@ -203,6 +203,72 @@ Working up toward an *infinite* number of states, in the fully continuous case w
 
 ***
 
+**Energy**
+
+Generally in a closed system energy is conserved:
+
+$$
+\frac{\mathrm{d E}}{\mathrm{d}t} = 0,
+$$
+
+of course that doesn't mean it can't change form or be passed around. Breaking the system into two components, we can describe local changes in energy:
+
+$$
+\frac{\mathrm{d E_1}}{\mathrm{d}t} = - \frac{\mathrm{d E_2}}{\mathrm{d}t}.
+$$
+
+Energy is conserved even in systems with more complicated dynamics, like two particles in gravitational interaction,
+
+$$
+E = \frac{1}{2} m_1 {\bf v}_1^2 + \frac{1}{2} m_2 {\bf v}_2^2 + U({\bf r}_1, {\bf r}_2).
+$$
+
+Here it is not so simple as adding the energies of the two particles since the a gravitational term $U$ belongs to both particles together.
+
+In many real systems, we will find that the interaction energy $U$ is small compared with the overall system, and the energy decomposition above can hold to a good approximation.
+
+***
+
+**Entropy**
+
+Lets imagine enumerating all the states, $i$, of a system with $P(i)$ on the vertical axis.
+
+```{r echo=FALSE}
+N <- 100
+M <- 25
+nz_probs <- runif(M)
+probs <- rep(0, M)
+probs <- append(probs, nz_probs/sum(nz_probs))
+probs <- append(probs, rep(0, N-2*M))
+df2 <- data.frame(i = seq(1, N), p = probs)
+p1 <- ggplot(data = df2) + xlab("state") + ylab("probability")
+p1 + geom_col(aes(x = i, y = p))
+```
+
+As before we have a patch of $M$ states with non-zero probability, the rest have $P(i) = 0$.
+
+$$
+S = -\sum_i P(i) \log P(i)
+$$
+
+Remembering the definition of the mean, $\left < F \right > = -\sum_i P(i) F(i)$, we can recast the entropy as the average:
+
+$$
+S = - \left < \log P(i) \right >
+$$
+
+Since all the $P(i) = \frac{1}{M}$,
+
+$$
+\begin{align}
+S &= -\sum_{i = 1}^M \frac{1}{M} \log \frac{1}{M} \\
+S &= -\log \frac{1}{M} \\
+S &= \log M
+\end{align}
+$$
+
+***
+
 [Stat Mech B: Energy ->](./stat_mech_b.html)
 
 ***
