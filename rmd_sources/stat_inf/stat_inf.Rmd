@@ -24,7 +24,7 @@ vline_data = data.frame(x_int = c(-3, -2, -1, 1, 2, 3))
 p1 + geom_vline(xintercept=vline_data$x_int, colour="red")
 ```
 
-Let's see how we can use this to estimate a $95\%$ confidence interval, or an arbitrary $100(1-\alpha)\%$ interval, for the population mean $\mu$ when we do not assume the underlying distribution, but we have many sampled means.
+Let's see how we can use this to estimate a confidence interval for the population mean $\mu$ when we do not assume the underlying distribution, but we have many sampled means.
 
 ```{r echo=FALSE}
 v <- 0.975
@@ -66,7 +66,7 @@ where $z_{(1-\alpha/2)}$ is the corresponding standard normal quantile.
 
 ***
 
-**example**
+**Example**
 
 ```{r echo=FALSE}
 #' n: # number of rexp samples for each mean
@@ -92,10 +92,8 @@ colorize <- function(x, color) {
 }
 ```
 
-Let's get away from normals for a second and talk about a different sort of process. Every year an inquiry is made into whether the good citizens of Zilcholand would like to run juice through the water lines instead of water. A yes or no is collected from $N = 20000$ people.
-
 ```{r fig.height = 3, echo = FALSE}
-N <- 1000
+N <- 20000
 years <- 50
 p <- 0.4
 df3 <- data.frame(vote = factor(rbinom(N, size=1, prob=p)))
@@ -108,13 +106,15 @@ vline_95 <- vline_data(0.95)
 vline_99 <- vline_data(0.99)
 ```
 
+Let's get away from normals for a second and talk about a different sort of process. Every year an inquiry is made into whether the good citizens of Zilcholand would like to run juice through the water lines instead of water. A yes or no is collected from $N = `r N`$ people.
+
 ```{r fig.height = 3, echo = FALSE}
-p3 <- ggplot(df3, aes(vote))+ geom_bar() + ggtitle("single run")
+p3 <- ggplot(df3, aes(vote))+ geom_bar() + ggtitle("single year")
 ```
 
 ```{r, echo = FALSE}
-p4 <- ggplot(df4, aes(means)) + theme(legend.position="none") + ggtitle(paste("means for", as.character(N), " runs"))
-p4 <- p4 + geom_histogram(aes(y=after_stat(density)), binwidth=0.006, na.rm=TRUE)
+p4 <- ggplot(df4, aes(means)) + theme(legend.position="none") + ggtitle(paste("means for", as.character(years), "years"))
+p4 <- p4 + geom_histogram(aes(y=after_stat(density)), binwidth=9/N, na.rm=TRUE)
 p4 <- p4 + stat_function(fun=dnorm, args=list(mean=XBar_n, sd=sd(df4$means)), colour="red")
 p4 <- p4 + xlim(XBar_n + c(-1,1) * 2*sd(df4$means))
 p4 <- p4 + geom_vline(xintercept=vline_95$x_int, colour="red")
@@ -126,19 +126,12 @@ library(patchwork)
 p3 + p4
 ```
 
-This is a binomial process which can be modeled with some underlying probabilities $P(\text{yes}) = 1 - P(\text{no})$, but over many referenda the mean vote begins to approximate a normal distribution. If we take the average every time, after `r years` years we get an estimate for the mean response, $\bar{X}_n =`r XBar_n`$, and we can establish with `r colorize("95% confidence", "red")` that the population mean is inside,
+This is a binomial process which can be modeled with some underlying probabilities $P(\text{yes}) = 1 - P(\text{no})$, but over many referenda the mean vote begins to approximate a normal distribution. If we take the average every time, after `r years` years we get an estimate for the mean response, $\bar{X}_n =`r XBar_n`$, and we can establish the population mean:
 
-$$
-`r low(0.95)` \leq \mu \leq `r high(0.95)`
-$$
+- with `r colorize("95% confidence", "red")`, $`r low(0.95)` \leq \mu \leq `r high(0.95)`$, or
+- with `r colorize("99% confidence", "blue")`, $`r low(0.99)` \leq \mu \leq `r high(0.99)`.$
 
-or with `r colorize("99% confidence", "blue")`:
-
-$$
-`r low(0.99)` \leq \mu \leq `r high(0.99)`.
-$$
-
-In other words we increase confidence by increasing the spread in our estimate. Nonetheless both of these ranges cover the "true" mean of the simulated Zilcholand we were sampling from, where $P = `r p`$ to vote yes.
+In other words we increase confidence by increasing the spread in our estimate. Nonetheless both of these ranges will usually cover the "true" mean of the simulated Zilcholand we were sampling from, where $P = `r p`$ to vote yes.
 
 ***
 
