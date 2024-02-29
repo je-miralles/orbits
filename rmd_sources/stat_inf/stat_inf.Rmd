@@ -95,29 +95,27 @@ colorize <- function(x, color) {
 
 ```{r fig.height = 3, echo = FALSE}
 N <- 20000
-years <- 50
 p <- 0.4
 df3 <- data.frame(vote = factor(rbinom(N, size=1, prob=p)))
-df4 <- generate_means(N, years, p)
-XBar_n <- mean(df4$means)
-low  <- function(quant) { XBar_n - qnorm(quant)*sd(df4$means)/sqrt(length(df4$means)) }
-high <- function(quant) { XBar_n + qnorm(quant)*sd(df4$means)/sqrt(length(df4$means)) }
-vline_data <- function(quant) { data.frame(x_int = c(low(quant), XBar_n, high(quant))) }
-vline_95 <- vline_data(0.95)
-vline_99 <- vline_data(0.99)
+low  <- function(XBar_n, quant, s_n) { XBar_n - qnorm(quant)*s_n }
+high <- function(XBar_n, quant, s_n) { XBar_n + qnorm(quant)*s_n }
+vline_data <- function(XBar_n, quant, s_n) { data.frame(x_int = c(low(XBar_n, quant, s_n), XBar_n, high(XBar_n, quant, s_n))) }
+p3 <- ggplot(df3, aes(vote))+ geom_bar() + ggtitle("single year")
 ```
 
 Let's get away from normals for a second and talk about a different sort of process. Every year an inquiry is made into whether the good citizens of Zilcholand would like to run juice through the water lines instead of water. A yes or no is collected from $N = `r N`$ people.
 
-```{r fig.height = 3, echo = FALSE}
-p3 <- ggplot(df3, aes(vote))+ geom_bar() + ggtitle("single year")
-```
-
 ```{r, echo = FALSE}
-p4 <- ggplot(df4, aes(means)) + theme(legend.position="none") + ggtitle(paste("means for", as.character(years), "years"))
+years <- 100
+df4 <- generate_means(N, years, p)
+XBar_n <- mean(df4$means)
+s_n <- sd(df4$means)
+vline_95 <- vline_data(XBar_n, 0.95, s_n)
+vline_99 <- vline_data(XBar_n, 0.99, s_n)
+p4 <- ggplot(df4, aes(means)) + theme(legend.position="none") + ggtitle(paste("histogram, means for", as.character(years), "years"))
 p4 <- p4 + geom_histogram(aes(y=after_stat(density)), binwidth=9/N, na.rm=TRUE)
-p4 <- p4 + stat_function(fun=dnorm, args=list(mean=XBar_n, sd=sd(df4$means)), colour="red")
-p4 <- p4 + xlim(XBar_n + c(-1,1) * 2*sd(df4$means))
+p4 <- p4 + stat_function(fun=dnorm, args=list(mean=XBar_n, sd=s_n), colour="red")
+p4 <- p4 + xlim(XBar_n + c(-1,1) * 3*s_n)
 p4 <- p4 + geom_vline(xintercept=vline_95$x_int, colour="red")
 p4 <- p4 + geom_vline(xintercept=vline_99$x_int, colour="blue")
 ```
@@ -127,10 +125,10 @@ library(patchwork)
 p3 + p4
 ```
 
-This is a binomial process which can be modeled with some underlying probabilities $P(\text{yes}) = 1 - P(\text{no})$, but over many referenda the mean vote begins to approximate a normal distribution. If we take the average every time, after `r years` years we get an estimate for the mean response, $\bar{X}_n =`r XBar_n`$, and we can establish the population mean:
+This is a binomial process which can be modeled with some underlying probabilities $P(\text{yes}) = 1 - P(\text{no})$, but over many referenda the mean vote begins to approximate a normal distribution. If we take the average every time, after `r years` years we get an estimate for the mean response, $\bar{X}_n =`r XBar_n`$, and we can establish for the population mean, $\mu$:
 
-- with `r colorize("95% confidence", "red")`, $`r low(0.95)` \leq \mu \leq `r high(0.95)`$, or
-- with `r colorize("99% confidence", "blue")`, $`r low(0.99)` \leq \mu \leq `r high(0.99)`.$
+- with `r colorize("95% confidence", "red")`, $`r low(XBar_n, 0.95, s_n)` \leq \mu \leq `r high(XBar_n, 0.95, s_n)`$, or
+- with `r colorize("99% confidence", "blue")`, $`r low(XBar_n, 0.99, s_n)` \leq \mu \leq `r high(XBar_n, 0.99, s_n)`.$
 
 In other words we increase confidence by increasing the spread in our estimate. Nonetheless both of these ranges will usually cover the "true" mean of the simulated Zilcholand we were sampling from, where $P = `r p`$ to vote yes.
 
