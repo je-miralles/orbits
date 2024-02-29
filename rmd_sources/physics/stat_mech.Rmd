@@ -6,6 +6,8 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 if(!require("ggplot2")) { install.packages('ggplot2', repos = "http://cran.us.r-project.org"); library("ggplot2") }
+# DiagrammeR requires glpk and gfortran as dependencies
+if(!require("DiagrammeR")) { install.packages('DiagrammeR', repos = "http://cran.us.r-project.org"); library("DiagrammeR") }
 ```
 
 [Leonard Susskind: Stat Mech I](https://youtu.be/D1RzvXDXyqA?feature=shared)
@@ -62,52 +64,60 @@ We can take statistics on functions of these states, like the mean:
 
 $$
 \begin{align}
-<F(i)> &= \sum_{i} F(i) P(i) \\
-       &= \sum_{i} \frac{F(i) N(i)}{N}
+\left < F(i) \right > &= \sum_{i} P(i) F(i) \\
+                      &= \sum_{i} \frac{N(i)}{N} F(i)
 \end{align}
 $$
 
-Note in this case that $<F(i)> = F(\text{heads}) P(\text{heads}) + F(\text{tails}) P(\text{tails}) = 0$, which is not a valid value for $F$, but is nonetheless a valid statistic.
+Note in this case that $\left < F(i) \right > = F(\text{heads}) P(\text{heads}) + F(\text{tails}) P(\text{tails}) = 0$, which is not a valid value for $F$, but is nonetheless a valid statistic.
 
 ***
 
 ## Symmetry
 
-Continuing with symmetrical systems, suppose there is some law of motion describing the change from one state to the next, spending equal time in each state. In a small system we can just enumerate the states and their transitions as a finite state machine.
+Continuing with symmetrical systems, suppose there is some law of motion describing the change from one state to the next, spending equal time in each state; a closed cycle of events for which you pass through each color once. In a small system we can just enumerate the states and their transitions.
 
-$$ 
-\begin{align}
-R &\rightarrow B \\
-B &\rightarrow G \\
-G &\rightarrow Y \\
-Y &\rightarrow O \\
-O &\rightarrow P \\
-P &\rightarrow R
-\end{align}
-$$
+```{r fig.height = 3, echo=FALSE}
+states_graph_1 <-
+  create_graph() %>%
+  add_node(label = "R") %>%
+  add_node(label = "B") %>%
+  add_node(label = "G") %>%
+  add_node(label = "Y") %>%
+  add_node(label = "O") %>%
+  add_node(label = "P") %>%
+  add_edge(from = "R", to = "B") %>%
+  add_edge(from = "B", to = "G") %>%
+  add_edge(from = "G", to = "Y") %>%
+  add_edge(from = "Y", to = "O") %>%
+  add_edge(from = "O", to = "P") %>%
+  add_edge(from = "P", to = "R")
+render_graph(states_graph_1)
+```
 
-We can still make observations on the evolution of these states, and without knowing the starting point or the detailed law, we can make a pretty good guess what a given snapshot will be.
-
-A closed cycle of events for which you pass through each color once. If they are spending equal time on each color, over many trials we can simply say that $P = 1/6$.
-
+We can make observations on the evolution of these states, and without knowing the starting point or the detailed law, we can make a pretty good guess what a given snapshot will be. If they are spending equal time on each color, over many trials we can simply say that $P = 1/6$.
 
 Now if the states are not all connected:
 
+```{r fig.height = 3, echo=FALSE}
+states_graph_2 <-
+  create_graph() %>%
+  add_node(label = "R") %>%
+  add_node(label = "B") %>%
+  add_node(label = "G") %>%
+  add_node(label = "Y") %>%
+  add_node(label = "O") %>%
+  add_node(label = "P") %>%
+  add_edge(from = "R", to = "B") %>%
+  add_edge(from = "B", to = "G") %>%
+  add_edge(from = "G", to = "R") %>%
+  add_edge(from = "Y", to = "O") %>%
+  add_edge(from = "O", to = "P") %>%
+  add_edge(from = "P", to = "Y")
+render_graph(states_graph_2)
 ```
-  B
-/   \
-R - G
 
-P - Y
-\   /
-  O
-```
-
-Without knowing which triangle we started in, we can still make progress. We know the probability of getting any one color in a given cycle is one third, and outside the cycle zero.
-
-Though we couldn't find it through symmetry, suppose we know the probability for being in either cycle. From some outside tip or a strong hunch we *know* these probabilities.
-
-Then, for the chance of getting any one color we take the probability that we're either in the top or bottom half, and then the probability within each cycle for our color:
+Without knowing which triangle we started in, we can still make progress. We know the probability of getting any one color in a given cycle is one third, and outside the cycle zero. Though we couldn't find it through symmetry, suppose from some outside tip or a strong hunch we *know* the probability for being in either cycle, $P(\text{top})$ and $P(\text{bottom})$. Then, for the chance of getting any one color we take the probability that we're either in the top or bottom half, and then the probability within each cycle for our color:
 
 $$
 \begin{align}
@@ -163,7 +173,7 @@ $$
 S = \log M
 $$
 
-is conserved no matter how the configurations of the system change. It depends both on the state of the system and your state of knowledge of the system. It is a measure of the number of states that have a non-zero probability, and we will surely see it again.
+is conserved no matter how the configurations of the system change. It depends both on the state of the system and your state of knowledge of the system. It is a measure of the number of states that have a non-zero probability, and we will see it again and again.
 
 ***
 
@@ -189,7 +199,7 @@ p1
 
 Each point here represents a state of our system. With a well formed law, we expect time to evolve each initial state to a single corresponding later state. The configurations may change, but there will always be $M$ non-zero probability states.
 
-Working up toward an *infinite* number of states, in the fully continuous case, we can imagine a region representing reachable states, normally a multi-dimentional region in phase space. Appealing back to [Liouville's theorem](https://en.wikipedia.org/wiki/Liouville's_theorem_(Hamiltonian)), we understand that the volume of that region does not change over the trajectories of the system, nor does its probability distribution change. If all $M$ states were initially equally likely, we should continue to have *some* $M$ equally likely states.
+Working up toward an *infinite* number of states, in the fully continuous case we can imagine a region in phase space representing reachable states. Appealing back to [Liouville's theorem](https://en.wikipedia.org/wiki/Liouville's_theorem_(Hamiltonian)), we understand that the volume of that region does not change over the trajectories of the system, nor does its probability distribution change. If all $M$ states were initially equally likely, we should continue to have *some* $M$ equally likely states.
 
 ***
 
