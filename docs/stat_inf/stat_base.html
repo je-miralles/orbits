@@ -504,7 +504,7 @@ E(X) = \int_t {t f(t)}.
 from the mean.</p>
 <p><span class="math display">\[
 \begin{align}
-Var(X) &amp;= E((X - \mu)^2) \\
+\text{Var}(X) &amp;= E((X - \mu)^2) \\
        &amp;= E(X^2) - E(2 \mu X) + E(\mu^2) \\
        &amp;= E(X^2) - 2 \mu E(X) + E(\mu^2) \\
 \end{align}
@@ -513,11 +513,15 @@ Var(X) &amp;= E((X - \mu)^2) \\
 <p><span class="math display">\[
 \begin{align}
        &amp;= E(X^2) - 2E(X)^2 + E(X)^2 \\
-Var(X) &amp;= E(X^2) - E(X)^2
+       &amp;= E(X^2) - E(X)^2 \\
+       &amp;= \frac{1}{n} \sum_i {x_i^2} -  \left ( \frac{1}{n} \sum_i
+{x_i} \right )^2 \\
+       &amp;= \frac{1}{n} \left ( \sum_i {x_i^2} - \frac{1}{n} \left (
+\sum_i {x_i} \right )^2 \right )
 \end{align}
 \]</span></p>
 <hr />
-<p><strong>interpretation</strong></p>
+<p><strong>Interpretation</strong></p>
 <p>From <a href="https://en.wikipedia.org/wiki/Chebyshev&#39;s_inequality">Chebyshev’s
 inequality</a>, the probability of a random variable being more than k
 standard deviations from its mean is:</p>
@@ -538,7 +542,7 @@ that has a defined mean and variance.</p>
 <hr />
 <p><a href="./central_limit.html">Central limit theorem -&gt;</a></p>
 <hr />
-<p><a href="../index.html">Orbits!</a></p>
+<p><a href="../index.html">Orbits!</a> | <a href="https://github.com/je-miralles/orbits/blob/main/rmd_sources/stat_inf/stat_base.Rmd">code</a></p>
 </div>
 
 
