@@ -211,4 +211,4 @@ p7
 
 ***
 
-[Orbits!](../index.html)
+[Orbits!](../index.html) | [code](https://github.com/je-miralles/orbits/blob/main/rmd_sources/stat_inf/stat_inf.Rmd)

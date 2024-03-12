@@ -129,7 +129,7 @@ A measure of spread. The expected value of the squared differences from the mean
 
 $$
 \begin{align}
-Var(X) &= E((X - \mu)^2) \\
+\text{Var}(X) &= E((X - \mu)^2) \\
        &= E(X^2) - E(2 \mu X) + E(\mu^2) \\
        &= E(X^2) - 2 \mu E(X) + E(\mu^2) \\
 \end{align}
@@ -140,13 +140,15 @@ and since $\mu = E(X)$ and $E(\mu^2) = E(E(X)^2) = E(X)^2$,
 $$
 \begin{align}
        &= E(X^2) - 2E(X)^2 + E(X)^2 \\
-Var(X) &= E(X^2) - E(X)^2
+       &= E(X^2) - E(X)^2 \\
+       &= \frac{1}{n} \sum_i {x_i^2} -  \left ( \frac{1}{n} \sum_i {x_i} \right )^2 \\
+       &= \frac{1}{n} \left ( \sum_i {x_i^2} - \frac{1}{n} \left ( \sum_i {x_i} \right )^2 \right )
 \end{align}
 $$
 
 ***
 
-**interpretation**
+**Interpretation**
 
 From [Chebyshev's inequality](https://en.wikipedia.org/wiki/Chebyshev's_inequality), the probability of a random variable being more than k standard deviations from its mean is:
 
@@ -173,4 +175,4 @@ This is more general that the [68-95-99.7 rule](https://en.wikipedia.org/wiki/68
 
 ***
 
-[Orbits!](../index.html)
+[Orbits!](../index.html) | [code](https://github.com/je-miralles/orbits/blob/main/rmd_sources/stat_inf/stat_base.Rmd)

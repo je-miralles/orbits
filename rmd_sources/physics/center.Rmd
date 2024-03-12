@@ -60,4 +60,4 @@ The barycenter lies on the line between the masses and a little closer to the la
 
 ***
 
-[Orbits!](../index.html)
+[Orbits!](../index.html) | [code](https://github.com/je-miralles/orbits/blob/main/rmd_sources/physics/center.Rmd)

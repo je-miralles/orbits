@@ -75,4 +75,4 @@ This is the [Euler–Lagrange equation](https://en.wikipedia.org/wiki/Euler%E2%8
 
 ***
 
-[Orbits!](../index.html)
+[Orbits!](../index.html) | [code](https://github.com/je-miralles/orbits/blob/main/rmd_sources/physics/landau.Rmd)
