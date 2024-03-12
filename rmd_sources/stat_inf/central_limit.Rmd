@@ -5,20 +5,21 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+options(scipen = 1, digits = 4)
 if(!require("ggplot2")) { install.packages('ggplot2', repos = "http://cran.us.r-project.org"); library("ggplot2") }
 ```
 
-The [law of large numbers][1] shows that the average of many samples will approach the expected value as the number of samples goes to infinity:
+The [law of large numbers][1] shows that the average of many samples will approach the population's expected value as the number of samples goes to infinity:
 
 $$
 \lim_{n \to \infty} \sum_{i=1}^n \frac{X_i}{n} = E(X).
 $$
 
-For [independent and identically distributed variables][2], the [central limit theorem][3] shows that as your sample size increases, the distribution of averages approaches a [normal distribution][4].
+This holds for [independent and identically distributed variables][2]; each trial is performed without reference to previous samples and the underlying distribution is the same each time. You make sure to use the same deck and you don't change the way you shuffle.
 
-## Exponential
+For these types of variables, the [central limit theorem][3] shows that as your sample size increases, the distribution of averages approaches a [normal distribution][4]. This is amazing! The sampling distribution can be anything, but with every trial you increase your confidence around the true mean.
 
-An exponential distribution can describe events that happen at a constant average rate, independently from each other. It has a density function,
+We'll demonstrate this by doing a quick simulation sampling from an exponential distribution. This can describe events that happen at a constant average rate, independently from each other. Imagine clicks from radiation detected on your [Geiger counter](https://en.wikipedia.org/wiki/Geiger_counter), or length of time between phone calls at a call center. It has a density function,
 
 $$
 f(x) = \lambda e^{- \lambda x}, \text{for} \hspace{0.1cm} x \geq 0.
@@ -44,13 +45,14 @@ n <- 50
 k <- 1000
 ```
 
-We take $k = `r k`$ means of exponential samples each with $n = `r n`$.
+Each sample is $n = `r n`$ numbers drawn from the exponential. We repeat this $k = `r k`$ times and store the mean for each trial.
 
 <details>
 <summary>Show code</summary>
 ```{r}
 #' n: # number of rexp samples for each mean
 #' k: # number of means
+#' lambda: rate constant of the underlying exponential
 generate_means <- function(n, k, lambda) {
   #' collect k means, each with n samples, in an array
   sample_means = NULL
@@ -65,23 +67,23 @@ generate_means <- function(n, k, lambda) {
 df1 <- generate_means(n, k, lambda)
 ```
 
-Since we are sampling from the `rexp` function, we know the data is independent and identically distributed. A sample histogram shows that the values follow an exponential curve.
+Since we are sampling from the `rexp` function in `R`, we know the data is independent and identically distributed. A sample histogram shows that the values roughly follow an exponential curve, but not too convincingly at this small sample size.
 
 ```{r fig.height = 3, echo = FALSE}
-sample <- data.frame(data=rexp(k, lambda))
+sample <- data.frame(data=rexp(n, lambda))
 p2 <- ggplot(sample, aes(data))
 p2 <- p2 + geom_histogram(aes(y=after_stat(density)), binwidth=1.5)
 p2 + stat_function(fun=dexp, args=list(rate = lambda), colour="red", xlim=c(0, max(sample$data)))
 ```
 
-We are interested in the means of these samples, so the central limit theorem applies. The overall mean of our sampled means is $`r round(mean(df1$means),3)`$, close to the theoretical value of $`r pop_mean`$ represented by the red line on the boxplot.
+The overall mean of our sampled means is $`r round(mean(df1$means),3)`$, close to the theoretical value of $`r pop_mean`$ represented by the red line on the boxplot.
 
-```{r fig.height = 3, echo=FALSE}
+```{r fig.height = 1.5, echo=FALSE}
 p1 <- ggplot(df1, aes(means)) + theme(legend.position="none")
 p1 + geom_boxplot() + geom_vline(aes(xintercept = pop_mean, colour = "red"))
 ```
 
-Assuming $n = `r n`$ is large enough, the distribution of means approaches a normal with mean $\mu$ and variance $\sigma^2/n$, where $\sigma^2$ is the variance of the exponential distribution we were originally sampling from. The variance $\sigma^2/n$ is referred to as the *standard error*, and will be our theoretical variance.
+Assuming $n = `r n`$ is large enough, the distribution of means approaches a normal with mean $\mu$ and variance $\sigma^2/n$, where $\sigma^2$ is the variance of the exponential distribution we were originally sampling from. The variance $\sigma^2/n$ is related to the *standard error* and will be our theoretical variance.
 
 - exponential variance ($\sigma^2$): $`r pop_var`$
 - theoretical variance ($\sigma^2/n$): $`r pop_var/n`$
@@ -89,8 +91,8 @@ Assuming $n = `r n`$ is large enough, the distribution of means approaches a nor
 
 While the underlying samples are exponential, the distribution of means looks normal, centered around the theoretical population mean $\mu$, with standard deviation $\sigma/\sqrt{n}$.
 
-```{r fig.height = 3, echo=FALSE}
-p3 <- ggplot(df1, aes(means)) + theme(legend.position="none")
+```{r fig.height = 3, echo=FALSE, warning=FALSE}
+p3 <- ggplot(df1, aes(means)) + theme(legend.position="none") + xlim(c(pop_mean - 3.5*pop_sd/sqrt(n), pop_mean + 3.5*pop_sd/sqrt(n)))
 p3 <- p3 + geom_histogram(aes(y=after_stat(density)), binwidth=0.2)
 p3 <- p3 + stat_function(fun=dnorm, args=list(mean=pop_mean, sd=pop_sd/sqrt(n)), colour="red")
 p3 + geom_vline(aes(xintercept=pop_mean, colour="red"))
@@ -104,18 +106,18 @@ p4 <- ggplot(cumulative, aes(x=1:k, y=means)) + theme(legend.position="none")
 p4 + geom_line() + geom_hline(aes(yintercept=pop_mean, colour="red"))
 ```
 
-Normalization moves the values so that that $\mu = 0$ and $\sigma = 1$, the standard normal:
+```{r echo=FALSE}
+n2 <- 1000
+df2 <- generate_means(n2, k, lambda)
+```
 
-$$
-X = \frac{X' - \mu}{\sigma/\sqrt{n}}.
-$$
+To expand the previous experiment we increase the sample size to $n = `r n2`$ with the same $k = `r k`$ trials, and we have a tighter distribution around our theoretical mean, with $\sigma^2/n = `r pop_sd/sqrt(n2)`$.
 
-```{r fig.height = 3, echo=FALSE}
-df2 <- transform(df1, means = (means - pop_mean) / (pop_sd/sqrt(n)))
-p4 <- ggplot(df2, aes(means)) + theme(legend.position="none")
-p4 <- p4 + geom_histogram(aes(y=after_stat(density)), binwidth=0.15)
-p4 <- p4 + stat_function(fun=dnorm, args=list(mean=0, sd=1), colour="red")
-p4 + geom_vline(aes(xintercept=0, colour="red"))
+```{r echo=FALSE, fig.height=3, warning=FALSE}
+p5 <- ggplot(df2, aes(means)) + theme(legend.position="none") + xlim(c(pop_mean - 3.5*pop_sd/sqrt(n2), pop_mean + 3.5*pop_sd/sqrt(n2)))
+p5 <- p5 + geom_histogram(aes(y=after_stat(density)), binwidth=0.05)
+p5 <- p5 + stat_function(fun=dnorm, args=list(mean=pop_mean, sd=pop_sd/sqrt(n2)), colour="red")
+p5 + geom_vline(aes(xintercept=pop_mean, colour="red"))
 ```
 
 ***
