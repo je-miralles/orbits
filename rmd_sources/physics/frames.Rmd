@@ -195,8 +195,8 @@ The derived quantities $r$, and ${\bf \ddot{r}}$ are not populated for the last 
 All the motion has been set in the $x$-$y$ plane through the initial conditions.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, out.width="50%"}
-g = ggplot(new_s_vector, aes(y = y, x = x, colour = factor(n_mass)))
-g = g + geom_point(data = new_s_vector, size=3)
+g = ggplot(new_s_vector, aes(y = y, x = x))
+g = g + geom_point(data = new_s_vector, size=4)
 g = g + transition_time(ts) + ease_aes('linear')
 g
 ```
