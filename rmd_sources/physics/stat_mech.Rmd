@@ -5,6 +5,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+options(scipen = 1, digits = 4)
 if(!require("ggplot2")) { install.packages('ggplot2', repos = "http://cran.us.r-project.org"); library("ggplot2") }
 # DiagrammeR requires glpk and gfortran as dependencies
 if(!require("DiagrammeR")) { install.packages('DiagrammeR', repos = "http://cran.us.r-project.org"); library("DiagrammeR") }
@@ -181,7 +182,7 @@ is conserved no matter how the configurations of the system change. It depends b
 
 Consider a continuous system of many particles. We draw a simplified phase space of the momenta and positions, $p$ vs $x$, keeping in mind that in general this is a multi-dimentional space, consisting of several degrees of freedom for each particle.
 
-```{r echo=FALSE}
+```{r fig.height = 3, echo=FALSE}
 # For a $450\text{g}$ association football travelling near $150\text{km/h}$ around a $15\text{m}$ gym:
 M <- 1000; m <- 0.450; v <- 150000*60*60; xmax <- 15
 p0 <- rnorm(M, m*v*1.5, 30000000)
@@ -233,7 +234,7 @@ In many real systems, we will find that the interaction energy $U$ is small comp
 
 Lets imagine enumerating all the states, $i$, of a system with $P(i)$ on the vertical axis.
 
-```{r echo=FALSE}
+```{r fig.height = 3, echo=FALSE}
 N <- 100
 M <- 25
 nz_probs <- runif(M)
@@ -250,6 +251,11 @@ As before we have a patch of $M$ states with non-zero probability, the rest have
 $$
 S = -\sum_i P(i) \log P(i)
 $$
+```{r echo=FALSE}
+S <- - sum(df2$p * log(df2$p), na.rm = TRUE)
+```
+
+We get for this system $S = `r S`$.
 
 Remembering the definition of the mean, $\left < F \right > = -\sum_i P(i) F(i)$, we can recast the entropy as the average:
 
@@ -269,8 +275,73 @@ $$
 
 ***
 
+Narrower distribution smaller entropy, broader distribution bigger entropy.
+
+All states equally probable -> there are no correlations.
+
+When you measure one thing, you modify the probability distribution of the others.
+
+***
+
+**example**
+
+No knowledge, maximum entropy:
+
+$$
+N = 2^n \\
+S = n \log 2
+$$
+
+Unit of entropy is the bit in information theory for a system with two states.
+
+***
+
+**example**
+
+Know the state completely, i.e. $M = 1$, maximum knowledge, zero entropy.
+
+***
+
+**example**
+
+We know only one is tails, rest are heads.
+
+$M = n$
+
+$$
+S = \log n
+$$
+
+***
+
+**Entropy in continuous phase space**
+
+log of the volume $V_{PH}$ of the continuous region in phase space
+
+$$
+S = \log V_{PH}
+$$
+
+Now we have a probability density $P$
+
+$$
+\int P(p, x) \mathrm{d p} \mathrm{d x} = 1
+$$
+
+$$
+S = - \int P(p, x) \log P(p, x) \mathrm{d p} \mathrm{d x}
+$$
+
+***
+
+**Temperature**
+
+
+
+***
+
 [Stat Mech B: Energy ->](./stat_mech_b.html)
 
 ***
 
-[Orbits!](../index.html)
+[Orbits!](../index.html) | [code](https://github.com/je-miralles/orbits/blob/main/rmd_sources/physics/stat_mech.Rmd)
