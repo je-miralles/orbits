@@ -1,0 +1,68 @@
+---
+title: "Mapping I"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+libs <- c("readr", "dplyr", "rnaturalearth", "rnaturalearthdata", "sf", "stringr", "gganimate")
+
+installed_libs <- libs %in% rownames(installed.packages())
+if (any(installed_libs == FALSE)) {
+    install.packages(libs[!installed_libs])
+}
+invisible(lapply(libs, library, character.only = TRUE))
+colours <- c("#00559D", "#AA7147")
+```
+
+## Mapping
+
+```{r cache = TRUE}
+world_map_base_data_gen = function(country_name_adjust = c("Czech Republic" = "Czech Republic")) {
+  data_out <- ne_countries(scale = "medium", returnclass = "sf") %>%
+    filter(sovereignt != "Antarctica") %>%
+    arrange(name_long) %>% select(-c(1:19)); names(data_out)[1] <- "Country"
+
+  data_out <- data_out %>%
+    st_transform("ESRI:54030") %>%
+    mutate(
+      Country = str_replace_all(Country, country_name_adjust)
+    )
+  data_out
+}
+world_map_base_data <- world_map_base_data_gen(country_name_adjust = c(
+  "Czech Republic" = "Czechia",
+  "Côte d'Ivoire" = "Cote d'Ivoire",
+  "Democratic Republic of the Congo" = "Democratic Republic of Congo",
+  "Kingdom of eSwatini" = "Eswatini",
+  "Lao PDR" = "Laos",
+  "Republic of the Congo" = "Congo",
+  "Syria" = "Syrian Arab Republic",
+  "The Gambia" = "Gambia"
+))
+```
+
+```{r}
+world_base_map = function(title_in = "Base map", caption_in = "Base caption") {
+  world_base_map <- ggplot(world_map_base_data) + geom_sf(lwd = 0.3, colour = "white") +
+    labs(title = element_blank(), x = element_blank(), y = element_blank()) +
+    lims(y = c(-6000000,7800000)) + # TODO convert limits to degrees?
+    theme_void(base_size = 24) +
+    theme(
+      legend.title = element_text(size = 21, colour = colours[1]),
+      legend.margin = margin(c(0,0,0,0)),
+      legend.position.inside = c(0.2, 0.3),
+      legend.key.size = unit(25, "points"),
+      axis.text.y = element_blank(), axis.text.x = element_blank(),
+      axis.ticks.y = element_blank(), axis.ticks.x = element_blank(),
+      text = element_text(colour = colours[1])
+    )
+  world_base_map
+}
+world_base_map()
+```
+
+
+***
+
+[Orbits!](../index.html)
