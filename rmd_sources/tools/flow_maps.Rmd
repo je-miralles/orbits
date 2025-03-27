@@ -18,14 +18,17 @@ colours <- c("#00559D", "#AA7147")
 ## Import flow data
 
 ```{r load_data}
-types <- cols(col_character(), col_integer())
-birth_counts <- read_csv("..\\..\\data\\tools\\flow_maps\\birth_counts.csv", col_types = types)
-travel_counts <- read_csv("..\\..\\data\\tools\\flow_maps\\travel_counts.csv", col_types = types)
+load_counts <- function(file) {
+  types <- cols(col_character(), col_integer())
+  counts <- read_csv(paste0("..\\..\\data\\tools\\flow_maps\\", file), col_types = types)
+  counts
+}
+
+birth_counts <- load_counts("birth_counts.csv")
+travel_counts <- load_counts("travel_counts.csv")
 ```
 
 ## Mapping
-
-https://en.wikipedia.org/wiki/Wikipedia:Finding_a_Wikidata_ID
 
 ```{r cache = TRUE}
 world_map_base_data_gen = function(country_name_adjust = c("Czech Republic" = "Czech Republic")) {
