@@ -15,6 +15,14 @@ invisible(lapply(libs, library, character.only = TRUE))
 colours <- c("#00559D", "#AA7147")
 ```
 
+## Import flow data
+
+```{r load_data}
+types <- cols(col_character(), col_integer())
+birth_counts <- read_csv("..\\..\\data\\tools\\flow_maps\\birth_counts.csv", col_types = types)
+travel_counts <- read_csv("..\\..\\data\\tools\\flow_maps\\travel_counts.csv", col_types = types)
+```
+
 ## Mapping
 
 https://en.wikipedia.org/wiki/Wikipedia:Finding_a_Wikidata_ID
@@ -65,9 +73,37 @@ world_base_map = function(title_in = "Base map", caption_in = "Base caption") {
     )
   world_base_map
 }
-world_base_map()
 ```
 
+# Generate matrix representing frequency of two countries mentioned
+
+```{r}
+# Generate travel matrix
+n_countries <- nrow(travel_counts)
+travel_matrix <- matrix(sample(1:max(travel_counts$Number), n_countries^2, replace = TRUE), nrow = n_countries, ncol = n_countries)
+rownames(travel_matrix) <- travel_counts$Country
+colnames(travel_matrix) <- travel_counts$Country
+
+# Example usage
+#travel_matrix["Albania", "Algeria"]
+
+get_country_coords <- function(country_name) {
+  cent <- world_map_base_data %>% filter(Country == country_name) %>% st_geometry() %>% st_centroid()
+  coords <- st_coordinates(cent)
+  coords
+}
+```
+
+```{r, fig.width=14}
+world_base_map() +
+  geom_point(data = get_country_coords("Albania"), aes(x=X, y=Y)) +
+  geom_point(data = get_country_coords("Algeria"), aes(x=X, y=Y)) +
+  geom_curve(data = data.frame(), lineend = "round", aes(
+    x = get_country_coords("Albania")[1], y = get_country_coords("Albania")[2],
+    xend = get_country_coords("Algeria")[1], yend = get_country_coords("Algeria")[2],
+    linewidth = travel_matrix["Albania", "Algeria"], alpha = 0.2)
+  ) + theme(legend.position = "none")
+```
 
 ***
 
