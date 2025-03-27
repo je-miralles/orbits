@@ -81,15 +81,11 @@ world_base_map = function(title_in = "Base map", caption_in = "Base caption") {
 # Generate matrix representing frequency of two countries mentioned
 
 ```{r}
-# Generate travel matrix
-n_countries <- nrow(travel_counts)
-travel_matrix <- matrix(sample(1:max(travel_counts$Number), n_countries^2, replace = TRUE), nrow = n_countries, ncol = n_countries)
-rownames(travel_matrix) <- travel_counts$Country
-colnames(travel_matrix) <- travel_counts$Country
+# TODO find a cleaner way of generating travel_combs without duplicates
+travel_combs <- expand.grid(x = travel_counts$Country, y = travel_counts$Country) %>% filter(x != y)
+```
 
-# Example usage
-#travel_matrix["Albania", "Algeria"]
-
+```{r}
 get_country_coords <- function(country_name) {
   cent <- world_map_base_data %>% filter(Country == country_name) %>% st_geometry() %>% st_centroid()
   coords <- st_coordinates(cent)
