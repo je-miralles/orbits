@@ -48,14 +48,13 @@ world_map_base_data_gen = function(country_name_adjust = c("Czech Republic" = "C
 }
 
 world_map_base_data <- world_map_base_data_gen(country_name_adjust = c(
-  "Czech Republic" = "Czechia",
-  "Côte d'Ivoire" = "Cote d'Ivoire",
-  "Democratic Republic of the Congo" = "Democratic Republic of Congo",
-  "Kingdom of eSwatini" = "Eswatini",
-  "Lao PDR" = "Laos",
+  "Côte d'Ivoire" = "Ivory Coast",
+  "The Gambia" = "Gambia",
+  "Bosnia and Herzegovina" = "Bosnia Herzegovina",
+  "Burkina Faso" = "Burkina",
   "Republic of the Congo" = "Congo",
-  "Syria" = "Syrian Arab Republic",
-  "The Gambia" = "Gambia"
+  "Brunei Darussalam" = "Brunei",
+  "Ireland" = "Ireland {Republic}"
 ))
 ```
 
