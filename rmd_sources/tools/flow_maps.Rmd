@@ -80,26 +80,43 @@ world_base_map = function(title_in = "Base map", caption_in = "Base caption") {
 # Generate matrix representing frequency of two countries mentioned
 
 ```{r}
-# TODO find a cleaner way of generating travel_combs without duplicates
-travel_combs <- expand.grid(x = travel_counts$Country, y = travel_counts$Country) %>% filter(x != y)
-```
-
-```{r}
-get_country_coords <- function(country_name) {
+get_country_coords_x <- function(country_name) {
   cent <- world_map_base_data %>% filter(Country == country_name) %>% st_geometry() %>% st_centroid()
   coords <- st_coordinates(cent)
-  coords
+  coords[1]
+}
+get_country_coords_y <- function(country_name) {
+  cent <- world_map_base_data %>% filter(Country == country_name) %>% st_geometry() %>% st_centroid()
+  coords <- st_coordinates(cent)
+  coords[2]
 }
 ```
 
+```{r cache = TRUE}
+# TODO this method is inefficient, refactor
+travel_combs <- as.data.frame(t(combn(travel_counts$Country, 2)))
+names(travel_combs) <- c("Country_1", "Country_2")
+Country_1_x <- sapply(travel_combs$Country_1, get_country_coords_x)
+Country_1_y <- sapply(travel_combs$Country_1, get_country_coords_y)
+Country_2_x <- sapply(travel_combs$Country_2, get_country_coords_x)
+Country_2_y <- sapply(travel_combs$Country_2, get_country_coords_y)
+```
+
+```{r}
+travel_combs <- travel_combs %>% mutate(Country_1_x = Country_1_x, Country_1_y = Country_1_y,
+                                        Country_2_x = Country_2_x, Country_2_y = Country_2_y)
+travel_combs$Number <- sample(1:max(travel_counts$Number), nrow(travel_combs), replace = TRUE)
+```
+
+
 ```{r, fig.width=14}
 world_base_map() +
-  geom_point(data = get_country_coords("Albania"), aes(x=X, y=Y)) +
-  geom_point(data = get_country_coords("Algeria"), aes(x=X, y=Y)) +
-  geom_curve(data = data.frame(), lineend = "round", aes(
-    x = get_country_coords("Albania")[1], y = get_country_coords("Albania")[2],
-    xend = get_country_coords("Algeria")[1], yend = get_country_coords("Algeria")[2],
-    linewidth = travel_matrix["Albania", "Algeria"], alpha = 0.2)
+  #geom_point(data = get_country_coords("Albania"), aes(x=X, y=Y)) +
+  #geom_point(data = get_country_coords("Algeria"), aes(x=X, y=Y)) +
+  geom_curve(data = travel_combs[1:10,], lineend = "round", aes(
+    x = Country_1_x, y = Country_1_y,
+    xend = Country_2_x, yend = Country_2_y,
+    linewidth = Number, alpha = 0)
   ) + theme(legend.position = "none")
 ```
 
