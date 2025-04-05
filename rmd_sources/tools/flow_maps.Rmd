@@ -93,6 +93,24 @@ get_country_coords_y <- function(country_name) {
 }
 ```
 
+```{r}
+all_countries_raw <- tibble(
+  Country = unique(bind_rows(birth_counts, travel_counts)$Country)
+) %>% mutate(x = sapply(Country, get_country_coords_x),
+             y = sapply(Country, get_country_coords_y))
+all_countries <- all_countries_raw %>%
+  mutate(x = ifelse(Country == "France", x + 450000, x), y = ifelse(Country == "France", y + 400000, y)) %>%
+  mutate(x = ifelse(Country == "Chile", x - 150000, x), y = ifelse(Country == "Chile", y - 50000, y))
+```
+
+```{r, fig.width=14}
+world_base_map() +
+  geom_point(data = all_countries, aes(x=x, y=y), size = 0.5)
+ggsave("map_centroids.png", dpi = 300)
+```
+
+### Appendix
+
 ```{r cache = TRUE}
 # TODO this method is inefficient, refactor
 travel_combs <- as.data.frame(t(combn(travel_counts$Country, 2)))
@@ -109,16 +127,12 @@ travel_combs <- travel_combs %>% mutate(Country_1_x = Country_1_x, Country_1_y =
 travel_combs$Number <- sample(1:max(travel_counts$Number), nrow(travel_combs), replace = TRUE)
 ```
 
-
 ```{r, fig.width=14}
 world_base_map() +
-  #geom_point(data = get_country_coords("Albania"), aes(x=X, y=Y)) +
-  #geom_point(data = get_country_coords("Algeria"), aes(x=X, y=Y)) +
-  geom_curve(data = travel_combs[1:10,], lineend = "round", aes(
-    x = Country_1_x, y = Country_1_y,
-    xend = Country_2_x, yend = Country_2_y,
-    linewidth = Number, alpha = 0)
-  ) + theme(legend.position = "none")
+  #geom_label(data = world_map_base_data %>% filter(Country %in% all_countries$Country),aes(x=100000*label_x, y=100000*label_y, label=Country)) +
+  #geom_label(data = all_countries, aes(x=x, y=y, label=Country), size = 1, alpha = 0.6, position = position_jitter(width = 50000, height = 300000)) +
+  geom_point(data = all_countries, aes(x=x, y=y), size = 0.5)
+ggsave("map_centroids.png", dpi = 300)
 ```
 
 ***
