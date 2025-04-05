@@ -65,6 +65,7 @@ world_base_map = function(title_in = "Base map", caption_in = "Base caption") {
     lims(y = c(-6000000,7800000)) + # TODO convert limits to degrees?
     theme_void(base_size = 24) +
     theme(
+      plot.background = element_rect(fill = "white", colour = "white"),
       legend.title = element_text(size = 21, colour = colours[1]),
       legend.margin = margin(c(0,0,0,0)),
       legend.position.inside = c(0.2, 0.3),
